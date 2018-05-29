@@ -49,10 +49,7 @@ TYPE
         parametre : param;
     END;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 17cbc311d37e3444aeacf10ee198397b5b7b92e0
 implementation
 
 End.
