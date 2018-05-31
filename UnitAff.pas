@@ -68,17 +68,17 @@ Begin
     p_forme := p.forme;
     TextColor(Red);
     case p_forme of
-        1: write('¤');
-        2: write('§');
-        3: write('♫');
-        4: write('¶');
-        5: write('♠');
-        6: write('¿');
-        7: write('Ð');
-        8: write('X');
-        9: write('Ø');
-        10: write('♣');
-        else write('');
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
     end;
 End;
 
@@ -101,17 +101,17 @@ Begin
     p_forme := p.forme;
     TextColor(LightRed);
     case p_forme of
-        1: write('¤');
-        2: write('§');
-        3: write('♫');
-        4: write('¶');
-        5: write('♠');
-        6: write('¿');
-        7: write('Ð');
-        8: write('X');
-        9: write('Ø');
-        10: write('♣');
-        else write('');
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
     end;
 End;
 
@@ -134,17 +134,17 @@ Begin
     p_forme := p.forme;
     TextColor(Yellow);
     case p_forme of
-        1: write('¤');
-        2: write('§');
-        3: write('♫');
-        4: write('¶');
-        5: write('♠');
-        6: write('¿');
-        7: write('Ð');
-        8: write('X');
-        9: write('Ø');
-        10: write('♣');
-        else write('');
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
     end;
 End;
 
@@ -167,17 +167,17 @@ Begin
     p_forme := p.forme;
     TextColor(Blue);
     case p_forme of
-        1: write('¤');
-        2: write('§');
-        3: write('♫');
-        4: write('¶');
-        5: write('♠');
-        6: write('¿');
-        7: write('Ð');
-        8: write('X');
-        9: write('Ø');
-        10: write('♣');
-        else write('');
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
     end;
 End;
 
@@ -200,17 +200,17 @@ Begin
     p_forme := p.forme;
     TextColor(LightBlue);
     case p_forme of
-        1: write('¤');
-        2: write('§');
-        3: write('♫');
-        4: write('¶');
-        5: write('♠');
-        6: write('¿');
-        7: write('Ð');
-        8: write('X');
-        9: write('Ø');
-        10: write('♣');
-        else write('');
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
     end;
 End;
 
@@ -233,17 +233,17 @@ Begin
     p_forme := p.forme;
     TextColor(White);
     case p_forme of
-        1: write('¤');
-        2: write('§');
-        3: write('♫');
-        4: write('¶');
-        5: write('♠');
-        6: write('¿');
-        7: write('Ð');
-        8: write('X');
-        9: write('Ø');
-        10: write('♣');
-        else write('');
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
     end;
 End;
 
@@ -266,17 +266,17 @@ Begin
     p_forme := p.forme;
     TextColor(LightGreen);
     case p_forme of
-        1: write('¤');
-        2: write('§');
-        3: write('♫');
-        4: write('¶');
-        5: write('♠');
-        6: write('¿');
-        7: write('Ð');
-        8: write('X');
-        9: write('Ø');
-        10: write('♣');
-        else write('');
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
     end;
 End;
 
@@ -299,17 +299,17 @@ Begin
     p_forme := p.forme;
     TextColor(Green);
     case p_forme of
-        1: write('¤');
-        2: write('§');
-        3: write('♫');
-        4: write('¶');
-        5: write('♠');
-        6: write('¿');
-        7: write('Ð');
-        8: write('X');
-        9: write('Ø');
-        10: write('♣');
-        else write('');
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
     end;
 End;
 
@@ -368,6 +368,7 @@ Begin
         For j := 0 to n-1 do
         Begin
             AffichagePiece(grille[i,j]);
+            TextColor(Green);
             write('|')
         End;
     End;
@@ -421,6 +422,8 @@ End;
 --------------------------------------------------------*)
 Procedure AffichageBase(jeux : jeu ; i : Integer);
 Begin
+    ClrScr;
+    TextColor(Green);
     writeln('---------',jeux.player[i].nom,'---------');
     writeln('-------------------------------------');
     AffichageGrille(jeux.grille);
@@ -428,6 +431,7 @@ Begin
     writeln('-------------------------------------');
     writeln('-------------Votre Main--------------');
     AffichageMain(jeux,i);
+    TextColor(Green);
     writeln('-------------------------------------');
 End;
 

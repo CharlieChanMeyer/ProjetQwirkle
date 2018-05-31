@@ -20,9 +20,9 @@ Begin
     jeux.player[1].main[4].forme := 2;
     jeux.player[1].main[5].couleur := 8;
     jeux.player[1].main[5].forme := 8;
-    For i:=0 to 24 do
+    For i:=5 to 24 do
     Begin
-        For j := 0 to 24 do
+        For j := 10 to 24 do
         Begin
             jeux.grille[i,j].couleur := random(7)+1;
             jeux.grille[i,j].forme := random(9)+1;
