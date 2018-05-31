@@ -28,7 +28,3 @@ Begin
         END;
     End;
 End;
-
-
-fonctions meme couleur autour, meme forme autour ?
-FOnction qui renvoie une pièce avec ses param(forme couleur)
