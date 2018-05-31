@@ -14,7 +14,6 @@
 Unit UnitType;
 
 interface
-
 uses SysUtils;
 
 TYPE
@@ -49,6 +48,7 @@ TYPE
         grille : plateau;
         parametre : param;
     END;
+
 
 implementation
 
