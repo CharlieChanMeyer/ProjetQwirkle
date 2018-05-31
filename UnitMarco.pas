@@ -2,7 +2,7 @@
 ------------------------------------------------------------------------------------
 -- Fichier           : UnitMarco.pas
 -- Auteur            : ESPIOT Marco
--- Date de creation  : Date
+-- Date de creation  : 22/05/2018
 --
 -- But               : Regroupe les fonctions ecrites pas Marco
 -- Remarques         : Aucune
@@ -19,7 +19,7 @@ uses
 (*--------------------------------------------------------
 - Fonction : initJoueur
 - Auteur : ESPIOT Marco
-- Date de creation : date
+- Date de creation : 22/05/2018
 -
 - But : initialise les paramètres des différents joueurs
 - Remarques : remarques éventuelles
@@ -54,7 +54,7 @@ var
 (*--------------------------------------------------------
 - Fonction : verifTaille
 - Auteur : ESPIOT Marco
-- Date de creation : date
+- Date de creation : 22/05/2018
 -
 - But : Augmente la taille de la grille jouable si un joueur arrive au bout de la grille
 - Remarques : remarques éventuelles
@@ -69,5 +69,58 @@ Begin
  setlength(jeux.grille,n+6,n+6);
  verifTaille := jeux
 End;
+
+(*--------------------------------------------------------
+- Fonction : echangePioche
+- Auteur : ESPIOT Marco
+- Date de creation : 31/05/2018
+-
+- But : Permettre l'echange de pions entre la main et la pioche
+- Remarques : remarques éventuelles
+- Pré conditions : l'utilisateur a demandé à échanger des pièces avec la pioche
+- Post conditions : l'utilisateur a ses nouveaux pions et ses anciens se retrouvent dans la pioche
+--------------------------------------------------------*)
+Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
+var
+  i, j, nbPiece, numpiece, numPieceMain : integer;
+  attente, dejaPioche : pioche;
+
+Begin
+  writeln('combien de pièces souhaitez vous échanger ?');
+   readln(nbPiece);
+   setlength(attente,nbPiece+1);
+   i := 1
+   attente[0].forme := 0;//case de référence pour la comparaison suivante
+
+
+    //fonction pas finie (mais presque)
+
+   Repeat
+    numpiece := random(length(jeux.pioches))+1; //prend une pièce au hasard dans la pioche
+    dejaPioche[i] := numpiece;
+    If (verif) then //faire en sorte que l'on ne puisse pas piocher une case deja pioché
+      Begin
+        attente[i] := jeux.pioches[numpiece]; //stock cette pièce dans une "pioche temporaire"
+      End;
+
+    for j := 0 to nbPiece-1 do
+      Begin
+        writeln('Entrez le numero de la piece a échanger ');
+        //peut etre afficher la main a ce moment pour que l'utilisateur fasse son choix
+        readln(numPieceMain);
+        jeux.pioches[numpiece] := jeux.player[numjoueur].main[numPieceMain]; //on place la pièce depuis la main du joueur dans la pioche
+        jeux.player[numjoueur].main[numPieceMain] := attente[i]; //le joueur récupère la pièce mise de coté
+      End;
+      i := i+1;
+   until (i = nbPiece+1);
+
+
+
+
+
+
+
+End;
+
 
 End.
