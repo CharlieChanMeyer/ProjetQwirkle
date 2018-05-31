@@ -15,13 +15,13 @@
 ------------------------------------------------------------------------------------
 --Formes :                        -- Couleur :
 --1 : ¤                           --1 : TextColor(Red);
---2 : §                           --2 : TextColor(LightRed);
---3 : ♫                           --3 : TextColor(Yellow);
---4 : ¶                           --4 : TextColor(Blue);
---5 : ♠                            --5 : TextColor(LightBlue);
---6 : ¿                           --6 : TextColor($808080);
+--2 : §                           --2 : TextColor(Yellow);
+--3 : ♫                           --3 : TextColor(Blue);
+--4 : ¶                           --4 : TextColor($808080);
+--5 : ♠                           --5 : TextColor(Green);
+--6 : ¿                           --6 : TextColor(LightRed);
 --7 : Ð                           --7 : TextColor(LightGreen);
---8 : X                           --8 :TextColor(Green);
+--8 : X                           --8 :TextColor(LightBlue);
 --9 : Ø                           --9 :
 --10 :♣                           --10 :
 ------------------------------------------------------------------------------------
@@ -332,13 +332,13 @@ Begin
     p_couleur := p.couleur;         //Récupère la valeur de la couleur de la piece
     case p_couleur of               //Selection de la couleur de la piece en fonction de sa valeur
         1 : AffichageRed(p);
-        2 : AffichageLightRed(p);
-        3 : AffichageYellow(p);
-        4 : AffichageBlue(p);
-        5 : AffichageLightBlue(p);
-        6 : AffichageGrey(p);
+        2 : AffichageYellow(p);
+        3 : AffichageBlue(p);
+        4 : AffichageGrey(p);
+        5 : AffichageGreen(p);
+        6 : AffichageLightRed(p);
         7 : AffichageLightGreen(p);
-        8 : AffichageGreen(p);
+        8 : AffichageLightBlue(p);
         //9 : Affichage???(p);
         //10 : Affichage???(p);
         else write('  ');
