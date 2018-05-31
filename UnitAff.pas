@@ -65,9 +65,9 @@ Procedure AffichageRed(p : piece);
 Var
     p_forme : Integer;
 Begin
-    p_forme := p.forme;
-    TextColor(Red);
-    case p_forme of
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(Red);         //Selection de la couleur rouge pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
         3: write('♫ ');
@@ -98,9 +98,9 @@ Procedure AffichageLightRed(p : piece);
 Var
     p_forme : Integer;
 Begin
-    p_forme := p.forme;
-    TextColor(LightRed);
-    case p_forme of
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(LightRed);    //Selection de la couleur rouge clair pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
         3: write('♫ ');
@@ -131,9 +131,9 @@ Procedure AffichageYellow(p : piece);
 Var
     p_forme : Integer;
 Begin
-    p_forme := p.forme;
-    TextColor(Yellow);
-    case p_forme of
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(Yellow);      //Selection de la couleur jaune pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
         3: write('♫ ');
@@ -164,9 +164,9 @@ Procedure AffichageBlue(p : piece);
 Var
     p_forme : Integer;
 Begin
-    p_forme := p.forme;
-    TextColor(Blue);
-    case p_forme of
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(Blue);        //Selection de la couleur bleue pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
         3: write('♫ ');
@@ -197,9 +197,9 @@ Procedure AffichageLightBlue(p : piece);
 Var
     p_forme : Integer;
 Begin
-    p_forme := p.forme;
-    TextColor(LightBlue);
-    case p_forme of
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(LightBlue);   //Selection de la couleur bleu clair pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
         3: write('♫ ');
@@ -230,9 +230,9 @@ Procedure AffichageGrey(p : piece);
 Var
     p_forme : Integer;
 Begin
-    p_forme := p.forme;
-    TextColor(White);
-    case p_forme of
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(White);       //Selection de la couleur blanche pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
         3: write('♫ ');
@@ -263,9 +263,9 @@ Procedure AffichageLightGreen(p : piece);
 Var
     p_forme : Integer;
 Begin
-    p_forme := p.forme;
-    TextColor(LightGreen);
-    case p_forme of
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(LightGreen);  //Selection de la couleur vert clair pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
         3: write('♫ ');
@@ -296,9 +296,9 @@ Procedure AffichageGreen(p : piece);
 Var
     p_forme : Integer;
 Begin
-    p_forme := p.forme;
-    TextColor(Green);
-    case p_forme of
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(Green);       //Selection de la couleur verte pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
         3: write('♫ ');
@@ -329,8 +329,8 @@ Procedure AffichagePiece(p : piece);
 Var
     p_couleur : integer;
 Begin
-    p_couleur := p.couleur;
-    case p_couleur of
+    p_couleur := p.couleur;         //Récupère la valeur de la couleur de la piece
+    case p_couleur of               //Selection de la couleur de la piece en fonction de sa valeur
         1 : AffichageRed(p);
         2 : AffichageLightRed(p);
         3 : AffichageYellow(p);
@@ -361,14 +361,14 @@ Procedure AffichageGrille(grille : plateau);
 Var
     n,i,j : Integer;
 Begin
-    n := length(grille);
-    For i := 0 to n-1 do
+    n := length(grille);        //Récupère la taille de la grille
+    For i := 0 to n-1 do        //Pour chaque ligne, faire ...
     Begin
         Writeln();
-        For j := 0 to n-1 do
+        For j := 0 to n-1 do    //Pour chaque colonne, faire ...
         Begin
-            AffichagePiece(grille[i,j]);
-            TextColor(Green);
+            AffichagePiece(grille[i,j]);    //Affiche la piece à la position i,j
+            TextColor(Green);               //Reset la Couleur
             write('|')
         End;
     End;
@@ -390,22 +390,22 @@ End;
 Procedure AffichageMain(jeux : jeu; i : integer);
 Begin
     write('1 : ');
-    AffichagePiece(jeux.player[i].main[0]);
+    AffichagePiece(jeux.player[i].main[0]);     //Affiche la piece 1 de la main du joueur i
     TextColor(Green);
     write(' | 2 : ');
-    AffichagePiece(jeux.player[i].main[1]);
+    AffichagePiece(jeux.player[i].main[1]);     //Affiche la piece 2 de la main du joueur i
     TextColor(Green);
     write(' | 3 : ');
-    AffichagePiece(jeux.player[i].main[2]);
+    AffichagePiece(jeux.player[i].main[2]);     //Affiche la piece 3 de la main du joueur i
     TextColor(Green);
     write(' | 4 : ');
-    AffichagePiece(jeux.player[i].main[3]);
+    AffichagePiece(jeux.player[i].main[3]);     //Affiche la piece 4 de la main du joueur i
     TextColor(Green);
     write(' | 5 : ');
-    AffichagePiece(jeux.player[i].main[4]);
+    AffichagePiece(jeux.player[i].main[4]);     //Affiche la piece 5 de la main du joueur i
     TextColor(Green);
     write(' | 6 : ');
-    AffichagePiece(jeux.player[i].main[5]);
+    AffichagePiece(jeux.player[i].main[5]);     //Affiche la piece 6 de la main du joueur i
     TextColor(Green);
     writeln('');
 End;
@@ -423,15 +423,15 @@ End;
 Procedure AffichageBase(jeux : jeu ; i : Integer);
 Begin
     ClrScr;
-    TextColor(Green);
+    TextColor(Green);                       //Reset la couleur générale
     writeln('---------',jeux.player[i].nom,'---------');
     writeln('-------------------------------------');
-    AffichageGrille(jeux.grille);
-    TextColor(Green);
+    AffichageGrille(jeux.grille);           //Affiche la grille de jeu
+    TextColor(Green);                       //Reset la couleur générale
     writeln('-------------------------------------');
     writeln('-------------Votre Main--------------');
-    AffichageMain(jeux,i);
-    TextColor(Green);
+    AffichageMain(jeux,i);                  //Affiche la main du joueur
+    TextColor(Green);                       //Reset la couleur générale
     writeln('-------------------------------------');
 End;
 
