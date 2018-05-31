@@ -17,12 +17,45 @@ interface
 
 uses SysUtils, UnitType;
 
+Function piochedefault(jeux : jeu):jeu;
 Function CountParam():jeu;
 Function paramdefault(jeux : jeu):jeu;
 
 
 
 implementation
+
+
+(*--------------------------------------------------------
+- Fonction : piochedefault
+- Auteur : Guillaume Proton
+- Date de creation : 28 mai 2018
+-
+- But : Paramètre la pioche avec les paramètres par défault
+- Remarques : Aucune
+- Pré conditions : Aucune
+- Post conditions : Paramètre la pioche avec les paramètres par défault
+--------------------------------------------------------*)
+Function piochedefault(jeux : jeu): jeu;
+Var
+    i, valCouleur: integer;
+Begin
+    valCouleur:=0;
+    setlength(jeux.pioches,18);
+    for i:=0 to 17 do
+    Begin
+        jeux.pioches[i].couleur:= (valCouleur MOD 3) +1;
+        valCouleur:= valCouleur + 1;
+    End;
+   for i:=0 to 5 do
+   Begin
+      jeux.pioches[i].forme:=1;
+      jeux.pioches[i+6].forme:=2;
+      jeux.pioches[i+12].forme:=3
+   End;
+    piochedefault:=jeux;
+End;
+
 
 (*--------------------------------------------------------
 - Fonction : paramdefault
@@ -53,7 +86,7 @@ Begin
             jeux.grille[i,j].couleur := 0;
         End;
     End;
-    setlength(jeux.pioches,18);
+    jeux:=piochedefault(jeux);
     paramdefault := jeux;
 End;
 
