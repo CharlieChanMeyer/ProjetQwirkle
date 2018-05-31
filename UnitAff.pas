@@ -32,6 +32,7 @@ interface
 
 uses SysUtils,UnitType,UnitParam,Crt;
 
+Procedure AffichageMain(jeux : jeu; i : integer);
 Procedure AffichageBase(jeux : jeu ; i : integer);
 Procedure AffichageGrille(grille : plateau);
 Procedure AffichagePiece(p : piece);
@@ -67,17 +68,17 @@ Begin
     p_forme := p.forme;
     TextColor(Red);
     case p_forme of
-        1: write('¤ ');
-        2: write('§ ');
-        3: write('♫ ');
-        4: write('¶ ');
-        5: write('♠ ');
-        6: write('¿ ');
-        7: write('Ð ');
-        8: write('X ');
-        9: write('Ø ');
-        10: write('♣ ');
-        else write('  ');
+        1: write('¤');
+        2: write('§');
+        3: write('♫');
+        4: write('¶');
+        5: write('♠');
+        6: write('¿');
+        7: write('Ð');
+        8: write('X');
+        9: write('Ø');
+        10: write('♣');
+        else write('');
     end;
 End;
 
@@ -100,17 +101,17 @@ Begin
     p_forme := p.forme;
     TextColor(LightRed);
     case p_forme of
-        1: write('¤ ');
-        2: write('§ ');
-        3: write('♫ ');
-        4: write('¶ ');
-        5: write('♠ ');
-        6: write('¿ ');
-        7: write('Ð ');
-        8: write('X ');
-        9: write('Ø ');
-        10: write('♣ ');
-        else write('  ');
+        1: write('¤');
+        2: write('§');
+        3: write('♫');
+        4: write('¶');
+        5: write('♠');
+        6: write('¿');
+        7: write('Ð');
+        8: write('X');
+        9: write('Ø');
+        10: write('♣');
+        else write('');
     end;
 End;
 
@@ -133,17 +134,17 @@ Begin
     p_forme := p.forme;
     TextColor(Yellow);
     case p_forme of
-        1: write('¤ ');
-        2: write('§ ');
-        3: write('♫ ');
-        4: write('¶ ');
-        5: write('♠ ');
-        6: write('¿ ');
-        7: write('Ð ');
-        8: write('X ');
-        9: write('Ø ');
-        10: write('♣ ');
-        else write('  ');
+        1: write('¤');
+        2: write('§');
+        3: write('♫');
+        4: write('¶');
+        5: write('♠');
+        6: write('¿');
+        7: write('Ð');
+        8: write('X');
+        9: write('Ø');
+        10: write('♣');
+        else write('');
     end;
 End;
 
@@ -166,17 +167,17 @@ Begin
     p_forme := p.forme;
     TextColor(Blue);
     case p_forme of
-        1: write('¤ ');
-        2: write('§ ');
-        3: write('♫ ');
-        4: write('¶ ');
-        5: write('♠ ');
-        6: write('¿ ');
-        7: write('Ð ');
-        8: write('X ');
-        9: write('Ø ');
-        10: write('♣ ');
-        else write('  ');
+        1: write('¤');
+        2: write('§');
+        3: write('♫');
+        4: write('¶');
+        5: write('♠');
+        6: write('¿');
+        7: write('Ð');
+        8: write('X');
+        9: write('Ø');
+        10: write('♣');
+        else write('');
     end;
 End;
 
@@ -199,17 +200,17 @@ Begin
     p_forme := p.forme;
     TextColor(LightBlue);
     case p_forme of
-        1: write('¤ ');
-        2: write('§ ');
-        3: write('♫ ');
-        4: write('¶ ');
-        5: write('♠ ');
-        6: write('¿ ');
-        7: write('Ð ');
-        8: write('X ');
-        9: write('Ø ');
-        10: write('♣ ');
-        else write('  ');
+        1: write('¤');
+        2: write('§');
+        3: write('♫');
+        4: write('¶');
+        5: write('♠');
+        6: write('¿');
+        7: write('Ð');
+        8: write('X');
+        9: write('Ø');
+        10: write('♣');
+        else write('');
     end;
 End;
 
@@ -232,17 +233,17 @@ Begin
     p_forme := p.forme;
     TextColor(White);
     case p_forme of
-        1: write('¤ ');
-        2: write('§ ');
-        3: write('♫ ');
-        4: write('¶ ');
-        5: write('♠ ');
-        6: write('¿ ');
-        7: write('Ð ');
-        8: write('X ');
-        9: write('Ø ');
-        10: write('♣ ');
-        else write('  ');
+        1: write('¤');
+        2: write('§');
+        3: write('♫');
+        4: write('¶');
+        5: write('♠');
+        6: write('¿');
+        7: write('Ð');
+        8: write('X');
+        9: write('Ø');
+        10: write('♣');
+        else write('');
     end;
 End;
 
@@ -265,17 +266,17 @@ Begin
     p_forme := p.forme;
     TextColor(LightGreen);
     case p_forme of
-        1: write('¤ ');
-        2: write('§ ');
-        3: write('♫ ');
-        4: write('¶ ');
-        5: write('♠ ');
-        6: write('¿ ');
-        7: write('Ð ');
-        8: write('X ');
-        9: write('Ø ');
-        10: write('♣ ');
-        else write('  ');
+        1: write('¤');
+        2: write('§');
+        3: write('♫');
+        4: write('¶');
+        5: write('♠');
+        6: write('¿');
+        7: write('Ð');
+        8: write('X');
+        9: write('Ø');
+        10: write('♣');
+        else write('');
     end;
 End;
 
@@ -298,17 +299,17 @@ Begin
     p_forme := p.forme;
     TextColor(Green);
     case p_forme of
-        1: write('¤ ');
-        2: write('§ ');
-        3: write('♫ ');
-        4: write('¶ ');
-        5: write('♠ ');
-        6: write('¿ ');
-        7: write('Ð ');
-        8: write('X ');
-        9: write('Ø ');
-        10: write('♣ ');
-        else write('  ');
+        1: write('¤');
+        2: write('§');
+        3: write('♫');
+        4: write('¶');
+        5: write('♠');
+        6: write('¿');
+        7: write('Ð');
+        8: write('X');
+        9: write('Ø');
+        10: write('♣');
+        else write('');
     end;
 End;
 
@@ -366,10 +367,46 @@ Begin
         Writeln();
         For j := 0 to n-1 do
         Begin
-            AffichagePiece(grille[i,j])
+            AffichagePiece(grille[i,j]);
+            write('|')
         End;
     End;
     writeln();
+End;
+
+(*
+--------------------------------------------------------
+- Procedure : AffichageMain
+- Auteur : Charlie Meyer
+- Date de creation : Date
+-
+- But : Afficher la main du joueur
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Afficher la main du joueur
+--------------------------------------------------------*)
+
+Procedure AffichageMain(jeux : jeu; i : integer);
+Begin
+    write('1 : ');
+    AffichagePiece(jeux.player[i].main[0]);
+    TextColor(Green);
+    write(' | 2 : ');
+    AffichagePiece(jeux.player[i].main[1]);
+    TextColor(Green);
+    write(' | 3 : ');
+    AffichagePiece(jeux.player[i].main[2]);
+    TextColor(Green);
+    write(' | 4 : ');
+    AffichagePiece(jeux.player[i].main[3]);
+    TextColor(Green);
+    write(' | 5 : ');
+    AffichagePiece(jeux.player[i].main[4]);
+    TextColor(Green);
+    write(' | 6 : ');
+    AffichagePiece(jeux.player[i].main[5]);
+    TextColor(Green);
+    writeln('');
 End;
 
 (*--------------------------------------------------------
@@ -387,20 +424,10 @@ Begin
     writeln('---------',jeux.player[i].nom,'---------');
     writeln('-------------------------------------');
     AffichageGrille(jeux.grille);
+    TextColor(Green);
     writeln('-------------------------------------');
     writeln('-------------Votre Main--------------');
-    writeln('1 : ');
-    AffichagePiece(jeux.player[i].main[0]);
-    write(' | 2 : ');
-    AffichagePiece(jeux.player[i].main[1]);
-    write(' | 3 : ');
-    AffichagePiece(jeux.player[i].main[2]);
-    write(' | 4 : ');
-    AffichagePiece(jeux.player[i].main[3]);
-    write(' | 5 : ');
-    AffichagePiece(jeux.player[i].main[4]);
-    write(' | 6 : ');
-    AffichagePiece(jeux.player[i].main[5]);
+    AffichageMain(jeux,i);
     writeln('-------------------------------------');
 End;
 
