@@ -11,7 +11,7 @@
 --------------------------------------------------------*)
 
 
-Function PieceEst(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
+Function VerifPieceEst(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
     memeParam : integer;
 Begin
     if ((couleur_p = jeux.grille[i,j+1].couleur) xor (forme_p = jeux.grille[i,j+1].forme)) then    // "xor" car on ne peut pas jouer une pièce de la même forme et de la même couleur côte à côte
@@ -22,5 +22,5 @@ Begin
     begin
         memeParam:=0;
     end;
-    PieceEst:=memeParam;
+    VerifPieceEst:=memeParam;
 End;
