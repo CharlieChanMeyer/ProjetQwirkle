@@ -15,7 +15,7 @@ Var
     CoupLegal : integer;
 Begin
     //regarder nord est ouest et sud : si couleur de la piece voulant etre jouée ou forme pièce voulant etre jouée est la même que la forme ou la couleur
-    d une des pieces autour alors c est bon
+    //d une des pieces autour alors c est bon
     
     if (CaseVide(jeux,i,j)=0) then
     Begin
