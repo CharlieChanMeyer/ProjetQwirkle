@@ -18,8 +18,9 @@ interface
 uses SysUtils, UnitType;
 
 Function piochedefault(jeux : jeu):jeu;
-Function CountParam():jeu;
 Function paramdefault(jeux : jeu):jeu;
+Function CountParam():jeu;
+
 
 
 
