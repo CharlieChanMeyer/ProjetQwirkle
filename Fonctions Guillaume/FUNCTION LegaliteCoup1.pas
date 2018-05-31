@@ -1,13 +1,13 @@
 (*
 --------------------------------------------------------
-- Fonction : LegaliteCoup1
-- Auteur : Guillaume Proton
+- Fonction         : LegaliteCoup1
+- Auteur           : Guillaume Proton
 - Date de creation : 28 Mai 2018
 -
-- But : Vérifie la légalité du premier coup du tour à la position (i,j) (0 : coup impossible, 1 : coup accepté)
-- Remarques : Aucune
-- Pré conditions : Aucune
-- Post conditions : Vérifie la légalité du premier coup du tour à la position (i,j)(0 : coup impossible, 1 : coup accepté)
+- But              : Vérifie la légalité du premier coup du tour à la position (i,j) (0 : coup impossible, 1 : coup accepté)
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : Vérifie la légalité du premier coup du tour à la position (i,j)(0 : coup impossible, 1 : coup accepté)
 --------------------------------------------------------*)
 
 Function LegaliteCoup1(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
