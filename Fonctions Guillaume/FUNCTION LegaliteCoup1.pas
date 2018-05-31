@@ -22,16 +22,16 @@ Begin
         if ((jeux.grille[i-1,j].couleur=couleur_p) or (jeux.grille[i+1,j].couleur=couleur_p) or (jeux.grille[i,j-1].couleur=couleur_p) or (jeux.grille[i,j+1].couleur=couleur_p) 
         or (jeux.grille[i-1,j].forme=forme_p) or (jeux.grille[i+1,j].forme=forme_p) or (jeux.grille[i,j-1].forme=forme_p) or (jeux.grille[i,j+1].forme=forme_p) then
         Begin
-            CoupLegal:=1;
+            CoupLegal:=1;          // coup accepté
         end
         else
         begin
-            CoupLegal:=0
+            CoupLegal:=0             // coup impossible
         end;
     End
     Else
     Begin
-        CoupLegal:=0;
+        CoupLegal:=0;               // coup impossible
     End;
     LegaliteCoup1:=CoupLegal;
 End;
