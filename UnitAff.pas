@@ -422,7 +422,6 @@ End;
 --------------------------------------------------------*)
 Procedure AffichageBase(jeux : jeu ; i : Integer);
 Begin
-    ClrScr;
     TextColor(Green);                       //Reset la couleur générale
     writeln('---------',jeux.player[i].nom,'---------');
     writeln('-------------------------------------');

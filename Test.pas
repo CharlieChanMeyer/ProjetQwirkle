@@ -1,6 +1,6 @@
 Program test;
 
-uses SysUtils,UnitType,UnitParam,UnitAff,Crt;
+uses SysUtils,UnitType,UnitParam,UnitAff,UnitTour,Crt;
 Var
     jeux : jeu;
     i,j : integer;
@@ -24,10 +24,10 @@ Begin
     Begin
         For j := 10 to 24 do
         Begin
-            jeux.grille[i,j].couleur := random(7)+1;
+            jeux.grille[i,j].couleur := random(8)+1;
             jeux.grille[i,j].forme := random(9)+1;
         End;
     End;
-    AffichageBase(jeux,1);
+    Tourdejeu(jeux)
 
 End.
