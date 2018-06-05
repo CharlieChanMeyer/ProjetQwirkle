@@ -101,8 +101,8 @@ Begin
 
     for j := 0 to nbPiece-1 do
       Begin
-        writeln('Entrez le numero de la piece a échanger ');
         AffichageMain(jeux,jeux.player[numJoueur]);
+        writeln('Entrez le numero de la piece a échanger ');
         readln(numPieceMain);
         jeux.pioches[numpiece] := jeux.player[numjoueur].main[numPieceMain]; //on place la pièce depuis la main du joueur dans la pioche
         jeux.player[numjoueur].main[numPieceMain] := attente[i]; //le joueur récupère la pièce mise de coté
