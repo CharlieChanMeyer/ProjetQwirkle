@@ -21,8 +21,48 @@ Procedure Tourdejeu(jeux : jeu);
 Function Tourdejoueur(jeux : jeu; num_player,num_tour : Integer):jeu;
 Function JeuDejoueur(jeux : jeu; num_player : Integer):jeu;
 Function poser1p(jeux : jeu; num_player : Integer):jeu;
+Function VerifMvide(jeux : jeu):Boolean;
 
 implementation
+
+(*--------------------------------------------------------
+- Fonction : VerifMvide
+- Auteur : Charlie Meyer
+- Date de creation : date
+-
+- But : Vérifie si la grille est vide
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Vérifie si la grille est vide
+--------------------------------------------------------*)
+Function VerifMvide(jeux : jeu): Boolean;
+Var
+    Mvide : Boolean;
+    n,i,j : Integer;
+Begin
+    Mvide := True;
+    i:=0;
+    j := 0;
+    n := length(jeux.grille);
+    while ((i<n) and (Mvide)) do
+    begin
+        while ((j<n) and (Mvide)) do
+        begin
+            If (jeux.grille[i,j].couleur <> 0) then
+            Begin
+                Writeln(i,',',j);
+                Mvide := False;
+            End;
+            Inc(j,1);
+        end;
+        Inc(i,1);
+    end;
+    If Mvide then
+    Begin
+        writeln('La grille est vide')
+    End;
+    VerifMvide := Mvide;
+End;
 
 (*--------------------------------------------------------
 - Fonction : poser1p
@@ -36,15 +76,21 @@ implementation
 --------------------------------------------------------*)
 Function poser1p(jeux : jeu; num_player : Integer): jeu;
 Var
-    p_choisi : Integer;
+    p_choisi,n,milieu : Integer;
 Begin
     p_choisi := -1;
-
+    n := length(jeux.grille);
+    milieu := (n DIV 2);
     while (p_choisi=-1) do
     begin
         writeln('Ecrire le numéro de la pièce que vous souhaitez jouer');
         readln(p_choisi)
     end;
+    if (VerifMvide(jeux)) then
+    begin
+        jeux.grille[milieu,milieu] := jeux.player[num_player].main[p_choisi-1];
+    end;
+    poser1p := jeux;
 
 End;
 
@@ -69,7 +115,7 @@ Begin
         writeln('Merci de rentrer le numéro de l action souhaitée');
         readln(i);
         case i of
-            1: poser1p(jeux,num_player);
+            1: jeux:=poser1p(jeux,num_player);
             //2: poserpp;
             //3: echangerp;
             else i:=0;
