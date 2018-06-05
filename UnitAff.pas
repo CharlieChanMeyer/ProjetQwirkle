@@ -369,7 +369,7 @@ Begin
         Begin
             AffichagePiece(grille[i,j]);    //Affiche la piece à la position i,j
             TextColor(Green);               //Reset la Couleur
-            write('|')
+            write('|');
         End;
     End;
     writeln();
