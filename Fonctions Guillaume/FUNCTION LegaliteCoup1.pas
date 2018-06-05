@@ -36,5 +36,6 @@ Begin
 End;
 
 
-Legalité juste du premier coup ? 
-Faire une fonction légalité des coups qui suivent le premier
+
+CoupSuivant inutile ? puisqu'on va boucler cette fonction à chaque fois que le joueur voudra jouer une pièce
+Faire une fonction légalité des coups qui suivent le premier   ----> Non car dans le programme principal, on demande au joueur de choisir la position (i,j) où le joueur veut poser chacune de ses pièces

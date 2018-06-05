@@ -14,8 +14,7 @@
 Unit UnitMarco;
 
 interface
-uses
-  SysUtils, Classes, UnitType;
+uses SysUtils,UnitType,UnitParam,UnitAff,UnitTour,Crt;
 (*--------------------------------------------------------
 - Fonction : initJoueur
 - Auteur : ESPIOT Marco
@@ -28,6 +27,7 @@ uses
 --------------------------------------------------------*)
 Function initJoueur(nbJoueur : integer; jeux : jeu): jeu;
 Function verifTaille(jeux : jeu): jeu;
+Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean;
 
 
 implementation
@@ -71,6 +71,30 @@ Begin
 End;
 
 (*--------------------------------------------------------
+- Fonction : verif
+- Auteur : ESPIOT Marco
+- Date de creation : date
+-
+- But : vérifie si la case est deja piochée
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : vérifie si la case est deja piochée
+--------------------------------------------------------*)
+Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean;
+Var
+  res : Boolean;
+  j : integer;
+  Begin
+    res := true;
+    For j := 0 to i-1 do
+      Begin
+        If (((dejaPioche[j].forme) = (dejaPioche[i].forme)) and ((dejaPioche[j].forme) = (dejaPioche[i].forme))) then
+          res := false;
+        End;
+       verif := res;
+      End;
+
+(*--------------------------------------------------------
 - Fonction : echangePioche
 - Auteur : ESPIOT Marco
 - Date de creation : 31/05/2018
@@ -88,20 +112,20 @@ Begin
   writeln('combien de pièces souhaitez vous échanger ?');
    readln(nbPiece);
    setlength(attente,nbPiece+1);
-   i := 1
+   i := 1;
    attente[0].forme := 0;//case de référence pour la comparaison suivante
 
    Repeat
     numpiece := random(length(jeux.pioches))+1; //prend une pièce au hasard dans la pioche
-    dejaPioche[i] := numpiece;
-    If (verif) then //faire en sorte que l'on ne puisse pas piocher une case deja pioché avec le tableau "dejaPioche"
+    dejaPioche[i] := jeux.pioches[numpiece];
+    If (verif(dejaPioche,jeux,i)) then //faire en sorte que l'on ne puisse pas piocher une case deja pioché avec le tableau "dejaPioche"
       Begin
         attente[i] := jeux.pioches[numpiece]; //stock cette pièce dans une "pioche temporaire"
       End;
 
     for j := 0 to nbPiece-1 do
       Begin
-        AffichageMain(jeux,jeux.player[numJoueur]);
+        AffichageMain(jeux,numJoueur);
         writeln('Entrez le numero de la piece a échanger ');
         readln(numPieceMain);
         jeux.pioches[numpiece] := jeux.player[numjoueur].main[numPieceMain]; //on place la pièce depuis la main du joueur dans la pioche
@@ -110,6 +134,4 @@ Begin
       i := i+1;
    until (i = nbPiece+1);
 End;
-
-
 End.
