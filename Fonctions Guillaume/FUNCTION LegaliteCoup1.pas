@@ -30,7 +30,7 @@ Begin
     End
     Else
     Begin
-        CoupLegal:=0;               // coup impossible
+        CoupLegal:=0;               // coup impossible car il y a déjà une pièce à cette position
     End;
     LegaliteCoup1:=CoupLegal;
 End;
