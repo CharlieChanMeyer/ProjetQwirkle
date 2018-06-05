@@ -14,7 +14,7 @@ Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Var
     Vide : integer;
 Begin
-    if ((jeux.grille[i,j].couleur=0) or (jeux.grille[i,j].forme=0)) then
+    if ((jeux.grille[i,j].couleur=0) and (jeux.grille[i,j].forme=0)) then   // si la couleur et la forme de la pièce censée être à cette position n'est pas définie (=0) alors il n'y a pas de pièce
     Begin
         Vide:=0;
     End
