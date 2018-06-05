@@ -90,11 +90,10 @@ Var
       Begin
         If (((dejaPioche[j].forme) = (dejaPioche[i].forme)) and ((dejaPioche[j].forme) = (dejaPioche[i].forme))) then
           res := false;
-          End;
-          verif := res;
-          End;
+        End;
+       verif := res;
+      End;
 
-          End.
 (*--------------------------------------------------------
 - Fonction : echangePioche
 - Auteur : ESPIOT Marco
@@ -135,3 +134,4 @@ Begin
       i := i+1;
    until (i = nbPiece+1);
 End;
+End.
