@@ -84,7 +84,6 @@ Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
 var
   i, j, nbPiece, numpiece, numPieceMain : integer;
   attente, dejaPioche : pioche;
-
 Begin
   writeln('combien de pièces souhaitez vous échanger ?');
    readln(nbPiece);
@@ -92,34 +91,24 @@ Begin
    i := 1
    attente[0].forme := 0;//case de référence pour la comparaison suivante
 
-
-    //fonction pas finie (mais presque)
-
    Repeat
     numpiece := random(length(jeux.pioches))+1; //prend une pièce au hasard dans la pioche
     dejaPioche[i] := numpiece;
-    If (verif) then //faire en sorte que l'on ne puisse pas piocher une case deja pioché
+    If (verif) then //faire en sorte que l'on ne puisse pas piocher une case deja pioché avec le tableau "dejaPioche"
       Begin
         attente[i] := jeux.pioches[numpiece]; //stock cette pièce dans une "pioche temporaire"
       End;
 
     for j := 0 to nbPiece-1 do
       Begin
+        AffichageMain(jeux,jeux.player[numJoueur]);
         writeln('Entrez le numero de la piece a échanger ');
-        //peut etre afficher la main a ce moment pour que l'utilisateur fasse son choix
         readln(numPieceMain);
         jeux.pioches[numpiece] := jeux.player[numjoueur].main[numPieceMain]; //on place la pièce depuis la main du joueur dans la pioche
         jeux.player[numjoueur].main[numPieceMain] := attente[i]; //le joueur récupère la pièce mise de coté
       End;
       i := i+1;
    until (i = nbPiece+1);
-
-
-
-
-
-
-
 End;
 
 
