@@ -46,6 +46,7 @@ Procedure AffichageLightGreen(p : piece);
 Procedure AffichageGreen(p : piece);
 //Procedure Affichage???(p : piece);
 //Procedure Affichage???(p : piece);
+Procedure MenuAction();
 
 implementation
 
@@ -432,6 +433,29 @@ Begin
     AffichageMain(jeux,i);                  //Affiche la main du joueur
     TextColor(Green);                       //Reset la couleur générale
     writeln('-------------------------------------');
+End;
+
+(*
+--------------------------------------------------------
+- Procedure : MenuAction
+- Auteur : Charlie Meyer
+- Date de creation : Date
+-
+- But : Affiche le menu des actions disponible au Joueur
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Affiche le menu des actions disponible au Joueur
+--------------------------------------------------------*)
+
+Procedure MenuAction();
+Begin
+    writeln('-----------------------Vos Actions Possibles-----------------------');
+    writeln('-------------------------------------------------------------------');
+    writeln('--                                                               --');
+    writeln('--1. Poser UNE pièce                                             --');
+    writeln('--2. Poser PLUSIEURS pièces possédant un même attribut           --');
+    writeln('--3. Echanger une ou plusieurs pièces                            --');
+    writeln('-------------------------------------------------------------------');
 End;
 
 End.

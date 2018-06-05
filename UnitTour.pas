@@ -18,9 +18,65 @@ interface
 uses SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
 Procedure Tourdejeu(jeux : jeu);
-Function Tourdejoueur(jeux : jeu; i,j : Integer):jeu;
+Function Tourdejoueur(jeux : jeu; num_player,num_tour : Integer):jeu;
+Function JeuDejoueur(jeux : jeu; num_player : Integer):jeu;
+Function poser1p(jeux : jeu; num_player : Integer):jeu;
 
 implementation
+
+(*--------------------------------------------------------
+- Fonction : poser1p
+- Auteur : Charlie Meyer
+- Date de creation : date
+-
+- But : Faire poser une pièce à un joueur
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Faire poser une pièce à un joueur
+--------------------------------------------------------*)
+Function poser1p(jeux : jeu; num_player : Integer): jeu;
+Var
+    p_choisi : Integer;
+Begin
+    p_choisi := -1;
+
+    while (p_choisi=-1) do
+    begin
+        writeln('Ecrire le numéro de la pièce que vous souhaitez jouer');
+        readln(p_choisi)
+    end;
+
+End;
+
+(*--------------------------------------------------------
+- Fonction : JeuDejoueur
+- Auteur : Charlie Meyer
+- Date de creation : date
+-
+- But : Permet au joueur num_player de jouer son Tour
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Permet au joueur num_player de jouer son Tour
+--------------------------------------------------------*)
+Function JeuDejoueur(jeux : jeu; num_player : integer): jeu;
+Var
+    i : Integer;
+Begin
+    MenuAction();
+    i :=0;
+    while (i=0) do
+    begin
+        writeln('Merci de rentrer le numéro de l action souhaitée');
+        readln(i);
+        case i of
+            1: poser1p(jeux,num_player);
+            //2: poserpp;
+            //3: echangerp;
+            else i:=0;
+        end;
+    end;
+    JeuDejoueur := jeux
+End;
 
 (*--------------------------------------------------------
 - Fonction : Tourdejoueur
@@ -32,16 +88,17 @@ implementation
 - Pré conditions : Préconditions
 - Post conditions : Afficher le tour d'un joueur
 --------------------------------------------------------*)
-Function Tourdejoueur(jeux : jeu; i,j : Integer): jeu;
+Function Tourdejoueur(jeux : jeu; num_player,num_tour : Integer): jeu;
 Begin
     ClrScr;
     writeln('-------------------------------------------------------');
-    writeln('--                Tour ',j,' Joueur ',i,'                    --');
+    writeln('--                Tour ',num_tour,' Joueur ',num_player,'                    --');
     writeln('-------------------------------------------------------');
-    delay(600);
-    AffichageBase(jeux,i);
+    delay(900);
+    AffichageBase(jeux,num_player);
+    jeux := JeuDejoueur(jeux,num_player);
     Tourdejoueur := jeux;
-    delay(600);
+    delay(1200);
 End;
 
 (*
@@ -58,17 +115,17 @@ End;
 
 Procedure Tourdejeu(jeux : jeu);
 Var
-    i,j,n: Integer;
+    num_player,num_tour,n: Integer;
 Begin
     n := length(jeux.player);
-    j := 1;
-    while (j<>2) do
+    num_tour := 1;
+    while (num_tour<>2) do
     begin
-        For i := 0 to n-1 do
+        For num_player := 0 to n-1 do
         Begin
-            jeux := Tourdejoueur(jeux,i,j);
+            jeux := Tourdejoueur(jeux,num_player,num_tour);
         End;
-        Inc(j,1)
+        Inc(num_tour,1)
     end;
 End;
 
