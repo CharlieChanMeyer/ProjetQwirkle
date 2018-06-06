@@ -2,9 +2,9 @@
 ------------------------------------------------------------------------------------
 -- Fichier           : UnitTour.pas
 -- Auteur            : Charlie Meyer
--- Date de creation  : Date
+-- Date de creation  : 06 Juin 2018
 --
--- But               : But
+-- But               : Gérer les tours de la partie
 -- Remarques         : Aucune
 -- Compilation       : fpc
 -- Edition des liens : fpc
@@ -22,8 +22,72 @@ Function Tourdejoueur(jeux : jeu; num_player,num_tour : Integer):jeu;
 Function JeuDejoueur(jeux : jeu; num_player : Integer):jeu;
 Function poser1p(jeux : jeu; num_player : Integer):jeu;
 Function VerifMvide(jeux : jeu):Boolean;
+Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
+Function VerifPioche(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 
 implementation
+
+(*--------------------------------------------------------
+- Fonction : VerifPioche
+- Auteur : Charlie Meyer
+- Date de creation : 06 Juin
+-
+- But : Vérifie si la pioche est vide
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Vérifie si la pioche est vide
+--------------------------------------------------------*)
+Function VerifPioche(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
+Var
+    i,n1,n2 : Integer;
+Begin
+    n1 := length(jeux.pioches);
+    n2 := length(tbp);
+    if (n1<>0) THEN
+    Begin
+        jeux := piocher(jeux,1,num_player,tbp);
+    End
+    else
+    begin
+        For i:=0 to n2-1 do
+        Begin
+            jeux.player[num_player].main[tbp[i]].couleur := 0;
+            jeux.player[num_player].main[tbp[i]].forme := 0;
+        End;
+    end;
+    VerifPioche := jeux;
+End;
+
+(*--------------------------------------------------------
+- Fonction : piocher
+- Auteur : Charlie Meyer
+- Date de creation : 06 Juin 2018
+-
+- But : Faire piocher au joueur le nombre de piece "nb_pp"
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Faire piocher au joueur le nombre de piece "nb_pp"
+--------------------------------------------------------*)
+Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher): jeu;
+Var
+    i,j,n1,n2,place_pp : Integer;
+    p_tmp : piece;
+Begin
+    n2 := length(tbp);
+    For i:=1 to nb_pp do        //Pour chaque pièce jouée, faire
+    Begin
+        For j:=0 to n2 do       //Pour chaque emplacement de piece jouée
+        Begin
+            n1 := length(jeux.pioches);
+            place_pp := Random(n1+1);
+            p_tmp := jeux.pioches[place_pp];
+            jeux.player[num_player].main[tbp[j]] := p_tmp;
+            jeux.pioches[place_pp] := jeux.pioches[n1-1];
+            setlength(jeux.pioches,n1-1);
+        End;
+    End;
+    piocher := jeux;
+End;
 
 (*--------------------------------------------------------
 - Fonction : VerifMvide
@@ -40,22 +104,23 @@ Var
     Mvide : Boolean;
     n,i,j : Integer;
 Begin
-    Mvide := True;
-    i:=0;
-    j := 0;
-    n := length(jeux.grille);
-    while ((i<n) and (Mvide)) do
+    Mvide := True;                      //Dis que la grille est vide
+    i:=0;                               //Compteur de ligne à 0
+
+    n := length(jeux.grille);           //n prend la taille de la grille
+    while ((i<n) and (Mvide)) do        // Tant que le nombre de ligne parcouru < au nombre de ligne et que la grille est vide, fait ...
     begin
-        while ((j<n) and (Mvide)) do
+        j := 0;                     //Compteur de colonne à 0
+        while ((j<n) and (Mvide)) do         // Tant que le nombre de colonne parcouru < au nombre de colonne et que la grille est vide, fait ...
         begin
-            If (jeux.grille[i,j].couleur <> 0) then
+            If (jeux.grille[i,j].couleur <> 0) then     //Si la couleur de la pièce sur la case [i,j] n'existe pas (0), alors ...
             Begin
                 Writeln(i,',',j);
-                Mvide := False;
+                Mvide := False;                     //Dit que la grille n'est pas vide.
             End;
-            Inc(j,1);
+            Inc(j,1);                           //Augmente le nombre de colonne de 1
         end;
-        Inc(i,1);
+        Inc(i,1);                           //Augmente le nombre de ligne de 1
     end;
     If Mvide then
     Begin
@@ -77,18 +142,22 @@ End;
 Function poser1p(jeux : jeu; num_player : Integer): jeu;
 Var
     p_choisi,n,milieu : Integer;
+    tbp : tabpiocher;
 Begin
     p_choisi := -1;
     n := length(jeux.grille);
     milieu := (n DIV 2);
-    while (p_choisi=-1) do
+    while ((p_choisi<1) or (p_choisi>6)) do
     begin
         writeln('Ecrire le numéro de la pièce que vous souhaitez jouer');
         readln(p_choisi)
     end;
+    setlength(tbp,1);
+    tbp[0] := p_choisi-1;
     if (VerifMvide(jeux)) then
     begin
         jeux.grille[milieu,milieu] := jeux.player[num_player].main[p_choisi-1];
+        jeux := VerifPioche(jeux,1,num_player,tbp)
     end;
     poser1p := jeux;
 
@@ -165,7 +234,7 @@ Var
 Begin
     n := length(jeux.player);
     num_tour := 1;
-    while (num_tour<>2) do
+    while (num_tour<>3) do
     begin
         For num_player := 0 to n-1 do
         Begin

@@ -49,6 +49,8 @@ TYPE
         parametre : param;
     END;
 
+    tabpiocher = array of Integer;
+
 
 implementation
 
