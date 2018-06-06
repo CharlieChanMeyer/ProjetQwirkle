@@ -32,7 +32,6 @@ Begin
     jeux.player[1].main[4].forme := 2;
     jeux.player[1].main[5].couleur := 8;
     jeux.player[1].main[5].forme := 8;
-    setlength(jeux.pioches,0);
     Tourdejeu(jeux)
 
 End.
