@@ -4,10 +4,10 @@
 - Auteur           : Guillaume Proton
 - Date de creation : 28 Mai 2018
 -
-- But              : Vérifie la légalité du premier coup du tour à la position (i,j) (0 : coup impossible, 1 : coup accepté)
+- But              : Vérifie la légalité du coup à la position (i,j) (0 : coup impossible, 1 : coup accepté)
 - Remarques        : Aucune
 - Pré conditions   : Aucune
-- Post conditions  : Vérifie la légalité du premier coup du tour à la position (i,j)(0 : coup impossible, 1 : coup accepté)
+- Post conditions  : Vérifie la légalité du coup à la position (i,j)(0 : coup impossible, 1 : coup accepté)
 --------------------------------------------------------*)
 
 Function LegaliteCoup1(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
@@ -34,8 +34,3 @@ Begin
     End;
     LegaliteCoup1:=CoupLegal;
 End;
-
-
-
-CoupSuivant inutile ? puisqu'on va boucler cette fonction à chaque fois que le joueur voudra jouer une pièce
-Faire une fonction légalité des coups qui suivent le premier   ----> Non car dans le programme principal, on demande au joueur de choisir la position (i,j) où le joueur veut poser chacune de ses pièces
