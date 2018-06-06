@@ -12,6 +12,7 @@
 
 
 Function VerifPieceSud(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
+Var
     memeParam : integer;
 Begin
     if ((couleur_p = jeux.grille[i+1,j].couleur) xor (forme_p = jeux.grille[i+1,j].forme)) then    // "xor" car on ne peut pas jouer une pièce de la même forme et de la même couleur côte à côte
