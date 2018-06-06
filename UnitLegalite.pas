@@ -28,7 +28,7 @@ Function VerifPieceSud(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 
 implementation
 
-jeux.player.main[]
+jeux.player.main[].forme
 
 
 
