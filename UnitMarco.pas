@@ -27,7 +27,7 @@ uses SysUtils,UnitType,UnitParam,UnitAff,Crt;
 --------------------------------------------------------*)
 Function initJoueur(nbJoueur : integer; jeux : jeu): jeu;
 Function verifTaille(jeux : jeu): jeu;
-Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean;
+(*Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean; obsolete*)
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
 
 
@@ -71,8 +71,10 @@ Begin
  verifTaille := jeux
 End;
 
+
+
 (*--------------------------------------------------------
-- Fonction : verif
+- Fonction : verif (obsolète)
 - Auteur : ESPIOT Marco
 - Date de creation : date
 -
@@ -80,7 +82,7 @@ End;
 - Remarques : remarques éventuelles
 - Pré conditions : Préconditions
 - Post conditions : vérifie si la case est deja piochée
---------------------------------------------------------*)
+--------------------------------------------------------
 Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean;
 Var
   res : Boolean;
@@ -94,6 +96,7 @@ Var
         End;
        verif := res;
       End;
+                    *)
 
 (*--------------------------------------------------------
 - Fonction : echangePioche
@@ -120,26 +123,12 @@ Begin
 
    Repeat
     numpiece := random(length(jeux.pioches)); //prend une pièce au hasard dans la pioche
-    //dejaPioche[i] := jeux.pioches[numpiece];
-
-    //If (verif(dejaPioche,jeux,i)) then //faire en sorte que l'on ne puisse pas piocher une case deja pioché avec le tableau "dejaPioche"
-      //Begin
         attente[i] := jeux.pioches[numpiece]; //stock cette pièce dans une "pioche temporaire"
-      //End
-    //else
-    //begin
-      //numpiece := random(length(jeux.pioches)); //prend une pièce au hasard dans la pioche
-      //dejaPioche[i] := jeux.pioches[numpiece];
-    //end;
-
-    //for j := 0 to nbPiece-1 do
-      //Begin
         AffichageMain(jeux,numJoueur);
         writeln('Entrez le numero de la piece a échanger ');
         readln(numPieceMain);
         jeux.pioches[numpiece] := jeux.player[numjoueur].main[numPieceMain-1]; //on place la pièce depuis la main du joueur dans la pioche
         jeux.player[numjoueur].main[numPieceMain-1] := attente[i]; //le joueur récupère la pièce mise de coté
-      //End;
       i := i+1;
    until (i = nbPiece+1);
    AffichageMain(jeux,numJoueur);
