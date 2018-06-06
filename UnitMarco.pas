@@ -67,7 +67,7 @@ var
   n: Integer;
 Begin
  n :=length(jeux.grille);
- setlength(jeux.grille,n+6,n+6);
+ setlength(jeux.grille,n+6,n+6); //ajoute 6 cases sur les 2 dimensions du tableau
  verifTaille := jeux
 End;
 
