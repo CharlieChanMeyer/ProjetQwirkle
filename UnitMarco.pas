@@ -14,7 +14,7 @@
 Unit UnitMarco;
 
 interface
-uses SysUtils,UnitType,UnitParam,UnitAff,UnitTour,Crt;
+uses SysUtils,UnitType,UnitParam,UnitAff,Crt;
 (*--------------------------------------------------------
 - Fonction : initJoueur
 - Auteur : ESPIOT Marco
@@ -27,7 +27,8 @@ uses SysUtils,UnitType,UnitParam,UnitAff,UnitTour,Crt;
 --------------------------------------------------------*)
 Function initJoueur(nbJoueur : integer; jeux : jeu): jeu;
 Function verifTaille(jeux : jeu): jeu;
-Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean;
+(*Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean; obsolete*)
+Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
 
 
 implementation
@@ -70,8 +71,10 @@ Begin
  verifTaille := jeux
 End;
 
+
+
 (*--------------------------------------------------------
-- Fonction : verif
+- Fonction : verif (obsolète)
 - Auteur : ESPIOT Marco
 - Date de creation : date
 -
@@ -79,7 +82,7 @@ End;
 - Remarques : remarques éventuelles
 - Pré conditions : Préconditions
 - Post conditions : vérifie si la case est deja piochée
---------------------------------------------------------*)
+--------------------------------------------------------
 Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean;
 Var
   res : Boolean;
@@ -93,6 +96,7 @@ Var
         End;
        verif := res;
       End;
+                    *)
 
 (*--------------------------------------------------------
 - Fonction : echangePioche
@@ -109,29 +113,25 @@ var
   i, j, nbPiece, numpiece, numPieceMain : integer;
   attente, dejaPioche : pioche;
 Begin
+  Randomize();
   writeln('combien de pièces souhaitez vous échanger ?');
    readln(nbPiece);
    setlength(attente,nbPiece+1);
+   setlength(dejaPioche,nbPiece+1);
    i := 1;
    attente[0].forme := 0;//case de référence pour la comparaison suivante
 
    Repeat
-    numpiece := random(length(jeux.pioches))+1; //prend une pièce au hasard dans la pioche
-    dejaPioche[i] := jeux.pioches[numpiece];
-    If (verif(dejaPioche,jeux,i)) then //faire en sorte que l'on ne puisse pas piocher une case deja pioché avec le tableau "dejaPioche"
-      Begin
+    numpiece := random(length(jeux.pioches)); //prend une pièce au hasard dans la pioche
         attente[i] := jeux.pioches[numpiece]; //stock cette pièce dans une "pioche temporaire"
-      End;
-
-    for j := 0 to nbPiece-1 do
-      Begin
         AffichageMain(jeux,numJoueur);
         writeln('Entrez le numero de la piece a échanger ');
         readln(numPieceMain);
-        jeux.pioches[numpiece] := jeux.player[numjoueur].main[numPieceMain]; //on place la pièce depuis la main du joueur dans la pioche
-        jeux.player[numjoueur].main[numPieceMain] := attente[i]; //le joueur récupère la pièce mise de coté
-      End;
+        jeux.pioches[numpiece] := jeux.player[numjoueur].main[numPieceMain-1]; //on place la pièce depuis la main du joueur dans la pioche
+        jeux.player[numjoueur].main[numPieceMain-1] := attente[i]; //le joueur récupère la pièce mise de coté
       i := i+1;
    until (i = nbPiece+1);
+   AffichageMain(jeux,numJoueur);
+   echangePioche := jeux;
 End;
 End.
