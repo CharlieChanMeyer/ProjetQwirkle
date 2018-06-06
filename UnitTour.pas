@@ -15,7 +15,7 @@ Unit UnitTour;
 
 interface
 
-uses SysUtils,UnitType,UnitParam,UnitAff,Crt;
+uses SysUtils,UnitType,UnitParam,UnitAff,UnitMarco,Crt;
 
 Procedure Tourdejeu(jeux : jeu);
 Function Tourdejoueur(jeux : jeu; num_player,num_tour : Integer):jeu;
@@ -41,21 +41,21 @@ Function VerifPioche(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):je
 Var
     i,n1,n2 : Integer;
 Begin
-    n1 := length(jeux.pioches);
-    n2 := length(tbp);
-    if (n1<>0) THEN
+    n1 := length(jeux.pioches);         //n1 prend la taille de la pioche
+    n2 := length(tbp);                  //n2 prend la taille du tableau contenant la position des pieces jouées
+    if (n1<>0) THEN                     //Si la pioche n'est pas vide alors ...
     Begin
-        jeux := piocher(jeux,1,num_player,tbp);
+        jeux := piocher(jeux,nb_pp,num_player,tbp);         //Fait piocher le joueur du nombre de pieces qu'il a joué
     End
-    else
+    else                                //Sinon ...
     begin
-        For i:=0 to n2-1 do
+        For i:=0 to n2-1 do             //Pour chaque piece jouée
         Begin
-            jeux.player[num_player].main[tbp[i]].couleur := 0;
-            jeux.player[num_player].main[tbp[i]].forme := 0;
+            jeux.player[num_player].main[tbp[i]].couleur := 0;              //Reset sa couleur
+            jeux.player[num_player].main[tbp[i]].forme := 0;                //Reset sa forme
         End;
     end;
-    VerifPioche := jeux;
+    VerifPioche := jeux;            //Retourne le jeux
 End;
 
 (*--------------------------------------------------------
@@ -73,20 +73,20 @@ Var
     i,j,n1,n2,place_pp : Integer;
     p_tmp : piece;
 Begin
-    n2 := length(tbp);
+    n2 := length(tbp);          //Prend la taille du tableau contenant l'emplacement des pieces jouées
     For i:=1 to nb_pp do        //Pour chaque pièce jouée, faire
     Begin
-        For j:=0 to n2 do       //Pour chaque emplacement de piece jouée
+        For j:=0 to n2-1 do       //Pour chaque emplacement de piece jouée
         Begin
-            n1 := length(jeux.pioches);
-            place_pp := Random(n1+1);
-            p_tmp := jeux.pioches[place_pp];
-            jeux.player[num_player].main[tbp[j]] := p_tmp;
-            jeux.pioches[place_pp] := jeux.pioches[n1-1];
-            setlength(jeux.pioches,n1-1);
+            n1 := length(jeux.pioches);     //Prends la taille de la pioche
+            place_pp := Random(n1+1);           //Prend la place de piece pioché
+            p_tmp := jeux.pioches[place_pp];        //prends la piece pioché
+            jeux.player[num_player].main[tbp[j]] := p_tmp;      //donne la piece pioché au joueur (à l'emplacement de la pièce jouée)
+            jeux.pioches[place_pp] := jeux.pioches[n1-1];       //Prends la dernière pièce de la pioche et la met à la place de la pièce piochée
+            setlength(jeux.pioches,n1-1);                   //Enlève 1 à la taille de la pioche
         End;
     End;
-    piocher := jeux;
+    piocher := jeux;                //Retourne le jeux
 End;
 
 (*--------------------------------------------------------
@@ -115,7 +115,7 @@ Begin
         begin
             If (jeux.grille[i,j].couleur <> 0) then     //Si la couleur de la pièce sur la case [i,j] n'existe pas (0), alors ...
             Begin
-                Writeln(i,',',j);
+                Writeln(i,',',j);       //A ENLEVER PLUS TARD
                 Mvide := False;                     //Dit que la grille n'est pas vide.
             End;
             Inc(j,1);                           //Augmente le nombre de colonne de 1
@@ -124,9 +124,9 @@ Begin
     end;
     If Mvide then
     Begin
-        writeln('La grille est vide')
+        writeln('La grille est vide')       //A ENLEVER PLUS TARD
     End;
-    VerifMvide := Mvide;
+    VerifMvide := Mvide; //Retourne le fait que la grille soit vide ou non
 End;
 
 (*--------------------------------------------------------
@@ -144,22 +144,22 @@ Var
     p_choisi,n,milieu : Integer;
     tbp : tabpiocher;
 Begin
-    p_choisi := -1;
-    n := length(jeux.grille);
-    milieu := (n DIV 2);
-    while ((p_choisi<1) or (p_choisi>6)) do
+    p_choisi := -1;         //Met l'emplacement de la piece choisie sur -1
+    n := length(jeux.grille);       //Prend la taille de la grille
+    milieu := (n DIV 2);        //Prends ~ le milieu de la grille
+    while ((p_choisi<1) or (p_choisi>6)) do     //Tant que l'emplacement de la pièce choisie n'existe pas, fait ...
     begin
-        writeln('Ecrire le numéro de la pièce que vous souhaitez jouer');
-        readln(p_choisi)
+        writeln('Ecrire le numéro de la pièce que vous souhaitez jouer');       //Ecrit un message d'instruction au joueur
+        readln(p_choisi)            //Lis l'emplacement de la pièce choisie
     end;
-    setlength(tbp,1);
-    tbp[0] := p_choisi-1;
-    if (VerifMvide(jeux)) then
+    setlength(tbp,1);           //Augmente de 1 la taille du tableau contenant les emplacement des pieces jouées
+    tbp[0] := p_choisi-1;       //Stocke l'emplacement de la pièce jouée
+    if (VerifMvide(jeux)) then      //Si la grille est vide, alors ...
     begin
-        jeux.grille[milieu,milieu] := jeux.player[num_player].main[p_choisi-1];
-        jeux := VerifPioche(jeux,1,num_player,tbp)
+        jeux.grille[milieu,milieu] := jeux.player[num_player].main[p_choisi-1];             //Pose la pièce jouée au milieu
+        jeux := VerifPioche(jeux,1,num_player,tbp)              //Verifie si la pioche est vide et fait piocher le joueur
     end;
-    poser1p := jeux;
+    poser1p := jeux;        //Retourne le jeu
 
 End;
 
@@ -177,20 +177,20 @@ Function JeuDejoueur(jeux : jeu; num_player : integer): jeu;
 Var
     i : Integer;
 Begin
-    MenuAction();
+    MenuAction();           //Lance l'affichage du menu des actions
     i :=0;
-    while (i=0) do
+    while (i=0) do //Tant que i = 0
     begin
-        writeln('Merci de rentrer le numéro de l action souhaitée');
-        readln(i);
+        writeln('Merci de rentrer le numéro de l action souhaitée'); //Donne un instruction au Joueur
+        readln(i);              //Lis l'information donnée par le Joueur
         case i of
-            1: jeux:=poser1p(jeux,num_player);
+            1: jeux:=poser1p(jeux,num_player);          //Si le joueur demande l'action 1, lance la fonction poser1p
             //2: poserpp;
-            //3: echangerp;
-            else i:=0;
+            3: jeux:=echangePioche(jeux,num_player);        //Si le joueur demande l'action 3, lance l'action echangePioche
+            else i:=0;              //Sinon remet i=0
         end;
     end;
-    JeuDejoueur := jeux
+    JeuDejoueur := jeux         //Retourne le Jeux
 End;
 
 (*--------------------------------------------------------
@@ -205,15 +205,14 @@ End;
 --------------------------------------------------------*)
 Function Tourdejoueur(jeux : jeu; num_player,num_tour : Integer): jeu;
 Begin
-    ClrScr;
+    ClrScr;         //Reset l'affichage du terminal
+    writeln('-------------------------------------------------------');                 //Affiche le numéro du tour et du joueur
+    writeln('--                Tour ',num_tour,' Joueur ',num_player+1,'                    --');
     writeln('-------------------------------------------------------');
-    writeln('--                Tour ',num_tour,' Joueur ',num_player,'                    --');
-    writeln('-------------------------------------------------------');
-    delay(900);
-    AffichageBase(jeux,num_player);
-    jeux := JeuDejoueur(jeux,num_player);
-    Tourdejoueur := jeux;
-    delay(1200);
+    delay(900);                                 //Met le programme en pause pendant quelques secondes afin de laisser le temps au joueur de se préparer
+    AffichageBase(jeux,num_player);             //Lance l'affichage de base du joueur
+    jeux := JeuDejoueur(jeux,num_player);       //Lance le tour du joueur
+    Tourdejoueur := jeux;           //Retourne le jeux
 End;
 
 (*
@@ -232,15 +231,15 @@ Procedure Tourdejeu(jeux : jeu);
 Var
     num_player,num_tour,n: Integer;
 Begin
-    n := length(jeux.player);
-    num_tour := 1;
-    while (num_tour<>3) do
+    n := length(jeux.player);           //Prends le nombre de Joueur
+    num_tour := 1;                  //Met le Premier tour en place
+    while (num_tour<>3) do              //Tant que ..., fait ...
     begin
-        For num_player := 0 to n-1 do
+        For num_player := 0 to n-1 do           //Pour chaque joueur, fait ...
         Begin
-            jeux := Tourdejoueur(jeux,num_player,num_tour);
+            jeux := Tourdejoueur(jeux,num_player,num_tour);         //Lance le tour de jeux du joueur
         End;
-        Inc(num_tour,1)
+        Inc(num_tour,1)         //Augmente le nombre de tour de 1
     end;
 End;
 

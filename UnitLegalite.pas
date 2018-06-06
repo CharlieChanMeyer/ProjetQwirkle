@@ -17,14 +17,21 @@ interface
 
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
-Function CaseVide(jeux:jeu ; i,j:integer):integer;
+Function PrioriteJoueur(jeux:jeu):jeu;
+Function CaseVide(jeux:jeu ; i,j:integer):boolean;
 Function LegaliteCoup1(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
 Function VerifPieceEst(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 Function VerifPieceNord(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 Function VerifPieceOuest(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 Function VerifPieceSud(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 
+
 implementation
+
+jeux.player.main[]
+
+
+
 
 (*
 --------------------------------------------------------
@@ -32,25 +39,15 @@ implementation
 - Auteur : Guillaume Proton
 - Date de creation : 28 Mai 2018
 -
-- But : Renvoie 0 si il n'y a pas de pièce dans cette case sinon renvoie 1
+- But : Renvoie TRUE si il n'y a pas de pièce dans cette case sinon renvoie FALSE
 - Remarques : Aucune
 - Pré conditions : Aucune
-- Post conditions : Renvoie 0 si il n'y a pas de pièce dans cette case sinon renvoie 1
+- Post conditions : Renvoie TRUE si il n'y a pas de pièce dans cette case sinon renvoie FALSE
 --------------------------------------------------------*)
 
-Function CaseVide(jeux:jeu ; i,j:integer):integer;
-Var
-    Vide : integer;
+Function CaseVide(jeux:jeu ; i,j:integer):boolean;
 Begin
-    if ((jeux.grille[i,j].couleur=0) and (jeux.grille[i,j].forme=0)) then   // si la couleur et la forme de la pièce censée être à cette position ne sont pas définies (=0) alors il n'y a pas de pièce
-    Begin
-        Vide:=0;
-    End
-    Else
-    Begin
-        Vide:=1
-    End;
-    CaseVide:=Vide;
+    CaseVide:=((jeux.grille[i,j].couleur=0) and (jeux.grille[i,j].forme=0));
 End;
 
 
