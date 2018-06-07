@@ -27,4 +27,4 @@ Begin
 End;
 
 
-Il faut créer une Fonction pour savoir le nombre de pièces collées qui se trouvent au dessus de la pièce à la position (i,j), au dessous, à gauche et à droite.
+Il faut créer une Fonction pour savoir le nombre de pièces collées qui se trouvent au nord de la pièce à la position (i,j), au sud, à l'ouest et à l'est.
