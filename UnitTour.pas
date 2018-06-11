@@ -348,12 +348,12 @@ Begin
   else
   begin
     setlength (tbp,6);
-    For i := 0 to (length(jeux.player)-1) do
+    For i := 0 to (length(jeux.player)-1) do //parcour le tableau joueur et les fait piocher 1 par 1
     Begin
      piocher(jeux,6,i,tbp);
     End;
   end;
-  initMain := jeux;
+  initMain := jeux; //renvoi le jeux avec les donnes de chaque joueurs
 End;
 
 End.
