@@ -364,11 +364,19 @@ Var
     n,i,j : Integer;
 Begin
     n := length(grille);        //Récupère la taille de la grille
-    For i := 0 to n-1 do        //Pour chaque ligne, faire ...
+    For i := -1 to n-1 do        //Pour chaque ligne, faire ...
     Begin
         Writeln();
-        For j := 0 to n-1 do    //Pour chaque colonne, faire ...
+        For j := -1 to n-1 do    //Pour chaque colonne, faire ...
         Begin
+            if (i = -1) then
+            begin
+                write(j);
+            end;
+            if (j = -1) then
+            begin
+                write(i);
+            end;
             AffichagePiece(grille[i,j]);    //Affiche la piece à la position i,j
             TextColor(Green);               //Reset la Couleur
             write('|');
