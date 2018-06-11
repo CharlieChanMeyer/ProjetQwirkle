@@ -25,11 +25,8 @@ Function VerifMvide(jeux : jeu):Boolean;
 Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 Function VerifPioche(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 Function VerifMainVide(jeux : jeu; num_player : Integer):Boolean;
-<<<<<<< HEAD
 Function JeuDejoueurssp(jeux : jeu; num_player : integer): jeu;
-=======
 Function initMain(jeux : jeu): jeu;
->>>>>>> 1f13fe57c7e831d683a6a8957b009512005af5aa
 
 implementation
 
