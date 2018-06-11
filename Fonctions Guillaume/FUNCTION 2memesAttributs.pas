@@ -1,6 +1,6 @@
 (*
 --------------------------------------------------------
-- Fonction         : 2memesAttributs
+- Fonction         : deuxMemesAttributs
 - Auteur           : Guillaume Proton
 - Date de creation : 28 Mai 2018
 -
@@ -10,21 +10,25 @@
 - Post conditions  : Renvoie 1 s'il y a deux fois le même attribut sur la même ligne sinon 0
 --------------------------------------------------------*)
 
-Function 2memesAttributs(jeux:jeu;i,j : integer):integer;
+Function deuxMemesAttributs(jeux:jeu;i,j : integer):integer;
 Var
-    nbCasesDessus,nbCasesDessous,l, memeAttribut:integer;
+    l, memeAttribut:integer;
 
 Begin
     memeAttribut :=0;
-    for l:=0 to length(jeux.grille)-1 do                // de 0 à 24 faire 
+    for l:=i+nbCasesSud(jeux,i,j) downto i-nbCasesNord(jeux,i,j) do             // parcoure la ligne contenant la pièce à la position (i,j) de haut en bas
     Begin
-        if ((jeux.grille[i,j].forme=) or (jeux.grille[i,j].couleur)) then
+        if (((jeux.grille[i,j].forme=jeux.grille[l,j].forme) or (jeux.grille[i,j].couleur=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
-            memeAttribut := memeAttribut+1
+           memeAttribut := 1
         End;
     End;
-    2memesAttributs:= ;
+    for l:=j+nbCasesEst(jeux,i,j) downto j-nbcasesOuest(jeux,i,j) do            // parcoure la ligne contenant la pièce à la position (i,j) de gauche à droite
+    Begin
+        if (((jeux.grille[i,j].forme=jeux.grille[i,l].forme) or (jeux.grille[i,j].couleur=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
+        Begin
+            memeAttribut:=1
+        end;
+    end;
+    deuxMemesAttributs:=memeAttribut ;
 End;
-
-
-Il faut créer une Fonction pour savoir le nombre de pièces collées qui se trouvent au nord de la pièce à la position (i,j), au sud, à l'ouest et à l'est.

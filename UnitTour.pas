@@ -24,8 +24,40 @@ Function poser1p(jeux : jeu; num_player : Integer):jeu;
 Function VerifMvide(jeux : jeu):Boolean;
 Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 Function VerifPioche(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
+Function VerifMainVide(jeux : jeu; num_player : Integer):Boolean;
 
 implementation
+
+(*--------------------------------------------------------
+- Fonction : VerifMainVide
+- Auteur : Charlie Meyer
+- Date de creation : Lundi 11 Juin 2018
+-
+- But : Retourne True si la main du joueur est vide
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Retourne True si la main du joueur est vide
+--------------------------------------------------------*)
+Function VerifMainVide(jeux : jeu; num_player : Integer): Boolean;
+Var
+    i : Integer;
+    EmptyHand : Boolean;
+Begin
+    EmptyHand := True;
+    i := 0;
+    while ((i<6) and EmptyHand) do
+    begin
+        if ((jeux.player[num_player].main[i].couleur <> 0) and (jeux.player[num_player].main[i].forme <> 0)) then
+        begin
+            EmptyHand := False
+        end
+        else
+        begin
+            Inc(i,1)
+        end;
+    end;
+    VerifMainVide := EmptyHand;
+End;
 
 (*--------------------------------------------------------
 - Fonction : VerifPioche
@@ -230,14 +262,25 @@ End;
 Procedure Tourdejeu(jeux : jeu);
 Var
     num_player,num_tour,n: Integer;
+    EmptyHand : Boolean;
 Begin
+    EmptyHand := False;              //Dis que la main des joueur n'est pas vide
     n := length(jeux.player);           //Prends le nombre de Joueur
     num_tour := 1;                  //Met le Premier tour en place
-    while (num_tour<>3) do              //Tant que ..., fait ...
+    while not EmptyHand do              //Tant que ..., fait ...
     begin
-        For num_player := 0 to n-1 do           //Pour chaque joueur, fait ...
+        num_player:= 0;                 //Met le joueur initial du tour sur 0
+        while ((num_player<=n-1) and (not EmptyHand)) do        //Pour chaque joueur, fait ...
         Begin
             jeux := Tourdejoueur(jeux,num_player,num_tour);         //Lance le tour de jeux du joueur
+            if (VerifMainVide(jeux,num_player)) then       //Si la main du joueur est vide alors
+            begin
+                EmptyHand := True;                          //Dit que la main d'un joueur est vide et sort des boucles
+            end
+            else
+            begin
+                Inc(num_player,1)                   //sinon, fait passer le tour au joueur suivant
+            end;
         End;
         Inc(num_tour,1)         //Augmente le nombre de tour de 1
     end;
