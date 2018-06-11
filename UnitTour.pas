@@ -25,6 +25,7 @@ Function VerifMvide(jeux : jeu):Boolean;
 Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 Function VerifPioche(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 Function VerifMainVide(jeux : jeu; num_player : Integer):Boolean;
+Function initMain(jeux : jeu): jeu;
 
 implementation
 
@@ -286,6 +287,36 @@ Begin
     end;
 End;
 
+(*--------------------------------------------------------
+- Fonction : initMain
+- Auteur : ESPIOT Marco
+- Date de creation : date
+-
+- But : faire en sorte que le joueur pioche 6 pions
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : renvoi l'etat du jeux avec la donne des joueurs initialisé
+--------------------------------------------------------*)
+Function initMain(jeux : jeu): jeu;
+var
+tbp : tabpiocher;
+i: integer;
 
+Begin
+  if ((length(jeux.player)*6) > (length(jeux.pioches))) then //condition d'arret
+  begin
+    writeln ('Erreur, pas assez de pièces pour tout les joueurs');
+    writeln ('Veuillez enlever des joueurs ou rajouter des pieces');
+  end
+  else
+  begin
+    setlength (tbp,6);
+    For i := 0 to (length(jeux.player)-1) do
+    Begin
+     piocher(jeux,6,i,tbp);
+    End;
+  end;
+  initMain := jeux;
+End;
 
 End.
