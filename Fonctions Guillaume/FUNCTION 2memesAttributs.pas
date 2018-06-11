@@ -1,6 +1,6 @@
 (*
 --------------------------------------------------------
-- Fonction         : 2memesAttributs
+- Fonction         : deuxMemesAttributs
 - Auteur           : Guillaume Proton
 - Date de creation : 28 Mai 2018
 -
@@ -10,7 +10,7 @@
 - Post conditions  : Renvoie 1 s'il y a deux fois le même attribut sur la même ligne sinon 0
 --------------------------------------------------------*)
 
-Function 2memesAttributs(jeux:jeu;i,j : integer):integer;
+Function deuxMemesAttributs(jeux:jeu;i,j : integer):integer;
 Var
     l, memeAttribut:integer;
 
@@ -30,5 +30,5 @@ Begin
             memeAttribut:=1
         end;
     end;
-    2memesAttributs:=memeAttribut ;
+    deuxMemesAttributs:=memeAttribut ;
 End;
