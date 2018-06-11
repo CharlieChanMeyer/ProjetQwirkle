@@ -32,5 +32,9 @@ Begin
     Begin
         CoupLegal:=0;               // coup impossible car il y a déjà une pièce à cette position
     End;
+    
+    
+    // rajouter Fonction :condition : pas 2 fois la meme forme sur la meme "ligne" si c'est une ligne de couleur, pas 2 fois la même couleur sur la même "ligne" 
+    //si c'est une ligne de forme. Pour définir la fin d'une ligne utiliser la fonction CaseVide.
     LegaliteCoup1:=CoupLegal;
 End;
