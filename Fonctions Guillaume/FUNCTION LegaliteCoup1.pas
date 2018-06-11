@@ -1,6 +1,6 @@
 (*
 --------------------------------------------------------
-- Fonction         : LegaliteCoup1
+- Fonction         : LegaliteCoup
 - Auteur           : Guillaume Proton
 - Date de creation : 28 Mai 2018
 -
@@ -10,7 +10,7 @@
 - Post conditions  : Vérifie la légalité du coup à la position (i,j)(0 : coup impossible, 1 : coup accepté)
 --------------------------------------------------------*)
 
-Function LegaliteCoup1(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
+Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
 Var
     CoupLegal : integer;
 Begin
@@ -32,9 +32,9 @@ Begin
     Begin
         CoupLegal:=0;               // coup impossible car il y a déjà une pièce à cette position
     End;
-    
-    
-    // rajouter Fonction :condition : pas 2 fois la meme forme sur la meme "ligne" si c'est une ligne de couleur, pas 2 fois la même couleur sur la même "ligne" 
-    //si c'est une ligne de forme. Pour définir la fin d'une ligne utiliser la fonction CaseVide.
-    LegaliteCoup1:=CoupLegal;
+    if (deuxMemesAttributs(jeux,i,j)=1) then  // s'il y a deux fois le même attribut sur la même ligne alors le coup n'est pas valide
+    Begin
+        CoupLegal:=0
+    end;
+    LegaliteCoup:=CoupLegal;
 End;
