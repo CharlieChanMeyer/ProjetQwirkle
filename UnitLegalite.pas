@@ -52,6 +52,7 @@ Begin
 End;
 jeux.player.main[].forme
 Fonction qui compte le nombre de combinaisons de chaque joueur en fonction de sa main
+Une autre fonction pour faire l''ordre en fonction de l''âge (max d''un tableau dyn qui s''efface comme la pioche au fur et à mesure, création d''un deuxieme tableau dyn qui contiendra les joueurs triés dans l''ordre)  
 
 (*
 --------------------------------------------------------
