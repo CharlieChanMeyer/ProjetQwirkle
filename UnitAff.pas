@@ -47,6 +47,7 @@ Procedure AffichageGreen(p : piece);
 //Procedure Affichage???(p : piece);
 //Procedure Affichage???(p : piece);
 Procedure MenuAction();
+Procedure MenuActionssp();
 
 implementation
 
@@ -455,6 +456,28 @@ Begin
     writeln('--1. Poser UNE pièce                                             --');
     writeln('--2. Poser PLUSIEURS pièces possédant un même attribut           --');
     writeln('--3. Echanger une ou plusieurs pièces                            --');
+    writeln('-------------------------------------------------------------------');
+End;
+
+(*
+--------------------------------------------------------
+- Procedure : MenuActionssp
+- Auteur : Charlie Meyer
+- Date de creation : Date
+-
+- But : Affiche le menu des actions disponible au Joueur sans piocher
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Affiche le menu des actions disponible au Joueur sans piocher
+--------------------------------------------------------*)
+
+Procedure MenuActionssp();
+Begin
+    writeln('-----------------------Vos Actions Possibles-----------------------');
+    writeln('-------------------------------------------------------------------');
+    writeln('--                                                               --');
+    writeln('--1. Poser UNE pièce                                             --');
+    writeln('--2. Poser PLUSIEURS pièces possédant un même attribut           --');
     writeln('-------------------------------------------------------------------');
 End;
 

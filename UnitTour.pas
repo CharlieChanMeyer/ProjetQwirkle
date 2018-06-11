@@ -25,6 +25,7 @@ Function VerifMvide(jeux : jeu):Boolean;
 Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 Function VerifPioche(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 Function VerifMainVide(jeux : jeu; num_player : Integer):Boolean;
+Function JeuDejoueurssp(jeux : jeu; num_player : integer): jeu;
 
 implementation
 
@@ -196,6 +197,35 @@ Begin
 End;
 
 (*--------------------------------------------------------
+- Fonction : JeuDejoueurssp
+- Auteur : Charlie Meyer
+- Date de creation : date
+-
+- But : Permet au joueur num_player de jouer son Tour
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Permet au joueur num_player de jouer son Tour
+--------------------------------------------------------*)
+Function JeuDejoueurssp(jeux : jeu; num_player : integer): jeu;
+Var
+    i : Integer;
+Begin
+    MenuActionssp();           //Lance l'affichage du menu des actions
+    i :=0;
+    while (i=0) do //Tant que i = 0
+    begin
+        writeln('Merci de rentrer le numéro de l action souhaitée'); //Donne un instruction au Joueur
+        readln(i);              //Lis l'information donnée par le Joueur
+        case i of
+            1: jeux:=poser1p(jeux,num_player);          //Si le joueur demande l'action 1, lance la fonction poser1p
+            //2: poserpp;
+            else i:=0;              //Sinon remet i=0
+        end;
+    end;
+    JeuDejoueurssp := jeux         //Retourne le Jeux
+End;
+
+(*--------------------------------------------------------
 - Fonction : JeuDejoueur
 - Auteur : Charlie Meyer
 - Date de creation : date
@@ -243,7 +273,14 @@ Begin
     writeln('-------------------------------------------------------');
     delay(900);                                 //Met le programme en pause pendant quelques secondes afin de laisser le temps au joueur de se préparer
     AffichageBase(jeux,num_player);             //Lance l'affichage de base du joueur
-    jeux := JeuDejoueur(jeux,num_player);       //Lance le tour du joueur
+    if (length(jeux.pioches)=0) then
+    begin
+        jeux := JeuDejoueurssp(jeux,num_player);       //Lance le tour du joueur sans pioche
+    end
+    else
+    begin
+        jeux := JeuDejoueur(jeux,num_player);       //Lance le tour du joueur
+    end;
     Tourdejoueur := jeux;           //Retourne le jeux
 End;
 
