@@ -1,7 +1,7 @@
 (*
 ------------------------------------------------------------------------------------
 -- Fichier           : UnitLegalite.pas
--- Auteur            : Guillaume Proton
+-- Auteur            : Guillaume Proton 
 -- Date de creation  : 6 Juin 2018
 --
 -- But               : But
@@ -33,8 +33,25 @@ Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
 
 implementation
 
+(*
+--------------------------------------------------------
+- Fonction         : prioriteJoueur
+- Auteur           : Guillaume Proton
+- Date de creation : 11 Juin 2018
+-
+- But              : Renvoie un tableau de joueurs trié dans l'ordre dans lequel ils vont jouer (le joueur 0 va jouer en premier puis le joueur 1, etc ...)
+- Remarques        : Aucune  
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie un tableau de joueurs trié dans l'ordre dans lequel ils vont jouer (le joueur 0 va jouer en premier puis le joueur 1, etc ...)
+--------------------------------------------------------*)
+Function prioriteJoueur(jeux:jeu):tabjoueur;
+Var
+    tabTrie : tabjoueur;
+Begin
+    
+End;
 jeux.player.main[].forme
-
+Fonction qui compte le nombre de combinaisons de chaque joueur en fonction de sa main
 
 (*
 --------------------------------------------------------
@@ -43,7 +60,7 @@ jeux.player.main[].forme
 - Date de creation : 28 Mai 2018
 -
 - But              : Renvoie 1 s'il y a deux fois le même attribut sur la même ligne sinon 0
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie 1 s'il y a deux fois le même attribut sur la même ligne sinon 0
 --------------------------------------------------------*)
@@ -116,9 +133,9 @@ Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
 Var
     CoupLegal : integer;
 Begin
-    //regarder nord, est, ouest et sud : si couleur de la piece voulant etre jouée ou forme pièce voulant etre jouée est la même que la forme ou la couleur
+    //regarder nord est ouest et sud : si couleur de la piece voulant etre jouée ou forme pièce voulant etre jouée est la même que la forme ou la couleur
     //d une des pieces autour alors c est bon
-
+    
     if (CaseVide(jeux,i,j)=0) then
     Begin
         if ((VerifPieceNord(jeux,couleur_p,forme_p,i,j)=1) or (VerifPieceSud(jeux,couleur_p,forme_p,i,j)=1) or (VerifPieceEst(jeux,couleur_p,forme_p,i,j)=1) or (VerifPieceOuest(jeux,couleur_p,forme_p,i,j)=1)) then
@@ -264,8 +281,8 @@ End;
 - Auteur           : Guillaume Proton
 - Date de creation : 11 Juin 2018
 -
-- But              : Renvoie le maximum entre deux entiers
-- Remarques        : Aucune
+- But              : Renvoie le maximum entre deux entiers 
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le maximum entre deux entiers
 --------------------------------------------------------*)
@@ -292,7 +309,7 @@ End;
 - Date de creation : 7 Juin 2018
 -
 - But              : Renvoie le nombre de pièces "collées" entre elles au nord de la pièce située à la position (i,j)
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le nombre de pièces "collées" entre elles au nord de la pièce située à la position (i,j)
 --------------------------------------------------------*)
@@ -319,7 +336,7 @@ End;
 - Date de creation : 7 Juin 2018
 -
 - But              : Renvoie le nombre de pièces "collées" entre elles au sud de la pièce située à la position (i,j)
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le nombre de pièces "collées" entre elles au sud de la pièce située à la position (i,j)
 --------------------------------------------------------*)
@@ -346,7 +363,7 @@ End;
 - Date de creation : 7 Juin 2018
 -
 - But              : Renvoie le nombre de pièces "collées" entre elles à l'ouest de la pièce située à la position (i,j)
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le nombre de pièces "collées" entre elles à l'ouest de la pièce située à la position (i,j)
 --------------------------------------------------------*)
@@ -373,7 +390,7 @@ End;
 - Date de creation : 7 Juin 2018
 -
 - But              : Renvoie le nombre de pièces "collées" entre elles à l'est de la pièce située à la position (i,j)
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le nombre de pièces "collées" entre elles à l'est de la pièce située à la position (i,j)
 --------------------------------------------------------*)
@@ -394,3 +411,4 @@ Begin
 End;
 
 END.
+
