@@ -144,7 +144,7 @@ End;
 - Remarques : remarques éventuelles
 - Pré conditions : Préconditions
 - Post conditions : But
---------------------------------------------------------*)
+--------------------------------------------------------
 Procedure initPosePieces(jeux : jeu; numJoueur : integer);
 var
   n,nbPieceJoue,milieu,pieceMain : integer;
@@ -162,8 +162,8 @@ Begin
       readln(pieceMain);
     until ((pieceMain < 7) and (pieceMain > 0)); //vérifie que le numéro de la piece dans la main est valide (donc entre 1 et 6)
       writeln('Piece enregistrée');
-    piecePosee[i] := jeux.player[numJoueur].main[pieceMain-1]; (*la piéce que le joueur veut poser est stocké dans un tableau
-                                                                afin de verifier la légalité de la combinaison en suivant*)
+    piecePosee[i] := jeux.player[numJoueur].main[pieceMain-1]; la piéce que le joueur veut poser est stocké dans un tableau
+                                                                afin de verifier la légalité de la combinaison en suivant
   End;
   if not VerifPose(piecePosee) then
   begin
@@ -174,7 +174,7 @@ Begin
   begin
     jeux := posePiece(jeux,numJoueur,piecePosee);
   end;
-End;
+End;*)
 
 (*--------------------------------------------------------
 - Fonction : verifPose

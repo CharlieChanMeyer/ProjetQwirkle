@@ -19,7 +19,7 @@ USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
 Function indiceMaxTab(tab : tabpiocher): Integer;
 Function prioriteAge(jeux:jeu):tabpiocher;
-Function prioriteJoueur(jeux:jeu):jeu;
+//Function prioriteJoueur(jeux:jeu):jeu;
 Function deuxMemesAttributs(jeux:jeu;i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
@@ -81,7 +81,7 @@ END;
 Function prioriteAge(jeux:jeu):tabpiocher;
 Var
     tableauAge:tabpiocher;
-    i,indiceMax,maxTableau:=integer;
+    i,indiceMax,maxTableau:integer;
 Begin
     setlength(tableauAge,length(jeux.player));           // créer un tableau de la taille du nombre de joueurs
     for i:=0 to length(tableauAge)-1 do                  // recopier l'âge de chaque joueur dans le tableau 'tableauAge'
@@ -104,7 +104,7 @@ end;
 - Remarques        : Aucune
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie un tableau de joueurs trié dans l'ordre dans lequel ils vont jouer (le joueur 0 va jouer en premier puis le joueur 1, etc ...)
---------------------------------------------------------*)
+--------------------------------------------------------
 Function prioriteJoueur(jeux:jeu):tabjoueur;
 Var
     tabTrie : tabjoueur;
@@ -117,11 +117,11 @@ Begin
     Begin
 
     end;
-End;
+End;*)
 
 
-jeux.player.main[].forme
-Fonction qui compte le nombre de combinaisons de chaque joueur en fonction de sa main
+//jeux.player.main[].forme
+//Fonction qui compte le nombre de combinaisons de chaque joueur en fonction de sa main
 
 (*
 --------------------------------------------------------
@@ -251,8 +251,13 @@ Begin
     memeAttribut :=0;
     for l:=i+nbPiecesSud(jeux,i,j) downto i-nbPiecesNord(jeux,i,j) do             // parcoure la ligne contenant la pièce à la position (i,j) de haut en bas
     Begin
+        //FAUT RECUPERER LA COULEUR ET LA FORME DE LA PIECE JOUER ET NON DE LA GRILLE
+        writeln('Piece en ',l,'|',j,'Forme identique : ',jeux.grille[i,j].forme=jeux.grille[l,j].forme,' | Couleur Identique : ',jeux.grille[i,j].couleur=jeux.grille[l,j].couleur);
+        writeln(jeux.grille[i,j].forme,' | ',jeux.grille[l,j].forme);
+        writeln(jeux.grille[i,j].couleur,' | ',jeux.grille[l,j].couleur);
         if (((jeux.grille[i,j].forme=jeux.grille[l,j].forme) and (jeux.grille[i,j].couleur=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
+            writeln('Piece en ',l,' : OK');
            memeAttribut := 1
         End;
     End;
@@ -260,6 +265,7 @@ Begin
     Begin
         if (((jeux.grille[i,j].forme=jeux.grille[i,l].forme) and (jeux.grille[i,j].couleur=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
+            writeln('Piece en ',l,' : OK');
             memeAttribut:=1
         end;
     end;
