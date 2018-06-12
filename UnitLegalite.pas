@@ -1,7 +1,7 @@
 (*
 ------------------------------------------------------------------------------------
 -- Fichier           : UnitLegalite.pas
--- Auteur            : Guillaume Proton
+-- Auteur            : Guillaume Proton 
 -- Date de creation  : 6 Juin 2018
 --
 -- But               : But
@@ -17,7 +17,9 @@ interface
 
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
-Function PrioriteJoueur(jeux:jeu):jeu;
+Function indiceMaxTab(tab : tabpiocher): Integer;
+Function prioriteAge(jeux:jeu):tabpiocher;
+Function prioriteJoueur(jeux:jeu):jeu;
 Function deuxMemesAttributs(jeux:jeu;i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
@@ -33,8 +35,92 @@ Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
 
 implementation
 
-jeux.player.main[].forme
+(*
+ ------------------------------------------------------------------------------------
+ -- Fonction          : indiceMaxTab
+ -- Auteur            : Guillaume Proton
+ -- Date de creation  : 06/12/2017
+ --
+ -- But               : renvoie l'indice du maximum d'un tableau	
+ -- Remarques         : Aucune
+ -- Pré conditions    : Aucune
+ -- Post conditions   : renvoie l'indice du maximum d'un tableau
+ ------------------------------------------------------------------------------------
+ *)
+   
+FUNCTION indiceMaxTab(tab : tabpiocher): Integer;
+VAR
+   i,maximum,i_maximum : Integer;
+BEGIN
+   maximum:=tab[0];
+   i_maximum := 0;                           // par défaut l'indice du maximum correspond à l'indice de la première case
+   FOR i:=0 to length(tab)-1 do
+   BEGIN
+      if ((tab[i])>maximum)then             // On teste toutes les valeurs de tab afin de trouver le maximum
+      BEGIN
+        i_maximum:=i;                    // dès que l'on a trouvé le maximum on stocke son indice dans la variable i_maximum   
+      END;
+      indiceMaxTab := i_maximum;
+   END;
+END; 
 
+
+(*
+--------------------------------------------------------
+- Fonction         : prioriteAge
+- Auteur           : Guillaume Proton
+- Date de creation : 12 Juin 2018
+-
+- But              : Renvoie un tableau d'entiers contenant les âges des joueurs avec le premier élément: le maximum du tableau
+- Remarques        : Aucune  
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie un tableau d'entiers contenant les âges des joueurs avec le premier élément: le maximum du tableau
+--------------------------------------------------------*)
+
+Function prioriteAge(jeux:jeu):tabpiocher;
+Var
+    tableauAge:tabpiocher;
+    i,indiceMax,maxTableau:=integer;
+Begin
+    setlength(tableauAge,length(jeux.player));           // créer un tableau de la taille du nombre de joueurs
+    for i:=0 to length(tableauAge)-1 do                  // recopier l'âge de chaque joueur dans le tableau 'tableauAge'
+    Begin
+        tableauAge[i]:=jeux.player[i].age
+    End;
+    indiceMax:=indiceMaxTab(tableauAge);                 // on trouve l'indice du maximum     
+    maxTableau:=tableauAge[indiceMax];                               // on échange la valeur du maximum avec la valeur du premier élément du tableau
+    tableauAge[indiceMax]:=tableauAge[0];
+    tableauAge[0]:=maxTableau;
+    prioriteAge:=tableauAge;
+end;
+(*
+--------------------------------------------------------
+- Fonction         : prioriteJoueur
+- Auteur           : Guillaume Proton
+- Date de creation : 11 Juin 2018
+-
+- But              : Renvoie un tableau de joueurs trié dans l'ordre dans lequel ils vont jouer (le joueur 0 va jouer en premier puis le joueur 1, etc ...)
+- Remarques        : Aucune  
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie un tableau de joueurs trié dans l'ordre dans lequel ils vont jouer (le joueur 0 va jouer en premier puis le joueur 1, etc ...)
+--------------------------------------------------------*)
+Function prioriteJoueur(jeux:jeu):tabjoueur;
+Var
+    tabTrie : tabjoueur;
+Begin
+    if (plusGrandeCombinaison d'un joueur = plusGrandeCombinaison d'un autre) then
+    Begin
+        tabTrie:=prioriteAge(jeux)
+    End;
+    for i:=0 to length(jeux.player.main)-1 do 
+    Begin
+        
+    end;
+End;
+
+
+jeux.player.main[].forme
+Fonction qui compte le nombre de combinaisons de chaque joueur en fonction de sa main
 
 (*
 --------------------------------------------------------
@@ -43,7 +129,7 @@ jeux.player.main[].forme
 - Date de creation : 28 Mai 2018
 -
 - But              : Renvoie 1 s'il y a deux fois le même attribut sur la même ligne sinon 0
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie 1 s'il y a deux fois le même attribut sur la même ligne sinon 0
 --------------------------------------------------------*)
@@ -116,9 +202,9 @@ Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
 Var
     CoupLegal : integer;
 Begin
-    //regarder nord, est, ouest et sud : si couleur de la piece voulant etre jouée ou forme pièce voulant etre jouée est la même que la forme ou la couleur
+    //regarder nord est ouest et sud : si couleur de la piece voulant etre jouée ou forme pièce voulant etre jouée est la même que la forme ou la couleur
     //d une des pieces autour alors c est bon
-
+    
     if (CaseVide(jeux,i,j)=0) then
     Begin
         if ((VerifPieceNord(jeux,couleur_p,forme_p,i,j)=1) or (VerifPieceSud(jeux,couleur_p,forme_p,i,j)=1) or (VerifPieceEst(jeux,couleur_p,forme_p,i,j)=1) or (VerifPieceOuest(jeux,couleur_p,forme_p,i,j)=1)) then
@@ -264,8 +350,8 @@ End;
 - Auteur           : Guillaume Proton
 - Date de creation : 11 Juin 2018
 -
-- But              : Renvoie le maximum entre deux entiers
-- Remarques        : Aucune
+- But              : Renvoie le maximum entre deux entiers 
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le maximum entre deux entiers
 --------------------------------------------------------*)
@@ -292,7 +378,7 @@ End;
 - Date de creation : 7 Juin 2018
 -
 - But              : Renvoie le nombre de pièces "collées" entre elles au nord de la pièce située à la position (i,j)
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le nombre de pièces "collées" entre elles au nord de la pièce située à la position (i,j)
 --------------------------------------------------------*)
@@ -319,7 +405,7 @@ End;
 - Date de creation : 7 Juin 2018
 -
 - But              : Renvoie le nombre de pièces "collées" entre elles au sud de la pièce située à la position (i,j)
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le nombre de pièces "collées" entre elles au sud de la pièce située à la position (i,j)
 --------------------------------------------------------*)
@@ -346,7 +432,7 @@ End;
 - Date de creation : 7 Juin 2018
 -
 - But              : Renvoie le nombre de pièces "collées" entre elles à l'ouest de la pièce située à la position (i,j)
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le nombre de pièces "collées" entre elles à l'ouest de la pièce située à la position (i,j)
 --------------------------------------------------------*)
@@ -373,7 +459,7 @@ End;
 - Date de creation : 7 Juin 2018
 -
 - But              : Renvoie le nombre de pièces "collées" entre elles à l'est de la pièce située à la position (i,j)
-- Remarques        : Aucune
+- Remarques        : Aucune  
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie le nombre de pièces "collées" entre elles à l'est de la pièce située à la position (i,j)
 --------------------------------------------------------*)
@@ -394,3 +480,4 @@ Begin
 End;
 
 END.
+
