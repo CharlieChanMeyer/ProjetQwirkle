@@ -114,9 +114,9 @@ END;
 - Post conditions  : Renvoie un tableau de joueurs trié par âge décroissant
 --------------------------------------------------------*)
 
-Function prioriteAge(jeux:jeu):tabentier;
+Function prioriteAge(jeux:jeu):tabpiocher;
 Var
-    tableauAge:tabentier;
+    tableauAge:tabpiocher;
 Begin
     setlength(tableauAge,length(jeux.player));           // créer un tableau de la taille du nombre de joueurs
     for i:=0 to length(tableauAge)-1 do                  // recopier l'âge de chaque joueur dans le tableau 'tableauAge'
