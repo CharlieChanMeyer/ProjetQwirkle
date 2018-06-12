@@ -15,7 +15,7 @@ Unit UnitTour;
 
 interface
 
-uses SysUtils,UnitType,UnitParam,UnitAff,UnitMarco,Crt;
+uses SysUtils,UnitType,UnitParam,UnitAff,UnitMarco,UnitLegalite,Crt;
 
 Procedure Tourdejeu(jeux : jeu);
 Function Tourdejoueur(jeux : jeu; num_player,num_tour : Integer):jeu;
@@ -27,6 +27,7 @@ Function VerifPioche(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):je
 Function VerifMainVide(jeux : jeu; num_player : Integer):Boolean;
 Function JeuDejoueurssp(jeux : jeu; num_player : integer): jeu;
 Function initMain(jeux : jeu): jeu;
+Function poser1pchoix(jeux : jeu; num_player,p_choisi : Integer): jeu;
 
 implementation
 
@@ -104,21 +105,18 @@ End;
 --------------------------------------------------------*)
 Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher): jeu;
 Var
-    i,j,n1,n2,place_pp : Integer;
+    i,n1,place_pp : Integer;
     p_tmp : piece;
 Begin
-    n2 := length(tbp);          //Prend la taille du tableau contenant l'emplacement des pieces jouées
     For i:=1 to nb_pp do        //Pour chaque pièce jouée, faire
     Begin
-        For j:=0 to n2-1 do       //Pour chaque emplacement de piece jouée
-        Begin
-            n1 := length(jeux.pioches);     //Prends la taille de la pioche
-            place_pp := Random(n1+1);           //Prend la place de piece pioché
-            p_tmp := jeux.pioches[place_pp];        //prends la piece pioché
-            jeux.player[num_player].main[tbp[j]] := p_tmp;      //donne la piece pioché au joueur (à l'emplacement de la pièce jouée)
-            jeux.pioches[place_pp] := jeux.pioches[n1-1];       //Prends la dernière pièce de la pioche et la met à la place de la pièce piochée
-            setlength(jeux.pioches,n1-1);                   //Enlève 1 à la taille de la pioche
-        End;
+        n1 := length(jeux.pioches);     //Prends la taille de la pioche
+        place_pp := Random(n1+1);           //Prend la place de piece pioché
+        p_tmp := jeux.pioches[place_pp];        //prends la piece pioché
+        jeux.player[num_player].main[tbp[i]] := p_tmp;      //donne la piece pioché au joueur (à l'emplacement de la pièce jouée)
+        jeux.pioches[place_pp] := jeux.pioches[n1-1];       //Prends la dernière pièce de la pioche et la met à la place de la pièce piochée
+        setlength(jeux.pioches,n1-1);                   //Enlève 1 à la taille de la pioche
+
     End;
     piocher := jeux;                //Retourne le jeux
 End;
@@ -164,6 +162,46 @@ Begin
 End;
 
 (*--------------------------------------------------------
+- Fonction : poser1pchoix
+- Auteur : Charlie Meyer
+- Date de creation : Mardi 12 Juin 2018
+-
+- But : Faire choisir au joueur où il souhaite poser sa pièce
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Faire choisir au joueur où il souhaite poser sa pièce
+--------------------------------------------------------*)
+Function poser1pchoix(jeux : jeu; num_player,p_choisi : Integer): jeu;
+Var
+    ligne, colonne,p_forme, p_couleur : Integer;
+    actionfinie : Boolean;
+Begin
+    actionfinie := False;
+    p_forme := jeux.player[num_player].main[p_choisi].forme;
+    p_couleur := jeux.player[num_player].main[p_choisi].couleur;
+    While not actionfinie do
+    Begin
+        writeln('Merci de rentrer le numéro de la ligne sur laquelle vous souhaitez poser votre piece');
+        readln(ligne);
+        writeln('Merci de rentrer le numéro de la colonne sur laquelle vous souhaitez poser votre piece');
+        readln(colonne);
+        Inc(ligne,-1);      //Met la valeur ligne sur celle ordinateur
+        Inc(colonne,-1);        //Met la valeur colonne sur celle ordinateur
+        If (LegaliteCoup(jeux,p_couleur,p_forme,ligne,colonne)=1) THEN
+        Begin
+            jeux.grille[ligne,colonne] := jeux.player[num_player].main[p_choisi];
+            actionfinie := True
+        End
+        else
+        begin
+            writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.')
+        end;
+    End;
+    poser1pchoix := Jeux;
+End;
+
+
+(*--------------------------------------------------------
 - Fonction : poser1p
 - Auteur : Charlie Meyer
 - Date de creation : date
@@ -186,12 +224,18 @@ Begin
         writeln('Ecrire le numéro de la pièce que vous souhaitez jouer');       //Ecrit un message d'instruction au joueur
         readln(p_choisi)            //Lis l'emplacement de la pièce choisie
     end;
+    Inc(p_choisi,-1);           //Change pour la valeur ordinateur de la pièce
     setlength(tbp,1);           //Augmente de 1 la taille du tableau contenant les emplacement des pieces jouées
-    tbp[0] := p_choisi-1;       //Stocke l'emplacement de la pièce jouée
+    tbp[0] := p_choisi;       //Stocke l'emplacement de la pièce jouée
     if (VerifMvide(jeux)) then      //Si la grille est vide, alors ...
     begin
-        jeux.grille[milieu,milieu] := jeux.player[num_player].main[p_choisi-1];             //Pose la pièce jouée au milieu
+        jeux.grille[milieu,milieu] := jeux.player[num_player].main[p_choisi];             //Pose la pièce jouée au milieu
         jeux := VerifPioche(jeux,1,num_player,tbp)              //Verifie si la pioche est vide et fait piocher le joueur
+    end
+    else
+    begin
+        jeux := poser1pchoix(jeux,num_player,p_choisi);  //Lance la fonction qui fera choisir au joueur où il veut poser sa pièce
+        jeux := VerifPioche(jeux,1,num_player,tbp);             //Verifie si la pioche est vide et fait piocher le joueur
     end;
     poser1p := jeux;        //Retourne le jeu
 
@@ -302,6 +346,10 @@ Var
     num_player,num_tour,n: Integer;
     EmptyHand : Boolean;
 Begin
+    jeux := CountParam();
+    jeux := initMain(jeux);
+    jeux.player[1].nom := 'Marco';
+    jeux.player[0].nom := 'Charlie';
     EmptyHand := False;              //Dis que la main des joueur n'est pas vide
     n := length(jeux.player);           //Prends le nombre de Joueur
     num_tour := 1;                  //Met le Premier tour en place
@@ -348,9 +396,13 @@ Begin
   else
   begin
     setlength (tbp,6);
+    For i := 0 to 5 do
+    Begin
+        tbp[i]:=i;
+    End;
     For i := 0 to (length(jeux.player)-1) do //parcour le tableau joueur et les fait piocher 1 par 1
     Begin
-     piocher(jeux,6,i,tbp);
+     jeux := VerifPioche(jeux,6,i,tbp);
     End;
   end;
   initMain := jeux; //renvoi le jeux avec les donnes de chaque joueurs
