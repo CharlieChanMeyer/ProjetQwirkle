@@ -33,6 +33,100 @@ Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
 
 implementation
 
+
+(*
+ ------------------------------------------------------------------------------------
+ -- Fonction          : TriBulle
+ -- Auteur            : Guillaume Proton
+ -- Date de creation  : Mercredi 4 Avril 2018
+ --
+ -- But               : Trie un tableau d'entiers dans l'ordre croissant
+ -- Remarques         : Aucune
+ -- Préconditions     : t est un tableau quelconque
+ -- Postconditions    : Trie un tableau d'entiers dans l'ordre croissant
+ ------------------------------------------------------------------------------------
+ *)
+
+FUNCTION TriBulle(t : tabentier):tabentier;
+VAR
+   n,tmp,fin,j : integer;
+   boolechange : boolean;
+BEGIN
+   n := length(t);
+   fin:=n-2;
+   boolechange:=true;
+   While (fin>0) and (boolechange) do
+   BEGIN
+      boolechange:=false;
+      for j:=0 to fin do
+      BEGIN
+	 if (t[j]>t[j+1]) then
+	 BEGIN
+	    tmp :=t[j];
+	    t[j]:=t[j+1];
+	    t[j+1]:=tmp;
+	    boolechange:=true;
+	 END;
+      END;
+      fin:=fin-1;
+   END;
+   TriBulle:=t;
+END;
+
+(*
+ ------------------------------------------------------------------------------------
+ -- Fonction          : InverseOrdre
+ -- Auteur            : Guillaume Proton
+ -- Date de creation  : Lundi 29 Janvier 2018
+ --
+ -- But               : Inverse l'ordre des valeurs dans un tableau
+ -- Remarques         : Aucune
+ -- Préconditions     : Aucune
+ -- Postconditions    : Inverse l'ordre des valeurs dans un tableau
+ ------------------------------------------------------------------------------------
+ *)
+
+FUNCTION InverseOrdre(t	: tabdyn):tabdyn;
+VAR
+   Tinv : tabdyn;
+   i, compteur : Integer;
+BEGIN
+   compteur := 0;
+   setlength(Tinv,length(t));
+   for i:=0 to high(t) do
+   BEGIN
+      Tinv[i]:=t[high(t)-compteur];
+      compteur := compteur + 1
+   END;
+   InverseOrdre := Tinv;
+END;
+
+
+(*
+--------------------------------------------------------
+- Fonction         : prioriteAge
+- Auteur           : Guillaume Proton
+- Date de creation : 12 Juin 2018
+-
+- But              : Renvoie un tableau de joueurs trié par âge décroissant
+- Remarques        : Aucune  
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie un tableau de joueurs trié par âge décroissant
+--------------------------------------------------------*)
+
+Function prioriteAge(jeux:jeu):tabentier;
+Var
+    tableauAge:tabentier;
+Begin
+    setlength(tableauAge,length(jeux.player));           // créer un tableau de la taille du nombre de joueurs
+    for i:=0 to length(tableauAge)-1 do                  // recopier l'âge de chaque joueur dans le tableau 'tableauAge'
+    Begin
+        tableauAge[i]:=jeux.player[i].age
+    End;
+    tableauAge:=TriBulle(tableauAge);                       //Trier le tableau pour avoir les âges dans l'ordre croissant
+    tableauAge:=InverseOrdre(tableauAge);                   // Inverse l'ordre des valeurs du tableau pour avoir les âges des joueurs dans l'ordre décroissant
+    prioriteAge:=tableauAge;
+end;
 (*
 --------------------------------------------------------
 - Fonction         : prioriteJoueur
@@ -48,7 +142,14 @@ Function prioriteJoueur(jeux:jeu):tabjoueur;
 Var
     tabTrie : tabjoueur;
 Begin
-    
+    if (plusGrandeCombinaison d'un joueur = plusGrandeCombinaison d'un autre) then
+    Begin
+        fonction priorite en fonction de l'age
+    End;
+    for i:=0 to length(jeux.player.main)-1 do 
+    Begin
+        
+    end;
 End;
 jeux.player.main[].forme
 Fonction qui compte le nombre de combinaisons de chaque joueur en fonction de sa main
