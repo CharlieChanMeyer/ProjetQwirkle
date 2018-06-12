@@ -172,7 +172,7 @@ Begin
   end
   else
   begin
-    jeux := posePiece(jeux,numJoueur,piecePosee);
+    jeux := posePieces(jeux,numJoueur,piecePosee); //penser a verifier que les pieces sont differentes IMPORTANT
   end;
 End;*)
 
