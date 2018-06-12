@@ -17,7 +17,7 @@ interface
 
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
-Function PrioriteJoueur(jeux:jeu):jeu;
+//Function PrioriteJoueur(jeux:jeu):jeu;
 Function deuxMemesAttributs(jeux:jeu;i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
@@ -33,8 +33,113 @@ Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
 
 implementation
 
-jeux.player.main[].forme
+(*
+--------------------------------------------------------
+- Fonction         : nbPiecesNord
+- Auteur           : Guillaume Proton
+- Date de creation : 7 Juin 2018
+-
+- But              : Renvoie le nombre de pièces "collées" entre elles au nord de la pièce située à la position (i,j)
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie le nombre de pièces "collées" entre elles au nord de la pièce située à la position (i,j)
+--------------------------------------------------------*)
 
+Function nbPiecesNord(jeux:jeu;i,j:integer):integer;
+Var
+    l,ComptePiece : integer;
+Begin
+    ComptePiece:=0;
+    for l:=1 to Max(jeux.parametre.nbforme,jeux.parametre.nbcouleur)-1  do         //Cet itérateur va jusqu'au maximum entre le nombre de couleurs différentes et le nombre de formes différentes présentes dans le jeu et définies dans les paramètres moins 1 car une ligne ne peut dépasser ce nombre maximum
+    Begin
+        if (CaseVide(jeux,i-l,j)=1) then      // s'il y a une pièce dans la case située au-dessus alors ...
+        Begin
+            ComptePiece := ComptePiece +1         // ... on incrémente à chaque fois que la case contient une pièce
+        End
+    End;
+    nbPiecesNord:=ComptePiece;
+End;
+
+(*
+--------------------------------------------------------
+- Fonction         : nbPiecesSud
+- Auteur           : Guillaume Proton
+- Date de creation : 7 Juin 2018
+-
+- But              : Renvoie le nombre de pièces "collées" entre elles au sud de la pièce située à la position (i,j)
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie le nombre de pièces "collées" entre elles au sud de la pièce située à la position (i,j)
+--------------------------------------------------------*)
+
+Function nbPiecesSud(jeux:jeu;i,j:integer):integer;
+Var
+    l,ComptePiece : integer;
+Begin
+    ComptePiece:=0;
+    for l:=1 to Max(jeux.parametre.nbforme,jeux.parametre.nbcouleur)-1  do         //Cet itérateur va jusqu'au maximum entre le nombre de couleurs différentes et le nombre de formes différentes présentes dans le jeu et définies dans les paramètres moins 1 car une ligne ne peut dépasser ce nombre maximum
+    Begin
+        if (CaseVide(jeux,i+l,j)=1) then      // s'il y a une pièce dans la case située au-dessus alors ...
+        Begin
+            ComptePiece := ComptePiece +1         // ... on incrémente à chaque fois que la case contient une pièce
+        End
+    End;
+    nbPiecesSud:=ComptePiece;
+End;
+
+(*
+--------------------------------------------------------
+- Fonction         : nbPiecesOuest
+- Auteur           : Guillaume Proton
+- Date de creation : 7 Juin 2018
+-
+- But              : Renvoie le nombre de pièces "collées" entre elles à l'ouest de la pièce située à la position (i,j)
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie le nombre de pièces "collées" entre elles à l'ouest de la pièce située à la position (i,j)
+--------------------------------------------------------*)
+
+Function nbPiecesOuest(jeux:jeu;i,j:integer):integer;
+Var
+    l,ComptePiece : integer;
+Begin
+    ComptePiece:=0;
+    for l:=1 to Max(jeux.parametre.nbforme,jeux.parametre.nbcouleur)-1  do         //Cet itérateur va jusqu'au maximum entre le nombre de couleurs différentes et le nombre de formes différentes présentes dans le jeu et définies dans les paramètres moins 1 car une ligne ne peut dépasser ce nombre maximum
+    Begin
+        if (CaseVide(jeux,i,j-l)=1) then      // s'il y a une pièce dans la case située au-dessus alors ...
+        Begin
+            ComptePiece := ComptePiece +1         // ... on incrémente à chaque fois que la case contient une pièce
+        End
+    End;
+    nbPiecesOuest:=ComptePiece;
+End;
+
+(*
+--------------------------------------------------------
+- Fonction         : nbPiecesEst
+- Auteur           : Guillaume Proton
+- Date de creation : 7 Juin 2018
+-
+- But              : Renvoie le nombre de pièces "collées" entre elles à l'est de la pièce située à la position (i,j)
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie le nombre de pièces "collées" entre elles à l'est de la pièce située à la position (i,j)
+--------------------------------------------------------*)
+
+Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
+Var
+    l,ComptePiece : integer;
+Begin
+    ComptePiece:=0;
+    for l:=1 to Max(jeux.parametre.nbforme,jeux.parametre.nbcouleur)-1  do         //Cet itérateur va jusqu'au maximum entre le nombre de couleurs différentes et le nombre de formes différentes présentes dans le jeu et définies dans les paramètres moins 1 car une ligne ne peut dépasser ce nombre maximum
+    Begin
+        if (CaseVide(jeux,i,j+l)=1) then      // s'il y a une pièce dans la case située au-dessus alors ...
+        Begin
+            ComptePiece := ComptePiece +1         // ... on incrémente à chaque fois que la case contient une pièce
+        End
+    End;
+    nbPiecesEst:=ComptePiece;
+End;
 
 (*
 --------------------------------------------------------
@@ -54,16 +159,16 @@ Var
 
 Begin
     memeAttribut :=0;
-    for l:=i+nbCasesSud(jeux,i,j) downto i-nbCasesNord(jeux,i,j) do             // parcoure la ligne contenant la pièce à la position (i,j) de haut en bas
+    for l:=i+nbPiecesSud(jeux,i,j) downto i-nbPiecesNord(jeux,i,j) do             // parcoure la ligne contenant la pièce à la position (i,j) de haut en bas
     Begin
-        if (((jeux.grille[i,j].forme=jeux.grille[l,j].forme) or (jeux.grille[i,j].couleur=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
+        if (((jeux.grille[i,j].forme=jeux.grille[l,j].forme) and (jeux.grille[i,j].couleur=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
            memeAttribut := 1
         End;
     End;
-    for l:=j+nbCasesEst(jeux,i,j) downto j-nbcasesOuest(jeux,i,j) do            // parcoure la ligne contenant la pièce à la position (i,j) de gauche à droite
+    for l:=j+nbPiecesEst(jeux,i,j) downto j-nbPiecesOuest(jeux,i,j) do            // parcoure la ligne contenant la pièce à la position (i,j) de gauche à droite
     Begin
-        if (((jeux.grille[i,j].forme=jeux.grille[i,l].forme) or (jeux.grille[i,j].couleur=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
+        if (((jeux.grille[i,j].forme=jeux.grille[i,l].forme) and (jeux.grille[i,j].couleur=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
             memeAttribut:=1
         end;
@@ -159,6 +264,8 @@ Function VerifPieceEst(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 Var
     memeParam : integer;
 Begin
+    writeln (couleur_p);
+    writeln(jeux.grille[i,j+1].couleur);
     if ((couleur_p = jeux.grille[i,j+1].couleur) xor (forme_p = jeux.grille[i,j+1].forme)) then    // "xor" car on ne peut pas jouer une pièce de la même forme et de la même couleur côte à côte
     Begin
         memeParam:=1
@@ -283,114 +390,6 @@ Begin
       maximum:=x2
    End;
    Max:=maximum;
-End;
-
-(*
---------------------------------------------------------
-- Fonction         : nbPiecesNord
-- Auteur           : Guillaume Proton
-- Date de creation : 7 Juin 2018
--
-- But              : Renvoie le nombre de pièces "collées" entre elles au nord de la pièce située à la position (i,j)
-- Remarques        : Aucune
-- Pré conditions   : Aucune
-- Post conditions  : Renvoie le nombre de pièces "collées" entre elles au nord de la pièce située à la position (i,j)
---------------------------------------------------------*)
-
-Function nbPiecesNord(jeux:jeu;i,j:integer):integer;
-Var
-    l,ComptePiece : integer;
-Begin
-    ComptePiece:=0;
-    for l:=1 to Max(jeux.parametre.nbforme,jeux.parametre.nbcouleur)-1  do         //Cet itérateur va jusqu'au maximum entre le nombre de couleurs différentes et le nombre de formes différentes présentes dans le jeu et définies dans les paramètres moins 1 car une ligne ne peut dépasser ce nombre maximum
-    Begin
-        if (CaseVide(jeux,i-l,j)=1) then      // s'il y a une pièce dans la case située au-dessus alors ...
-        Begin
-            ComptePiece := ComptePiece +1         // ... on incrémente à chaque fois que la case contient une pièce
-        End
-    End;
-    nbPiecesNord:=ComptePiece;
-End;
-
-(*
---------------------------------------------------------
-- Fonction         : nbPiecesSud
-- Auteur           : Guillaume Proton
-- Date de creation : 7 Juin 2018
--
-- But              : Renvoie le nombre de pièces "collées" entre elles au sud de la pièce située à la position (i,j)
-- Remarques        : Aucune
-- Pré conditions   : Aucune
-- Post conditions  : Renvoie le nombre de pièces "collées" entre elles au sud de la pièce située à la position (i,j)
---------------------------------------------------------*)
-
-Function nbPiecesSud(jeux:jeu;i,j:integer):integer;
-Var
-    l,ComptePiece : integer;
-Begin
-    ComptePiece:=0;
-    for l:=1 to Max(jeux.parametre.nbforme,jeux.parametre.nbcouleur)-1  do         //Cet itérateur va jusqu'au maximum entre le nombre de couleurs différentes et le nombre de formes différentes présentes dans le jeu et définies dans les paramètres moins 1 car une ligne ne peut dépasser ce nombre maximum
-    Begin
-        if (CaseVide(jeux,i+l,j)=1) then      // s'il y a une pièce dans la case située au-dessus alors ...
-        Begin
-            ComptePiece := ComptePiece +1         // ... on incrémente à chaque fois que la case contient une pièce
-        End
-    End;
-    nbPiecesSud:=ComptePiece;
-End;
-
-(*
---------------------------------------------------------
-- Fonction         : nbPiecesOuest
-- Auteur           : Guillaume Proton
-- Date de creation : 7 Juin 2018
--
-- But              : Renvoie le nombre de pièces "collées" entre elles à l'ouest de la pièce située à la position (i,j)
-- Remarques        : Aucune
-- Pré conditions   : Aucune
-- Post conditions  : Renvoie le nombre de pièces "collées" entre elles à l'ouest de la pièce située à la position (i,j)
---------------------------------------------------------*)
-
-Function nbPiecesOuest(jeux:jeu;i,j:integer):integer;
-Var
-    l,ComptePiece : integer;
-Begin
-    ComptePiece:=0;
-    for l:=1 to Max(jeux.parametre.nbforme,jeux.parametre.nbcouleur)-1  do         //Cet itérateur va jusqu'au maximum entre le nombre de couleurs différentes et le nombre de formes différentes présentes dans le jeu et définies dans les paramètres moins 1 car une ligne ne peut dépasser ce nombre maximum
-    Begin
-        if (CaseVide(jeux,i,j-l)=1) then      // s'il y a une pièce dans la case située au-dessus alors ...
-        Begin
-            ComptePiece := ComptePiece +1         // ... on incrémente à chaque fois que la case contient une pièce
-        End
-    End;
-    nbPiecesOuest:=ComptePiece;
-End;
-
-(*
---------------------------------------------------------
-- Fonction         : nbPiecesEst
-- Auteur           : Guillaume Proton
-- Date de creation : 7 Juin 2018
--
-- But              : Renvoie le nombre de pièces "collées" entre elles à l'est de la pièce située à la position (i,j)
-- Remarques        : Aucune
-- Pré conditions   : Aucune
-- Post conditions  : Renvoie le nombre de pièces "collées" entre elles à l'est de la pièce située à la position (i,j)
---------------------------------------------------------*)
-
-Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
-Var
-    l,ComptePiece : integer;
-Begin
-    ComptePiece:=0;
-    for l:=1 to Max(jeux.parametre.nbforme,jeux.parametre.nbcouleur)-1  do         //Cet itérateur va jusqu'au maximum entre le nombre de couleurs différentes et le nombre de formes différentes présentes dans le jeu et définies dans les paramètres moins 1 car une ligne ne peut dépasser ce nombre maximum
-    Begin
-        if (CaseVide(jeux,i,j+l)=1) then      // s'il y a une pièce dans la case située au-dessus alors ...
-        Begin
-            ComptePiece := ComptePiece +1         // ... on incrémente à chaque fois que la case contient une pièce
-        End
-    End;
-    nbPiecesEst:=ComptePiece;
 End;
 
 END.
