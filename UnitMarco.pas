@@ -134,4 +134,88 @@ Begin
    AffichageMain(jeux,numJoueur);
    echangePioche := jeux;
 End;
+
+(*--------------------------------------------------------
+- Procedure : initPosePieces
+- Auteur : ESPIOT Marco
+- Date de creation : 12/06/2018
+-
+- But : initialise la pose de plusieurs pieces en meme temps
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : But
+--------------------------------------------------------*)
+Procedure initPosePieces(jeux : jeu; numJoueur : integer);
+var
+  n,nbPieceJoue,milieu,pieceMain : integer;
+  piecePosee : pioche;
+Begin
+  Repeat
+    writeln ('Entrez le nombre de pièces à jouer');
+    readln (nbPieceJoue);
+  until ((nbPieceJoue > 0) and (nbPieceJoue < 7) ); //sors de la boucle une fois que le nombre de pièce est entre 1 et 6
+  setlength(piecePosee,nbPieceJoue-1); // le nombre de pieces dans piecePosee est le nombre de piece que le joueur veut poser
+  For i := 0 to (nbPieceJoue-1) do //repete la boucle autant de fois qu'il y a de pièces a poser
+  Begin
+    Repeat
+      writeln('Veuillez sélectionner une pièce a jouer');
+      readln(pieceMain);
+    until ((pieceMain < 7) and (pieceMain > 0)); //vérifie que le numéro de la piece dans la main est valide (donc entre 1 et 6)
+      writeln('Piece enregistrée');
+    piecePosee[i] := jeux.player[numJoueur].main[pieceMain-1]; (*la piéce que le joueur veut poser est stocké dans un tableau
+                                                                afin de verifier la légalité de la combinaison en suivant*)
+  End;
+  if not VerifPose(piecePosee) then
+  begin
+   writeln('les pièces ne sont pas compatibles entre elles, veuillez recommencer');
+   initPosePieces(jeux,numJoueur);
+  end
+  else
+  begin
+    jeux := posePiece(jeux,numJoueur,piecePosee);
+  end;
+End;
+
+(*--------------------------------------------------------
+- Fonction : verifPose
+- Auteur : ESPIOT Marco
+- Date de creation : 12/06/2018
+-
+- But : vérifier que les pieces choisie peuvent etre posées ensembles
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : renvoi vrai si les pieces peuvent etre combinées et faux sinon
+--------------------------------------------------------*)
+Function verifPose(piecePosee : pioche): Boolean;
+Var
+  verif : Boolean;
+  i : integer;
+Begin
+  verif := true;
+  For i := 1 to (length(piecePosee)-1) do
+  Begin
+    if (((piecePosee[i].couleur) <> (piecePosee[i-1].couleur)) And ((piecePosee[i].forme) <> (piecePosee[i-1].forme))) then
+      verif := false;
+  End;
+  verifPose := verif;
+End;
+
 End.
+
+
+
+(*--------------------------------------------------------
+- Fonction : comptePoint
+- Auteur : ESPIOT Marco
+- Date de creation : date
+-
+- But : compte les points a la fin du tour
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : compte les points a la fin du tour
+--------------------------------------------------------
+Function comptePoint(jeux : jeu): jeu;
+Begin
+
+End;
+End.*)
