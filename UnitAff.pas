@@ -48,6 +48,7 @@ Procedure AffichageGreen(p : piece);
 //Procedure Affichage???(p : piece);
 Procedure MenuAction();
 Procedure MenuActionssp();
+Procedure Ecrirenb(nb : integer);
 
 implementation
 
@@ -349,6 +350,30 @@ End;
 
 (*
 --------------------------------------------------------
+- Procedure : Ecrirenb
+- Auteur : Charlie Meyer
+- Date de creation : Mardi 12 Juin 2018
+-
+- But : Afficher le numéro de la ligne ou de la colonne
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Afficher le numéro de la ligne ou de la colonne
+--------------------------------------------------------*)
+
+Procedure Ecrirenb(nb : integer);
+Begin
+    If ((nb>=0) and (nb<10)) THEN
+    Begin
+        write(nb,' ');
+    End
+    else
+    begin
+        write(nb)
+    end;
+End;
+
+(*
+--------------------------------------------------------
 - Procedure : AffichageGrille
 - Auteur : Charlie Meyer
 - Date de creation : Date
@@ -364,20 +389,24 @@ Var
     n,i,j : Integer;
 Begin
     n := length(grille);        //Récupère la taille de la grille
-    For i := -1 to n-1 do        //Pour chaque ligne, faire ...
+    For i := 0 to n do        //Pour chaque ligne, faire ...
     Begin
         Writeln();
-        For j := -1 to n-1 do    //Pour chaque colonne, faire ...
+        For j := 0 to n do    //Pour chaque colonne, faire ...
         Begin
-            if (i = -1) then
+            if (i = 0) then
             begin
-                write(j);
-            end;
-            if (j = -1) then
+                Ecrirenb(j);
+            end
+            else
+            if (j = 0) then
             begin
-                write(i);
+                Ecrirenb(i);
+            end
+            else
+            begin
+                AffichagePiece(grille[i-1,j-1]);    //Affiche la piece à la position i,j
             end;
-            AffichagePiece(grille[i,j]);    //Affiche la piece à la position i,j
             TextColor(Green);               //Reset la Couleur
             write('|');
         End;
