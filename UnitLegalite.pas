@@ -33,73 +33,34 @@ Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
 
 implementation
 
-
 (*
  ------------------------------------------------------------------------------------
- -- Fonction          : TriBulle
+ -- Fonction          : indiceMaxTab
  -- Auteur            : Guillaume Proton
- -- Date de creation  : Mercredi 4 Avril 2018
+ -- Date de creation  : 06/12/2017
  --
- -- But               : Trie un tableau d'entiers dans l'ordre croissant
+ -- But               : renvoie l'indice du maximum d'un tableau	
  -- Remarques         : Aucune
- -- Préconditions     : t est un tableau quelconque
- -- Postconditions    : Trie un tableau d'entiers dans l'ordre croissant
+ -- Pré conditions    : Aucune
+ -- Post conditions   : renvoie l'indice du maximum d'un tableau
  ------------------------------------------------------------------------------------
  *)
-
-FUNCTION TriBulle(t : tabentier):tabentier;
+   
+FUNCTION indiceMaxTab(tab : tabpiocher): Integer;
 VAR
-   n,tmp,fin,j : integer;
-   boolechange : boolean;
+   i,maximum,i_maximum : Integer;
 BEGIN
-   n := length(t);
-   fin:=n-2;
-   boolechange:=true;
-   While (fin>0) and (boolechange) do
+   maximum:=tab[0];
+   i_maximum := 0;                           // par défaut l'indice du maximum correspond à l'indice de la première case
+   FOR i:=0 to length(tab)-1 do
    BEGIN
-      boolechange:=false;
-      for j:=0 to fin do
+      if ((tab[i])>maximum)then             // On teste toutes les valeurs de tab afin de trouver le maximum
       BEGIN
-	 if (t[j]>t[j+1]) then
-	 BEGIN
-	    tmp :=t[j];
-	    t[j]:=t[j+1];
-	    t[j+1]:=tmp;
-	    boolechange:=true;
-	 END;
+        i_maximum:=i;                    // dès que l'on a trouvé le maximum on stocke son indice dans la variable i_maximum   
       END;
-      fin:=fin-1;
+      indiceMaxTab := i_maximum;
    END;
-   TriBulle:=t;
-END;
-
-(*
- ------------------------------------------------------------------------------------
- -- Fonction          : InverseOrdre
- -- Auteur            : Guillaume Proton
- -- Date de creation  : Lundi 29 Janvier 2018
- --
- -- But               : Inverse l'ordre des valeurs dans un tableau
- -- Remarques         : Aucune
- -- Préconditions     : Aucune
- -- Postconditions    : Inverse l'ordre des valeurs dans un tableau
- ------------------------------------------------------------------------------------
- *)
-
-FUNCTION InverseOrdre(t	: tabdyn):tabdyn;
-VAR
-   Tinv : tabdyn;
-   i, compteur : Integer;
-BEGIN
-   compteur := 0;
-   setlength(Tinv,length(t));
-   for i:=0 to high(t) do
-   BEGIN
-      Tinv[i]:=t[high(t)-compteur];
-      compteur := compteur + 1
-   END;
-   InverseOrdre := Tinv;
-END;
+END; 
 
 
 (*
@@ -108,23 +69,26 @@ END;
 - Auteur           : Guillaume Proton
 - Date de creation : 12 Juin 2018
 -
-- But              : Renvoie un tableau de joueurs trié par âge décroissant
+- But              : Renvoie un tableau d'entiers contenant les âges des joueurs avec le premier élément: le maximum du tableau
 - Remarques        : Aucune  
 - Pré conditions   : Aucune
-- Post conditions  : Renvoie un tableau de joueurs trié par âge décroissant
+- Post conditions  : Renvoie un tableau d'entiers contenant les âges des joueurs avec le premier élément: le maximum du tableau
 --------------------------------------------------------*)
 
 Function prioriteAge(jeux:jeu):tabpiocher;
 Var
     tableauAge:tabpiocher;
+    i,indiceMax,maxTableau:=integer;
 Begin
     setlength(tableauAge,length(jeux.player));           // créer un tableau de la taille du nombre de joueurs
     for i:=0 to length(tableauAge)-1 do                  // recopier l'âge de chaque joueur dans le tableau 'tableauAge'
     Begin
         tableauAge[i]:=jeux.player[i].age
     End;
-    tableauAge:=TriBulle(tableauAge);                       //Trier le tableau pour avoir les âges dans l'ordre croissant
-    tableauAge:=InverseOrdre(tableauAge);                   // Inverse l'ordre des valeurs du tableau pour avoir les âges des joueurs dans l'ordre décroissant
+    indiceMax:=indiceMaxTab(tableauAge);                 // on trouve l'indice du maximum     
+    maxTableau:=tableauAge[indiceMax];                               // on échange la valeur du maximum avec la valeur du premier élément du tableau
+    tableauAge[indiceMax]:=tableauAge[0];
+    tableauAge[0]:=maxTableau;
     prioriteAge:=tableauAge;
 end;
 (*
@@ -144,7 +108,7 @@ Var
 Begin
     if (plusGrandeCombinaison d'un joueur = plusGrandeCombinaison d'un autre) then
     Begin
-        fonction priorite en fonction de l'age
+        tabTrie:=prioriteAge
     End;
     for i:=0 to length(jeux.player.main)-1 do 
     Begin
