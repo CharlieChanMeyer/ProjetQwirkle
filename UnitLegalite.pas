@@ -17,7 +17,9 @@ interface
 
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
-Function PrioriteJoueur(jeux:jeu):jeu;
+Function indiceMaxTab(tab : tabpiocher): Integer;
+Function prioriteAge(jeux:jeu):tabpiocher;
+Function prioriteJoueur(jeux:jeu):jeu;
 Function deuxMemesAttributs(jeux:jeu;i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
@@ -108,16 +110,17 @@ Var
 Begin
     if (plusGrandeCombinaison d'un joueur = plusGrandeCombinaison d'un autre) then
     Begin
-        tabTrie:=prioriteAge
+        tabTrie:=prioriteAge(jeux)
     End;
     for i:=0 to length(jeux.player.main)-1 do 
     Begin
         
     end;
 End;
+
+
 jeux.player.main[].forme
 Fonction qui compte le nombre de combinaisons de chaque joueur en fonction de sa main
-Une autre fonction pour faire l''ordre en fonction de l''âge (max d''un tableau dyn qui s''efface comme la pioche au fur et à mesure, création d''un deuxieme tableau dyn qui contiendra les joueurs triés dans l''ordre)  
 
 (*
 --------------------------------------------------------
