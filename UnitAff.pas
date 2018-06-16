@@ -14,16 +14,16 @@
 (*
 ------------------------------------------------------------------------------------
 --Formes :                        -- Couleur :
---1 : ¤                           --1 : TextColor(Red);
---2 : §                           --2 : TextColor(Yellow);
---3 : ♫                           --3 : TextColor(Blue);
---4 : ¶                           --4 : TextColor($808080);
---5 : ♠                           --5 : TextColor(Green);
---6 : ¿                           --6 : TextColor(LightRed);
---7 : Ð                           --7 : TextColor(LightGreen);
---8 : X                           --8 :TextColor(LightBlue);
---9 : Ø                           --9 :
---10 :♣                           --10 :
+--1 : ¤                           --1 : TextColor(1);
+--2 : §                           --2 : TextColor(2);
+--3 : ♫                           --3 : TextColor(3);
+--4 : ¶                           --4 : TextColor(4);
+--5 : ♠                           --5 : TextColor(5);
+--6 : ¿                           --6 : TextColor(6);
+--7 : Ð                           --7 : TextColor(7);
+--8 : X                           --8 : TextColor(8);
+--9 : Ø                           --9 : TextColor(9);
+--10 :♣                           --10 : TextColor(10);
 ------------------------------------------------------------------------------------
 *)
 Unit UnitAff;
@@ -36,16 +36,16 @@ Procedure AffichageMain(jeux : jeu; i : integer);
 Procedure AffichageBase(jeux : jeu ; i : integer);
 Procedure AffichageGrille(grille : plateau);
 Procedure AffichagePiece(p : piece);
-Procedure AffichageRed(p : piece);
-Procedure AffichageLightRed(p : piece);
-Procedure AffichageYellow(p : piece);
-Procedure AffichageBlue(p : piece);
-Procedure AffichageLightBlue(p : piece);
-Procedure AffichageGrey(p : piece);
-Procedure AffichageLightGreen(p : piece);
-Procedure AffichageGreen(p : piece);
-//Procedure Affichage???(p : piece);
-//Procedure Affichage???(p : piece);
+Procedure Affichagec1(p : piece);
+Procedure Affichagec2(p : piece);
+Procedure Affichagec3(p : piece);
+Procedure Affichagec4(p : piece);
+Procedure Affichagec5(p : piece);
+Procedure Affichagec6(p : piece);
+Procedure Affichagec7(p : piece);
+Procedure Affichagec8(p : piece);
+Procedure Affichagec9(p : piece);
+Procedure Affichagec10(p : piece);
 Procedure MenuAction();
 Procedure MenuActionssp();
 Procedure Ecrirenb(nb : integer);
@@ -64,12 +64,12 @@ implementation
 - Post conditions : Afficher une piece rouge
 --------------------------------------------------------*)
 
-Procedure AffichageRed(p : piece);
+Procedure Affichagec1(p : piece);
 Var
     p_forme : Integer;
 Begin
     p_forme := p.forme;     //Récupère la valeur de la forme de la piece
-    TextColor(Red);         //Selection de la couleur rouge pour la piece
+    TextColor(1);         //Selection de la couleur 1 pour la piece
     case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
@@ -97,12 +97,12 @@ End;
 - Post conditions : Afficher une piece orange
 --------------------------------------------------------*)
 
-Procedure AffichageLightRed(p : piece);
+Procedure Affichagec2(p : piece);
 Var
     p_forme : Integer;
 Begin
     p_forme := p.forme;     //Récupère la valeur de la forme de la piece
-    TextColor(LightRed);    //Selection de la couleur rouge clair pour la piece
+    TextColor(2);    //Selection de la couleur 2 pour la piece
     case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
@@ -130,12 +130,12 @@ End;
 - Post conditions : Afficher une piece jaune
 --------------------------------------------------------*)
 
-Procedure AffichageYellow(p : piece);
+Procedure Affichagec3(p : piece);
 Var
     p_forme : Integer;
 Begin
     p_forme := p.forme;     //Récupère la valeur de la forme de la piece
-    TextColor(Yellow);      //Selection de la couleur jaune pour la piece
+    TextColor(3);      //Selection de la couleur 3 pour la piece
     case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
@@ -163,12 +163,12 @@ End;
 - Post conditions : Afficher une piece Bleu
 --------------------------------------------------------*)
 
-Procedure AffichageBlue(p : piece);
+Procedure Affichagec4(p : piece);
 Var
     p_forme : Integer;
 Begin
     p_forme := p.forme;     //Récupère la valeur de la forme de la piece
-    TextColor(Blue);        //Selection de la couleur bleue pour la piece
+    TextColor(4);        //Selection de la couleur 4 pour la piece
     case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
@@ -196,12 +196,12 @@ End;
 - Post conditions : Afficher une piece bleu clair
 --------------------------------------------------------*)
 
-Procedure AffichageLightBlue(p : piece);
+Procedure Affichagec5(p : piece);
 Var
     p_forme : Integer;
 Begin
     p_forme := p.forme;     //Récupère la valeur de la forme de la piece
-    TextColor(LightBlue);   //Selection de la couleur bleu clair pour la piece
+    TextColor(5);   //Selection de la couleur 5 pour la piece
     case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
@@ -229,12 +229,12 @@ End;
 - Post conditions : Afficher une piece grise
 --------------------------------------------------------*)
 
-Procedure AffichageGrey(p : piece);
+Procedure Affichagec6(p : piece);
 Var
     p_forme : Integer;
 Begin
     p_forme := p.forme;     //Récupère la valeur de la forme de la piece
-    TextColor(White);       //Selection de la couleur blanche pour la piece
+    TextColor(6);       //Selection de la couleur 6 pour la piece
     case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
@@ -262,12 +262,12 @@ End;
 - Post conditions : Afficher une piece vert clair
 --------------------------------------------------------*)
 
-Procedure AffichageLightGreen(p : piece);
+Procedure Affichagec7(p : piece);
 Var
     p_forme : Integer;
 Begin
     p_forme := p.forme;     //Récupère la valeur de la forme de la piece
-    TextColor(LightGreen);  //Selection de la couleur vert clair pour la piece
+    TextColor(7);  //Selection de la couleur 7 pour la piece
     case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
@@ -295,12 +295,78 @@ End;
 - Post conditions : Afficher une piece verte
 --------------------------------------------------------*)
 
-Procedure AffichageGreen(p : piece);
+Procedure Affichagec8(p : piece);
 Var
     p_forme : Integer;
 Begin
     p_forme := p.forme;     //Récupère la valeur de la forme de la piece
-    TextColor(Green);       //Selection de la couleur verte pour la piece
+    TextColor(8);       //Selection de la couleur 8 pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
+    end;
+End;
+
+(*
+--------------------------------------------------------
+- Procedure : AffichageGreen
+- Auteur : Charlie Meyer
+- Date de creation : Date
+-
+- But : Afficher une piece verte
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Afficher une piece verte
+--------------------------------------------------------*)
+
+Procedure Affichagec9(p : piece);
+Var
+    p_forme : Integer;
+Begin
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(9);       //Selection de la couleur 9 pour la piece
+    case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
+        1: write('¤ ');
+        2: write('§ ');
+        3: write('♫ ');
+        4: write('¶ ');
+        5: write('♠ ');
+        6: write('¿ ');
+        7: write('Ð ');
+        8: write('X ');
+        9: write('Ø ');
+        10: write('♣ ');
+        else write(' ');
+    end;
+End;
+
+(*
+--------------------------------------------------------
+- Procedure : AffichageGreen
+- Auteur : Charlie Meyer
+- Date de creation : Date
+-
+- But : Afficher une piece verte
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Afficher une piece verte
+--------------------------------------------------------*)
+
+Procedure Affichagec10(p : piece);
+Var
+    p_forme : Integer;
+Begin
+    p_forme := p.forme;     //Récupère la valeur de la forme de la piece
+    TextColor(10);       //Selection de la couleur 10 pour la piece
     case p_forme of         //Affiche la piece en fonction de la valeur de sa forme
         1: write('¤ ');
         2: write('§ ');
@@ -334,16 +400,16 @@ Var
 Begin
     p_couleur := p.couleur;         //Récupère la valeur de la couleur de la piece
     case p_couleur of               //Selection de la couleur de la piece en fonction de sa valeur
-        1 : AffichageRed(p);
-        2 : AffichageYellow(p);
-        3 : AffichageBlue(p);
-        4 : AffichageGrey(p);
-        5 : AffichageGreen(p);
-        6 : AffichageLightRed(p);
-        7 : AffichageLightGreen(p);
-        8 : AffichageLightBlue(p);
-        //9 : Affichage???(p);
-        //10 : Affichage???(p);
+        1 : Affichagec1(p);
+        2 : Affichagec2(p);
+        3 : Affichagec4(p);
+        4 : Affichagec3(p);
+        5 : Affichagec5(p);
+        6 : Affichagec6(p);
+        7 : Affichagec7(p);
+        8 : Affichagec8(p);
+        9 : Affichagec9(p);
+        10 : Affichagec10(p);
         else write('  ');
     end;
 End;
