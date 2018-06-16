@@ -19,6 +19,8 @@ USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
 Function Max(x1,x2:integer):integer;
 Function CptFormeCommun(jeux:jeu;num_joueur:integer):main;
+Function CptCouleurCommun(jeux:jeu;num_joueur:integer):main;
+Function CombiJoueur(jeux:jeu):tabpiocher;
 Function indiceMaxTab(tab : tabpiocher): Integer;
 Function prioriteAge(jeux:jeu):tabpiocher;
 //Function prioriteJoueur(jeux:jeu):jeu;
@@ -191,8 +193,8 @@ Begin
     Begin
         tabCouleur:=CptCouleurCommun(jeux,i);    
         tabForme:=CptFormeCommun(jeux,i);
-        maxTabC:=maxTab(tabCouleur);               // On stocke le nombre maximum de pièces ayant une couleur en commun
-        maxTabF:=maxTab(tabForme);                 // On stocke le nombre maximum de pièces ayant une forme en commun
+        maxTabC:=tabCouleur[indiceMaxTab];               // On stocke le nombre maximum de pièces ayant une couleur en commun
+        maxTabF:=tabForme[indiceMaxTab];                 // On stocke le nombre maximum de pièces ayant une forme en commun
         combinaisonMax:=Max(maxTabC,maxTabF);      // On prend le maximum entre ces deux nombres afin d'avoir le plus grand nombre de pièces ayant un attribut en commun pour le joueur 0
         tabCombinaison[i]:=combinaisonMax;         // On remplit le tableau de la taille du nombre de joueurs avec le maximum de pièces ayant un attribut en commun pour chaque joueur
     end;
@@ -322,8 +324,6 @@ Begin
         Begin
             tabOrdreJoueur[0]:= jeux.player[StructureAA.indice_mmValeurJoueurY]
         End;
-    
-    
     
     
     End
