@@ -207,18 +207,29 @@ End;
  -- Auteur            : Guillaume Proton
  -- Date de creation  : 06/12/2017
  --
- -- But               : renvoie TRUE s'il y a plusieurs fois la même valeur dans un tableau sinon FALSE
+ -- But               : renvoie 1 s'il y a plusieurs fois la même valeur dans un tableau sinon 0
  -- Remarques         : Aucune
  -- Pré conditions    : Aucune
- -- Post conditions   : renvoie TRUE s'il y a plusieurs fois la même valeur dans un tableau sinon FALSE
+ -- Post conditions   : renvoie 1 s'il y a plusieurs fois la même valeur dans un tableau sinon 0
  ------------------------------------------------------------------------------------
  *)
 
-Function memeValTab(tab:tabpiocher):boolean;
+Function memeValTab(tab:tabpiocher):integer;
 var
-    memeValeur:boolean;
+    memeValeur:integer;
 Begin
-
+    memeValeur:=0;
+    for i:=0 to 5 do
+    Begin
+        for j:=0 to 5 do
+        Begin
+            if ((i<>j) and (tab[i]=tab[j])) then
+            Begin
+                memeValeur:=1
+            end;
+        End;
+    end;
+    memeValTab:=memeValeur;
 End;
 
 
@@ -294,16 +305,41 @@ end;
 --------------------------------------------------------*)
 Function prioriteJoueur(jeux:jeu):tabjoueur;
 Var
-    tabTrie : tabjoueur;
+    tabCombi : tabpiocher;
+    tabOrdreJoueur : tabjoueur;
 Begin
-    if (plusGrandeCombinaison d'un joueur = plusGrandeCombinaison d'un autre) then
+    setlength(tabCombi,length(jeux.player));
+    setlength(tabOrdreJoueur,length(jeux.player)); 
+    tabCombi:=CombiJoueur(jeux);                       //tabTrie va prendre les valeurs du maximum de pièces ayant un attribut en commun pour chaque joueur
+    StructureAA:=memeVal(tabCombi);
+    if (StructureAA.mmValeur=1) then                      // si plusieurs joueurs on le même nombre de pièces ayant un attribut en commun alors le plus grand commence donc on le place au début du tableau
     Begin
-        tabTrie:=prioriteAge(jeux)
+        if ((jeux.player[StrctureAA.indice_mmvaleurJoueurX].age)>=(jeux.player[StrctureAA.indice_mmvaleurJoueurY].age)) then        //">=" pour que si deux joueurs ont le même âge et le plus grand nombre de pièce ayant un attribut commun égal alors le joueur ayant rentrer ses informations en premier au lancement du jeu commence
+        Begin
+            tabOrdreJoueur[0]:= jeux.player[StructureAA.indice_mmValeurJoueurX]
+        End
+        else
+        Begin
+            tabOrdreJoueur[0]:= jeux.player[StructureAA.indice_mmValeurJoueurY]
+        End;
+    
+    
+    
+    
+    End
+    Else                                        // s'il n'y a pas plusieurs mêmes valeurs maximum alors
+    begin
+        i_maxCombi:=indiceMaxTab(tabCombi);
+        tabOrdreJoueur[0]:=jeux.player[i_maxCombi];   // On place le joueur ayant le maximum de pièces avec un attribut commun dans la première case du tableau final
+        for i:=0 to length(jeux.player)-1 do
+        Begin
+            tabOrdreJoueur[i]:=jeux.player[i]         // On recopie le tableau du nombre de combinaisons de chaque joueur 
+        End;
+        tmp:=tabOrdreJoueur[0];
+        tabOrdreJoueur[0] := tabOrdreJoueur[i_maxCombi];
+        tabOrdreJoueur[i_maxCombi] := tmp;
     End;
-    for i:=0 to length(jeux.player.main)-1 do
-    Begin
-
-    end;
+    prioriteJoueur:=tabOrdreJoueur;
 End;
 
 (*
