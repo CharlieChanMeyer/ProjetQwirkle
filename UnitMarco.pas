@@ -29,6 +29,9 @@ Function initJoueur(nbJoueur : integer; jeux : jeu): jeu;
 Function verifTaille(jeux : jeu): jeu;
 (*Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean; obsolete*)
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
+//Procedure initPosePieces(jeux : jeu; numJoueur : integer);
+Function verifPose(piecePosee : pioche): Boolean;
+Function formeOuCouleur(piecePosee : pioche; verif : Boolean): Boolean;
 
 
 implementation
@@ -110,7 +113,7 @@ Var
 --------------------------------------------------------*)
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
 var
-  i, j, nbPiece, numpiece, numPieceMain : integer;
+  i, nbPiece, numpiece, numPieceMain : integer;
   attente, dejaPioche : pioche;
 Begin
   Randomize();
@@ -144,7 +147,7 @@ End;
 - Remarques : remarques éventuelles
 - Pré conditions : Préconditions
 - Post conditions : But
---------------------------------------------------------
+--------------------------------------------------------*)
 Procedure initPosePieces(jeux : jeu; numJoueur : integer);
 var
   n,nbPieceJoue,milieu,pieceMain : integer;
@@ -154,7 +157,7 @@ Begin
     writeln ('Entrez le nombre de pièces à jouer');
     readln (nbPieceJoue);
   until ((nbPieceJoue > 0) and (nbPieceJoue < 7) ); //sors de la boucle une fois que le nombre de pièce est entre 1 et 6
-  setlength(piecePosee,nbPieceJoue-1); // le nombre de pieces dans piecePosee est le nombre de piece que le joueur veut poser
+  setlength(piecePosee,nbPieceJoue); // le nombre de cases dans piecePosee est le nombre de pieces que le joueur veut poser
   For i := 0 to (nbPieceJoue-1) do //repete la boucle autant de fois qu'il y a de pièces a poser
   Begin
     Repeat
@@ -162,8 +165,8 @@ Begin
       readln(pieceMain);
     until ((pieceMain < 7) and (pieceMain > 0)); //vérifie que le numéro de la piece dans la main est valide (donc entre 1 et 6)
       writeln('Piece enregistrée');
-    piecePosee[i] := jeux.player[numJoueur].main[pieceMain-1]; la piéce que le joueur veut poser est stocké dans un tableau
-                                                                afin de verifier la légalité de la combinaison en suivant
+    piecePosee[i] := jeux.player[numJoueur].main[pieceMain-1]; //la piéce que le joueur veut poser est stocké dans un tableau
+                                                              //afin de verifier la légalité de la combinaison en suivant
   End;
   if not VerifPose(piecePosee) then
   begin
@@ -172,9 +175,9 @@ Begin
   end
   else
   begin
-    jeux := posePieces(jeux,numJoueur,piecePosee); //penser a verifier que les pieces sont differentes IMPORTANT
+    jeux := posePieces(jeux,numJoueur,piecePosee);
   end;
-End;*)
+End;
 
 (*--------------------------------------------------------
 - Fonction : verifPose
@@ -189,15 +192,56 @@ End;*)
 Function verifPose(piecePosee : pioche): Boolean;
 Var
   verif : Boolean;
-  i : integer;
+  i,j : integer;
 Begin
   verif := true;
-  For i := 1 to (length(piecePosee)-1) do
+  verif := formeOuCouleur(piecePosee, verif);
+
+  For i := 1 to (length(piecePosee)-1) do //boucle parcourant le tableau contenant les pieces à poser
   Begin
-    if (((piecePosee[i].couleur) <> (piecePosee[i-1].couleur)) And ((piecePosee[i].forme) <> (piecePosee[i-1].forme))) then
-      verif := false;
+    for j := i to (length(piecePosee)-1) do //boucle qui part de la piece en cours de verification et qui la compare a toute celles d'après
+      Begin
+       if ((piecePosee[i].forme = piecePosee[j].forme) and (piecePosee[i].couleur = piecePosee[j].couleur)) then //vérifie que les pièces ne soient pas identiques
+       verif := false;
+      End;
   End;
   verifPose := verif;
+End;
+ (*--------------------------------------------------------
+ - Fonction : formeOuCouleur
+ - Auteur : ESPIOT Marco
+ - Date de creation : 16/06/2018
+ -
+ - But : verifier que l'on a ques des pieces de meme couleur ou de meme forme
+ - Remarques : remarques éventuelles
+ - Pré conditions : Préconditions
+ - Post conditions : renvoi true si le but est vérifié, false sinon
+ --------------------------------------------------------*)
+Function formeOuCouleur(piecePosee : pioche; verif : Boolean): Boolean;
+Var
+   i : Integer;
+Begin
+   if (piecePosee[0].forme) <> (piecePosee[1].forme) then //si les 2 premieres pieces ont une forme différente alors
+   begin
+     For i := 0 to (length(piecePosee)-1) do
+     Begin
+       if (piecePosee[0].couleur) <> (piecePosee[i].couleur) then //on vérifie que toutes les pièces soit de la meme couleur
+       begin
+         verif := false; //verif est false si ce n'est pas le cas
+       end;
+     End;
+   end
+   else if (piecePosee[0].couleur) <> (piecePosee[1].couleur) then //si les 2 premieres pieces ont une couleur différente alors
+   begin
+     For i := 0 to (length(piecePosee)-1) do
+     Begin
+       if (piecePosee[0].forme) <> (piecePosee[i].forme) then //on vérifie que toutes les pièces aient la meme forme
+       begin
+         verif := false; //verif est false si ce n'est pas le cas
+       end;
+     End;
+   end;
+   formeOuCouleur := verif;
 End;
 
 End.
