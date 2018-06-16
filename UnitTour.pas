@@ -77,10 +77,14 @@ Var
     i,n1,n2 : Integer;
 Begin
     n1 := length(jeux.pioches);         //n1 prend la taille de la pioche
+    writeln('Pioche Restante : ',n1);
     n2 := length(tbp);                  //n2 prend la taille du tableau contenant la position des pieces jouées
+    writeln('Pieces à piocher restante : ',n2);
     if (n1<>0) THEN                     //Si la pioche n'est pas vide alors ...
     Begin
+        writeln('Presque OK');
         jeux := piocher(jeux,nb_pp,num_player,tbp);         //Fait piocher le joueur du nombre de pieces qu'il a joué
+        writeln('OK');
     End
     else                                //Sinon ...
     begin
@@ -105,18 +109,23 @@ End;
 --------------------------------------------------------*)
 Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher): jeu;
 Var
-    i,n1,place_pp : Integer;
+    i,n1,n2,place_pp : Integer;
     p_tmp : piece;
 Begin
     For i:=1 to nb_pp do        //Pour chaque pièce jouée, faire
     Begin
         n1 := length(jeux.pioches);     //Prends la taille de la pioche
+        writeln('Pioche : ',n1);
         place_pp := Random(n1+1);           //Prend la place de piece pioché
         p_tmp := jeux.pioches[place_pp];        //prends la piece pioché
+        writeln('OK Pioche 1');
         jeux.player[num_player].main[tbp[i]] := p_tmp;      //donne la piece pioché au joueur (à l'emplacement de la pièce jouée)
+        writeln('OK Pioche 2');
         jeux.pioches[place_pp] := jeux.pioches[n1-1];       //Prends la dernière pièce de la pioche et la met à la place de la pièce piochée
-        setlength(jeux.pioches,n1-1);                   //Enlève 1 à la taille de la pioche
-
+        writeln('OK Pioche 3');
+        n2 := n1-1;
+        setlength(jeux.pioches,n2);                   //Enlève 1 à la taille de la pioche
+        writeln('OK Pioche 4');
     End;
     piocher := jeux;                //Retourne le jeux
 End;
@@ -194,7 +203,7 @@ Begin
         End
         else
         begin
-            writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.')     //Sinon, dit que l'action n'est pas valide et boucle 
+            writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.')     //Sinon, dit que l'action n'est pas valide et boucle
         end;
     End;
     poser1pchoix := Jeux;           //Retourne le plateau
@@ -385,9 +394,10 @@ End;
 Function initMain(jeux : jeu): jeu;
 var
 tbp : tabpiocher;
-i: integer;
+i,n: integer;
 
 Begin
+    writeln('OK MARCO');
   if ((length(jeux.player)*6) > (length(jeux.pioches))) then //condition d'arret
   begin
     writeln ('Erreur, pas assez de pièces pour tout les joueurs');
@@ -395,16 +405,22 @@ Begin
   end
   else
   begin
+      writeln('OK MARCO 2');
     setlength (tbp,6);
     For i := 0 to 5 do
     Begin
         tbp[i]:=i;
     End;
-    For i := 0 to (length(jeux.player)-1) do //parcour le tableau joueur et les fait piocher 1 par 1
+    writeln('OK MARCO 3');
+    n := length(jeux.player)-1;
+    writeln(n);
+    For i := 0 to n do //parcour le tableau joueur et les fait piocher 1 par 1
     Begin
      jeux := VerifPioche(jeux,6,i,tbp);
+        writeln('OK MARCO 4');
     End;
   end;
+  writeln('OK MARCO FIN');
   initMain := jeux; //renvoi le jeux avec les donnes de chaque joueurs
 End;
 

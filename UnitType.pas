@@ -51,6 +51,11 @@ TYPE
 
     tabpiocher = array of Integer;
 
+    modifparam = RECORD
+        jeux : jeu;
+        modif : Boolean;
+    END;
+
 
 implementation
 
