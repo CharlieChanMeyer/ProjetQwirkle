@@ -176,28 +176,28 @@ Var
     ligne, colonne,p_forme, p_couleur : Integer;
     actionfinie : Boolean;
 Begin
-    actionfinie := False;
-    p_forme := jeux.player[num_player].main[p_choisi].forme;
-    p_couleur := jeux.player[num_player].main[p_choisi].couleur;
-    While not actionfinie do
+    actionfinie := False;               //dit que l'action n'est pas finie
+    p_forme := jeux.player[num_player].main[p_choisi].forme;            //prends la valeur de la forme de la pièce choisie
+    p_couleur := jeux.player[num_player].main[p_choisi].couleur;        //prends la valeur de la couleur de la forme choisie
+    While not actionfinie do                    //Tant que l'action n'est pas finie
     Begin
-        writeln('Merci de rentrer le numéro de la ligne sur laquelle vous souhaitez poser votre piece');
+        writeln('Merci de rentrer le numéro de la ligne sur laquelle vous souhaitez poser votre piece');        //Demande au joueur le numéro de la ligne sur laquelle il veut jouer la pièce
         readln(ligne);
-        writeln('Merci de rentrer le numéro de la colonne sur laquelle vous souhaitez poser votre piece');
+        writeln('Merci de rentrer le numéro de la colonne sur laquelle vous souhaitez poser votre piece');      //Demande au joueur le numéro de la colonne sur laquelle il veut jouer la pièce
         readln(colonne);
         Inc(ligne,-1);      //Met la valeur ligne sur celle ordinateur
         Inc(colonne,-1);        //Met la valeur colonne sur celle ordinateur
-        If (LegaliteCoup(jeux,p_couleur,p_forme,ligne,colonne)=1) THEN
+        If (LegaliteCoup(jeux,p_couleur,p_forme,ligne,colonne)=1) THEN              //Vérifie si le coup demandé est valide
         Begin
-            jeux.grille[ligne,colonne] := jeux.player[num_player].main[p_choisi];
-            actionfinie := True
+            jeux.grille[ligne,colonne] := jeux.player[num_player].main[p_choisi];       //Si valide, alors place la pièce choisie
+            actionfinie := True                                                         //et dit que l'action est finie
         End
         else
         begin
-            writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.')
+            writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.')     //Sinon, dit que l'action n'est pas valide et boucle 
         end;
     End;
-    poser1pchoix := Jeux;
+    poser1pchoix := Jeux;           //Retourne le plateau
 End;
 
 
