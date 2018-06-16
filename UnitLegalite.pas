@@ -17,6 +17,8 @@ interface
 
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
+Function Max(x1,x2:integer):integer;
+Function CptFormeCommun(jeux:jeu;num_joueur:integer):main;
 Function indiceMaxTab(tab : tabpiocher): Integer;
 Function prioriteAge(jeux:jeu):tabpiocher;
 //Function prioriteJoueur(jeux:jeu):jeu;
@@ -27,7 +29,6 @@ Function VerifPieceEst(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 Function VerifPieceNord(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 Function VerifPieceOuest(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 Function VerifPieceSud(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
-Function Max(x1,x2:integer):integer;
 Function nbPiecesNord(jeux:jeu;i,j:integer):integer;
 Function nbPiecesSud(jeux:jeu;i,j:integer):integer;
 Function nbPiecesOuest(jeux:jeu;i,j:integer):integer;
@@ -36,15 +37,72 @@ Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
 implementation
 
 (*
+--------------------------------------------------------
+- Fonction         : Max
+- Auteur           : Guillaume Proton
+- Date de creation : 11 Juin 2018
+-
+- But              : Renvoie le maximum entre deux entiers
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie le maximum entre deux entiers
+--------------------------------------------------------*)
+
+Function Max(x1,x2 : integer):integer;
+Var
+   maximum : integer;
+Begin
+   if (x1>x2) then
+   Begin
+      maximum:=x1;
+   end
+   else
+   Begin
+      maximum:=x2
+   End;
+   Max:=maximum;
+End;
+
+
+(*
  ------------------------------------------------------------------------------------
- -- Fonction          : CompteAttributCommun
+ -- Fonction          : maxTab
+ -- Auteur            : Guillaume Proton
+ -- Date de creation  : 01/12/2017
+ --
+ -- But               : Retourne le maximum d'un tableau d'entiers
+ -- Remarques         : Aucune
+ -- Pré conditions    : le tableau doit être initialisé
+ -- Post conditions   : Retourne le maximum d'un tableau d'entiers
+ ------------------------------------------------------------------------------------
+ *)
+
+Function maxTab(tab : tabpiocher):integer;
+Var
+   maximum, i : Integer;
+Begin	     
+   maximum := tab[0];
+   FOR i:=1 to length(tab)-1 do
+   BEGIN
+      if ((tab[i])>maximum)then
+      Begin
+        maximum := tab[i];
+      End;
+   end;
+    maxTab:=maximum;
+End;
+
+
+(*
+ ------------------------------------------------------------------------------------
+ -- Fonction          : CptFormeCommun
  -- Auteur            : Guillaume Proton
  -- Date de creation  : 16 Juin 2018
  --
- -- But               : renvoie un tableau d'entiers de taille 6 qui contient dans chaque case le nombre de pièces ayant la même couleur selon le numéro de la pièce ( de la pièce 0 jusqu'à la pièce 5)
+ -- But               : renvoie un tableau d'entiers de taille 6 qui contient dans chaque case le nombre de pièces ayant la même forme selon le numéro de la pièce ( de la pièce 0 jusqu'à la pièce 5)
  -- Remarques         : Aucune
  -- Pré conditions    : Aucune
- -- Post conditions   : renvoie un tableau d'entiers de taille 6 qui contient dans chaque case le nombre de pièces ayant la même couleur selon le numéro de la pièce ( de la pièce 0 jusqu'à la pièce 5)
+ -- Post conditions   : renvoie un tableau d'entiers de taille 6 qui contient dans chaque case le nombre de pièces ayant la même forme selon le numéro de la pièce ( de la pièce 0 jusqu'à la pièce 5)
  ------------------------------------------------------------------------------------
  *)
  
@@ -73,7 +131,7 @@ Begin
 End;
 (*
  ------------------------------------------------------------------------------------
- -- Fonction          : CompteAttributCommun
+ -- Fonction          : CptCouleurCommun
  -- Auteur            : Guillaume Proton
  -- Date de creation  : 16 Juin 2018
  --
@@ -121,16 +179,49 @@ End;
  -- Post conditions   : renvoie le nombre le plus élévé de pièces ayant un attribut en commun qu'un joueur détient
  ------------------------------------------------------------------------------------
  *)
- 
- Function CombiJoueur0(jeux:jeu):integer;
- Var
-    compteur:integer;
- Begin
-    cptCouleur_p0:=CptCouleurCommunP0(jeux,0)                                // "compteur couleur pièce 0" prend la valeur du nombre de pièces ayant une couleur en commun avec la pièce 0
 
- End;
+Function CombiJoueur(jeux:jeu):tabpiocher;
+Var
+    maxTabC, maxTabF:integer;
+    tabCouleur,tabForme:main;
+    tabCombinaison:tabpiocher;                          // tableau dynamique car on ne connait pas le nombre de joueurs à l'avance
+Begin
+    setlength(tabCombinaison,length(jeux.player));        // On initialise le tableau dynamique qui contiendra à chaque case le plus grand nombre de pièces ayant un attribut commun selon chaque joueur
+    for i:=0 to length(jeux.player)-1 do
+    Begin
+        tabCouleur:=CptCouleurCommun(jeux,i);    
+        tabForme:=CptFormeCommun(jeux,i);
+        maxTabC:=maxTab(tabCouleur);               // On stocke le nombre maximum de pièces ayant une couleur en commun
+        maxTabF:=maxTab(tabForme);                 // On stocke le nombre maximum de pièces ayant une forme en commun
+        combinaisonMax:=Max(maxTabC,maxTabF);      // On prend le maximum entre ces deux nombres afin d'avoir le plus grand nombre de pièces ayant un attribut en commun pour le joueur 0
+        tabCombinaison[i]:=combinaisonMax;         // On remplit le tableau de la taille du nombre de joueurs avec le maximum de pièces ayant un attribut en commun pour chaque joueur
+    end;
+    CombiJoueur:=tabCombinaison;
+End;
 
-6 compteurs puis max des 6 ? MAX TAB
+
+
+(*
+ ------------------------------------------------------------------------------------
+ -- Fonction          : memeValTab
+ -- Auteur            : Guillaume Proton
+ -- Date de creation  : 06/12/2017
+ --
+ -- But               : renvoie TRUE s'il y a plusieurs fois la même valeur dans un tableau sinon FALSE
+ -- Remarques         : Aucune
+ -- Pré conditions    : Aucune
+ -- Post conditions   : renvoie TRUE s'il y a plusieurs fois la même valeur dans un tableau sinon FALSE
+ ------------------------------------------------------------------------------------
+ *)
+
+Function memeValTab(tab:tabpiocher):boolean;
+var
+    memeValeur:boolean;
+Begin
+
+End;
+
+
 
 (*
  ------------------------------------------------------------------------------------
@@ -200,7 +291,7 @@ end;
 - Remarques        : Aucune
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie un tableau de joueurs trié dans l'ordre dans lequel ils vont jouer (le joueur 0 va jouer en premier puis le joueur 1, etc ...)
---------------------------------------------------------
+--------------------------------------------------------*)
 Function prioriteJoueur(jeux:jeu):tabjoueur;
 Var
     tabTrie : tabjoueur;
@@ -213,11 +304,7 @@ Begin
     Begin
 
     end;
-End;*)
-
-
-//jeux.player.main[].forme
-//Fonction qui compte le nombre de combinaisons de chaque joueur en fonction de sa main
+End;
 
 (*
 --------------------------------------------------------
@@ -554,34 +641,6 @@ Begin
         memeParam:=0;
     end;
     VerifPieceSud:=memeParam;
-End;
-
-
-(*
---------------------------------------------------------
-- Fonction         : Max
-- Auteur           : Guillaume Proton
-- Date de creation : 11 Juin 2018
--
-- But              : Renvoie le maximum entre deux entiers
-- Remarques        : Aucune
-- Pré conditions   : Aucune
-- Post conditions  : Renvoie le maximum entre deux entiers
---------------------------------------------------------*)
-
-Function Max(x1,x2 : integer):integer;
-Var
-   maximum : integer;
-Begin
-   if (x1>x2) then
-   Begin
-      maximum:=x1;
-   end
-   else
-   Begin
-      maximum:=x2
-   End;
-   Max:=maximum;
 End;
 
 END.
