@@ -109,7 +109,7 @@ End;
 --------------------------------------------------------*)
 Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher): jeu;
 Var
-    i,n1,n2,place_pp : Integer;
+    i,n1,place_pp : Integer;
     p_tmp : piece;
 Begin
     For i:=1 to nb_pp do        //Pour chaque pièce jouée, faire
@@ -123,8 +123,7 @@ Begin
         writeln('OK Pioche 2');
         jeux.pioches[place_pp] := jeux.pioches[n1-1];       //Prends la dernière pièce de la pioche et la met à la place de la pièce piochée
         writeln('OK Pioche 3');
-        n2 := n1-1;
-        setlength(jeux.pioches,n2);                   //Enlève 1 à la taille de la pioche
+        setlength(jeux.pioches,n1-1);                   //Enlève 1 à la taille de la pioche
         writeln('OK Pioche 4');
     End;
     piocher := jeux;                //Retourne le jeux
