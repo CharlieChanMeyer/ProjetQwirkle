@@ -20,7 +20,7 @@ USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 Function indiceMaxTab(tab : tabpiocher): Integer;
 Function prioriteAge(jeux:jeu):tabpiocher;
 //Function prioriteJoueur(jeux:jeu):jeu;
-Function deuxMemesAttributs(jeux:jeu;i,j:integer):integer;
+Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
 Function VerifPieceEst(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
@@ -243,7 +243,7 @@ End;
 - Post conditions  : Renvoie 1 s'il y a deux fois le même attribut sur la même ligne sinon 0
 --------------------------------------------------------*)
 
-Function deuxMemesAttributs(jeux:jeu;i,j : integer):integer;
+Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j : integer):integer;
 Var
     l, memeAttribut:integer;
 
@@ -252,10 +252,10 @@ Begin
     for l:=i+nbPiecesSud(jeux,i,j) downto i-nbPiecesNord(jeux,i,j) do             // parcoure la ligne contenant la pièce à la position (i,j) de haut en bas
     Begin
         //FAUT RECUPERER LA COULEUR ET LA FORME DE LA PIECE JOUER ET NON DE LA GRILLE
-        writeln('Piece en ',l,'|',j,'Forme identique : ',jeux.grille[i,j].forme=jeux.grille[l,j].forme,' | Couleur Identique : ',jeux.grille[i,j].couleur=jeux.grille[l,j].couleur);
-        writeln(jeux.grille[i,j].forme,' | ',jeux.grille[l,j].forme);
-        writeln(jeux.grille[i,j].couleur,' | ',jeux.grille[l,j].couleur);
-        if (((jeux.grille[i,j].forme=jeux.grille[l,j].forme) and (jeux.grille[i,j].couleur=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
+        writeln('Piece en ',l,'|',j,'Forme identique : ',forme_p=jeux.grille[l,j].forme,' | Couleur Identique : ',couleur_p=jeux.grille[l,j].couleur);
+        writeln(forme_p,' | ',jeux.grille[l,j].forme);
+        writeln(couleur_p,' | ',jeux.grille[l,j].couleur);
+        if (((forme_p=jeux.grille[l,j].forme) and (couleur_p=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
             writeln('Piece en ',l,' : OK');
            memeAttribut := 1
@@ -263,7 +263,7 @@ Begin
     End;
     for l:=j+nbPiecesEst(jeux,i,j) downto j-nbPiecesOuest(jeux,i,j) do            // parcoure la ligne contenant la pièce à la position (i,j) de gauche à droite
     Begin
-        if (((jeux.grille[i,j].forme=jeux.grille[i,l].forme) and (jeux.grille[i,j].couleur=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
+        if (((forme_p=jeux.grille[i,l].forme) and (couleur_p=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
             writeln('Piece en ',l,' : OK');
             memeAttribut:=1
@@ -335,7 +335,7 @@ Begin
     Begin
         CoupLegal:=0;               // coup impossible car il y a déjà une pièce à cette position
     End;
-    if (deuxMemesAttributs(jeux,i,j)=1) then  // s'il y a deux fois le même attribut sur la même ligne alors le coup n'est pas valide
+    if (deuxMemesAttributs(jeux,couleur_p,forme_p,i,j)=1) then  // s'il y a deux fois le même attribut sur la même ligne alors le coup n'est pas valide
     Begin
         CoupLegal:=0
     end;
