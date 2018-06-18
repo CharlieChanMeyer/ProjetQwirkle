@@ -21,7 +21,7 @@ USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 //Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
 //Function CombiJoueur(jeux:jeu):tabpiocher;
 //Function indiceMaxTab(tab : tabpiocher): Integer;
-//Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmval:resMemeValeurPos):tabjoueur;
+//Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
 //Function prioriteJoueur(jeux:jeu):jeu;
 Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
@@ -128,7 +128,7 @@ End;*)
 
 (*Function CombiJoueur(jeux:jeu):tabpiocher;
 Var
-    maxTabC, maxTabF:integer;
+    maxTabC, maxTabF, combinaisonMax:integer;
     tabCouleur,tabForme:tabpiocher;
     tabCombinaison:tabpiocher;                          // tableau dynamique car on ne connait pas le nombre de joueurs à l'avance
 Begin
