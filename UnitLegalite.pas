@@ -18,12 +18,12 @@ interface
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
 Function Max(x1,x2:integer):integer;
-//Function CptFormeCommun(jeux:jeu;num_joueur:integer):main;
-//Function CptCouleurCommun(jeux:jeu;num_joueur:integer):main;
-//Function CombiJoueur(jeux:jeu):tabpiocher;
-//Function indiceMaxTab(tab : tabpiocher): Integer;
-Function prioriteAge(jeux:jeu):tabpiocher;
-//Function prioriteJoueur(jeux:jeu):jeu;
+Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
+Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
+Function CombiJoueur(jeux:jeu):tabpiocher;
+Function indiceMaxTab(tab : tabpiocher): Integer;
+Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmval:resMemeValeurPos):tabjoueur;
+Function prioriteJoueur(jeux:jeu):jeu;
 Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
@@ -108,7 +108,7 @@ End;
  ------------------------------------------------------------------------------------
  *)
 
-(*Function CptFormeCommun(jeux:jeu;num_joueur:integer):main;
+Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
 var
     i:integer;
     tabForme:tabpiocher;
@@ -130,7 +130,8 @@ Begin
         end;
     end;
     CptFormeCommun:=tabForme;
-End;*)
+End;
+
 (*
  ------------------------------------------------------------------------------------
  -- Fonction          : CptCouleurCommun
@@ -144,7 +145,7 @@ End;*)
  ------------------------------------------------------------------------------------
  *)
 
-(*Function CptCouleurCommun(jeux:jeu;num_joueur:integer):main;
+Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
 var
     i:integer;
     tabCouleur:tabpiocher;
@@ -166,7 +167,7 @@ Begin
         end;
     end;
     CptCouleurCommun:=tabCouleur;
-End;*)
+End;
 
 
 (*
@@ -175,17 +176,17 @@ End;*)
  -- Auteur            : Guillaume Proton
  -- Date de creation  : 16 Juin 2018
  --
- -- But               : renvoie le nombre le plus élévé de pièces ayant un attribut en commun qu'un joueur détient
+ -- But               : renvoie un tableau d'entiers contenant le maximum de pièces ayant un attribut en commun pour chaque joueur 
  -- Remarques         : Aucune
  -- Pré conditions    : Aucune
- -- Post conditions   : renvoie le nombre le plus élévé de pièces ayant un attribut en commun qu'un joueur détient
+ -- Post conditions   : renvoie un tableau d'entiers contenant le maximum de pièces ayant un attribut en commun pour chaque joueur 
  ------------------------------------------------------------------------------------
  *)
 
-(*Function CombiJoueur(jeux:jeu):tabpiocher;
+Function CombiJoueur(jeux:jeu):tabpiocher;
 Var
     maxTabC, maxTabF:integer;
-    tabCouleur,tabForme:main;
+    tabCouleur,tabForme:tabpiocher;
     tabCombinaison:tabpiocher;                          // tableau dynamique car on ne connait pas le nombre de joueurs à l'avance
 Begin
     setlength(tabCombinaison,length(jeux.player));        // On initialise le tableau dynamique qui contiendra à chaque case le plus grand nombre de pièces ayant un attribut commun selon chaque joueur
@@ -199,7 +200,7 @@ Begin
         tabCombinaison[i]:=combinaisonMax;         // On remplit le tableau de la taille du nombre de joueurs avec le maximum de pièces ayant un attribut en commun pour chaque joueur
     end;
     CombiJoueur:=tabCombinaison;
-End;*)
+End;
 
 
 
@@ -216,9 +217,9 @@ End;*)
  ------------------------------------------------------------------------------------
  *)
 
-(*Function deuxMemeValTab(tab:tabpiocher):maStructure;               // maStructure = RECORD :
+Function deuxMemeValTab(tab:tabpiocher):resMemeValeurPos;               // resMemeValeurPos = RECORD :
 var                                                                //     memeValeur : integer;
-    mmVal:maStructure;                                             //     indiceJ1   : integer;
+    mmVal:resMemeValeurPos;                                             //     indiceJ1   : integer;
     i,j:integer;                                                   //     indiceJ2   : integer;
 Begin                                                              //   end;
     mmVal.memeValeur:=0;
@@ -277,32 +278,21 @@ END;
 - Auteur           : Guillaume Proton
 - Date de creation : 12 Juin 2018
 -
-- But              : Renvoie un tableau d'entiers contenant les âges des joueurs avec le premier élément: le maximum du tableau
+- But              : Renvoie un tableau contenant les joueurs dans leur ordre de jeu dans le cas où deux joueurs ont le même nombre de pièce ayant un attribut en commun
 - Remarques        : Aucune
 - Pré conditions   : Aucune
-- Post conditions  : Renvoie un tableau d'entiers contenant les âges des joueurs avec le premier élément: le maximum du tableau
+- Post conditions  : Renvoie un tableau contenant les joueurs dans leur ordre de jeu dans le cas où deux joueurs ont le même nombre de pièce ayant un attribut en commun
 --------------------------------------------------------*)
 
-Function prioriteAge(jeux:jeu):tabjoueur;
+Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmval:resMemeValeurPos):tabjoueur;
 Var
     i : integer;
-    tabCombi : tabpiocher;
-    tabOrdreJoueur : tabjoueur;
-    mmVal:maStructure;
     premiereCaseTabJoueur:joueur;
 Begin
-    setlength(tabCombi,length(jeux.player));
-    setlength(tabOrdreJoueur,length(jeux.player)); 
-    tabCombi:=CombiJoueur(jeux);                       //tabTrie va prendre les valeurs du maximum de pièces ayant un attribut en commun pour chaque joueur
-    mmVal:=deuxMemeValTab(tabCombi);
-    for i:=0 to length(jeux.player)-1 do
-    Begin
-        tabOrdreJoueur[i]:=jeux.player[i]         // On ajoute dans le tableau final tous les joueurs qui se sont enregistrés
-    End;
     premiereCaseTabJoueur:=tabOrdreJoueur[0];
     if ((jeux.player[mmVal.indiceJ1].age)>=(jeux.player[mmVal.indiceJ2].age)) then        //">=" pour que si deux joueurs ont le même âge et le plus grand nombre de pièce ayant un attribut commun égal alors le joueur ayant rentrer ses informations en premier au lancement du jeu commence
     Begin
-        tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ1];
+        tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ1];                               // On échange la position du joueur le plus âgé avec la position du premier joueur dans le tableau poue que le plus âgé commence en premier
         tabOrdreJoueur[mmVal.indiceJ1]:=premiereCaseTabJoueur
     End
     else
@@ -312,6 +302,7 @@ Begin
     End;
     prioriteAge:=tabOrdreJoueur;
 end;
+
 (*
 --------------------------------------------------------
 - Fonction         : prioriteJoueur
@@ -323,164 +314,28 @@ end;
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie un tableau de joueurs trié dans l'ordre dans lequel ils vont jouer (le joueur 0 va jouer en premier puis le joueur 1, etc ...)
 --------------------------------------------------------*)
-(*Function prioriteJoueur(jeux:jeu):tabjoueur;
+
+Function prioriteJoueur(jeux:jeu):tabjoueur;
 Var
-    i:integer;
+    i, i_maxCombi:integer;
     tabCombi : tabpiocher;
     tabOrdreJoueur : tabjoueur;
-    mmVal:maStructure;
-    premiereCaseTabJoueur:joueur;
-Begin
-    setlength(tabCombi,length(jeux.player));
-    setlength(tabOrdreJoueur,length(jeux.player));
-    tabCombi:=CombiJoueur(jeux);                       //tabTrie va prendre les valeurs du maximum de pièces ayant un attribut en commun pour chaque joueur
-    mmVal:=deuxMemeValTab(tabCombi);
-    for i:=0 to length(jeux.player)-1 do
-    Begin
-        tabOrdreJoueur[i]:=jeux.player[i]         // On ajoute dans le tableau final tous les joueurs dans lequel ils se sont enregistrés
-    End;
-    premiereCaseTabJoueur:=tabOrdreJoueur[0];
+    mmVal:resMemeValeurPos; 
+    premiereCaseTabJoueur:joueur; 
+Begin 
+    setlength(tabCombi,length(jeux.player)); 
+    setlength(tabOrdreJoueur,length(jeux.player)); 
+    tabCombi:=CombiJoueur(jeux);                        //tabTrie va prendre les valeurs du maximum de pièces ayant un attribut en commun pour chaque joueur
+    mmVal:=deuxMemeValTab(tabCombi); 
+    for i:=0 to length(jeux.player)-1 do 
+    Begin 
+        tabOrdreJoueur[i]:=jeux.player[i]         // On ajoute dans le tableau final tous les joueurs qui se sont enregistrés au début de la partie
+    End; 
+    premiereCaseTabJoueur:=tabOrdreJoueur[0]; 
     if (mmVal.memeValeur=1) then                      // si deux joueurs ont le même nombre de pièces ayant un attribut en commun alors le plus âgé commence donc on le place au début du tableau
-    Begin
-        if ((jeux.player[mmVal.indiceJ1].age)>=(jeux.player[mmVal.indiceJ2].age)) then        //">=" pour que si deux joueurs ont le même âge et le plus grand nombre de pièce ayant un attribut commun égal alors le joueur ayant rentrer ses informations en premier au lancement du jeu commence
-        Begin
-            tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ1];
-            tabOrdreJoueur[mmVal.indiceJ1]:=premiereCaseTabJoueur
-        End
-        else
-        Begin
-            tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ2];
-            tabOrdreJoueur[mmVal.indiceJ2]:=premiereCaseTabJoueur
-        End;
+    Begin 
+        tabOrdreJoueur:=prioriteAge(jeux,tabCombi,tabOrdreJoueur,mmVal);
     End
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    FONCTION TROP LONGUE, A SEPARER EN DEUX FONCTIONS QUI RENVOIENT UN tabJoueur
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     Else                                        // s'il n'y a pas plusieurs mêmes valeurs maximum alors
     begin
         i_maxCombi:=indiceMaxTab(tabCombi);
@@ -488,7 +343,7 @@ Begin
         tabOrdreJoueur[i_maxCombi]:=premiereCaseTabJoueur;                             // On échange la première case du tableau avec la case où se situe le joueur ayant le maximum de pièces d'attribut commun pour que ce dernier soit au début du tableau et donc premier à jouer
     End;
     prioriteJoueur:=tabOrdreJoueur;
-End;*)
+End;
 
 (*
 --------------------------------------------------------
