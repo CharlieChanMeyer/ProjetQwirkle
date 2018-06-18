@@ -37,34 +37,6 @@ Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
 
 implementation
 
-(*
- ------------------------------------------------------------------------------------
- -- Fonction          : maxTab
- -- Auteur            : Guillaume Proton
- -- Date de creation  : 01/12/2017
- --
- -- But               : Retourne le maximum d'un tableau d'entiers
- -- Remarques         : Aucune
- -- Pré conditions    : le tableau doit être initialisé
- -- Post conditions   : Retourne le maximum d'un tableau d'entiers
- ------------------------------------------------------------------------------------
- *)
-
-Function maxTab(tab : tabpiocher):integer;
-Var
-   maximum, i : Integer;
-Begin
-   maximum := tab[0];
-   FOR i:=1 to length(tab)-1 do
-   BEGIN
-      if ((tab[i])>maximum)then
-      Begin
-        maximum := tab[i];
-      End;
-   end;
-    maxTab:=maximum;
-End;
-
 
 (*
  ------------------------------------------------------------------------------------
@@ -81,7 +53,7 @@ End;
 
 Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
 var
-    i:integer;
+    i, j, cptForme:integer;
     tabForme:tabpiocher;
 Begin
     setlength(tabForme,6);
@@ -118,7 +90,7 @@ End;
 
 Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
 var
-    i:integer;
+    i, j, cptCouleur:integer;
     tabCouleur:tabpiocher;
 Begin
     setlength(tabCouleur,6);
@@ -181,7 +153,7 @@ End;
  -- Auteur            : Guillaume Proton
  -- Date de creation  : 06/12/2017
  --
- -- But               : renvoie
+ -- But               : renvoie une structure contenant le fait qu'il y a deux pièces ayant
  -- Remarques         : Aucune
  -- Pré conditions    : Aucune
  -- Post conditions   : renvoie
