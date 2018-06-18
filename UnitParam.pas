@@ -17,6 +17,7 @@ interface
 
 uses SysUtils, UnitType;
 
+Function Max(x1,x2:integer):integer;
 Function piochedefault(jeux : jeu):jeu;
 Function paramdefault(jeux : jeu):jeu;
 Function CountParam():jeu;
@@ -29,6 +30,33 @@ Function Modif_Pj(jeux : jeu; i : Integer; pj : string):jeu;
 Function param_pioche(jeux : jeu): jeu;
 
 implementation
+
+(*
+--------------------------------------------------------
+- Fonction         : Max
+- Auteur           : Guillaume Proton
+- Date de creation : 11 Juin 2018
+-
+- But              : Renvoie le maximum entre deux entiers
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : Renvoie le maximum entre deux entiers
+--------------------------------------------------------*)
+
+Function Max(x1,x2 : integer):integer;
+Var
+   maximum : integer;
+Begin
+   if (x1>x2) then
+   Begin
+      maximum:=x1;
+   end
+   else
+   Begin
+      maximum:=x2
+   End;
+   Max:=maximum;
+End;
 
 (*--------------------------------------------------------
 - Fonction : Modif_Pj
@@ -244,7 +272,7 @@ Begin
 End;
 
 (*--------------------------------------------------------
-- Fonction : param_pioche
+- Fonction : param_pioche_forme
 - Auteur : Charlie Meyer
 - Date de creation : 16/06/18 14:34
 -
@@ -261,28 +289,32 @@ Begin
     nb_couleur := jeux.parametre.nbcouleur;
     nb_forme := jeux.parametre.nbforme;
     nb_repet := jeux.parametre.repetition;
+    writeln('Nombre de couleur : ', nb_couleur);
+    writeln('Nombre de Formes : ', nb_forme);
+    writeln('Nombre de repetition : ', nb_repet);
     n :=  nb_forme*nb_couleur * nb_repet;
     setlength(jeux.pioches,n);
     for i:=0 to n-1 do
     Begin
         jeux.pioches[i].couleur:= (valCouleur MOD nb_couleur) +1;
         valCouleur:= valCouleur + 1;
+        writeln('Couleur Piece : ',jeux.pioches[i].couleur);
     End;
     i := 0;
     valeurforme := 1;
-    nb_fp := nb_forme*2;
-    while (i<=n) do
+    nb_fp := nb_couleur*nb_repet;
+    while (i<n) do
     begin
         For j := 0 to nb_fp-1 do
         Begin
             jeux.pioches[i+j].forme:= valeurforme;
+            writeln('Forme Piece : ',jeux.pioches[i+j].forme);
         End;
         Inc(i,nb_fp);
         Inc(valeurforme,1);
-   End;
+    End;
     param_pioche:=jeux;
 End;
-
 
 (*--------------------------------------------------------
 - Fonction : paramdefault
@@ -344,7 +376,10 @@ Begin
     IF (nb_param <> 0) THEN
     BEGIN
        jeux := verify(jeux,nb_param,pc,pf,pt,pj);
-       jeux := param_pioche(jeux);
+       if ((jeux.parametre.nbforme <>3) or (jeux.parametre.nbcouleur <> 3) or (jeux.parametre.repetition <> 2)) then
+       begin
+           jeux := param_pioche(jeux);
+       end;
     END;
     CountParam := jeux;
 End;

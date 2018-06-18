@@ -49,6 +49,7 @@ Procedure Affichagec10(p : piece);
 Procedure MenuAction();
 Procedure MenuActionssp();
 Procedure Ecrirenb(nb : integer);
+Procedure affpioche(jeux : jeu);
 
 implementation
 
@@ -585,6 +586,32 @@ Begin
     writeln('--2. Poser PLUSIEURS pièces possédant un même attribut           --');
     writeln('--0. Passer son tour                                             --');
     writeln('-------------------------------------------------------------------');
+End;
+
+(*
+--------------------------------------------------------
+- Procedure : affpioche
+- Auteur : Charlie Meyer
+- Date de creation : 18/06/18 14:30
+-
+- But : Afficher la piocher
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Afficher la piocher
+--------------------------------------------------------*)
+
+Procedure affpioche(jeux : jeu);
+VAR
+    i,n : Integer;
+Begin
+    Writeln();
+    n := length(jeux.pioches);
+    For i := 0 to n-1 do
+    Begin
+        AffichagePiece(jeux.pioches[i]);
+        write(' | ');
+    End;
+    writeln();
 End;
 
 End.

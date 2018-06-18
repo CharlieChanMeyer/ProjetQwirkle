@@ -17,12 +17,11 @@ interface
 
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
-Function Max(x1,x2:integer):integer;
 //Function CptFormeCommun(jeux:jeu;num_joueur:integer):main;
 //Function CptCouleurCommun(jeux:jeu;num_joueur:integer):main;
 //Function CombiJoueur(jeux:jeu):tabpiocher;
 //Function indiceMaxTab(tab : tabpiocher): Integer;
-Function prioriteAge(jeux:jeu):tabpiocher;
+//Function prioriteAge(jeux:jeu):tabpiocher;
 //Function prioriteJoueur(jeux:jeu):jeu;
 Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
@@ -37,34 +36,6 @@ Function nbPiecesOuest(jeux:jeu;i,j:integer):integer;
 Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
 
 implementation
-
-(*
---------------------------------------------------------
-- Fonction         : Max
-- Auteur           : Guillaume Proton
-- Date de creation : 11 Juin 2018
--
-- But              : Renvoie le maximum entre deux entiers
-- Remarques        : Aucune
-- Pré conditions   : Aucune
-- Post conditions  : Renvoie le maximum entre deux entiers
---------------------------------------------------------*)
-
-Function Max(x1,x2 : integer):integer;
-Var
-   maximum : integer;
-Begin
-   if (x1>x2) then
-   Begin
-      maximum:=x1;
-   end
-   else
-   Begin
-      maximum:=x2
-   End;
-   Max:=maximum;
-End;
-
 
 (*
  ------------------------------------------------------------------------------------
@@ -283,7 +254,7 @@ END;
 - Post conditions  : Renvoie un tableau d'entiers contenant les âges des joueurs avec le premier élément: le maximum du tableau
 --------------------------------------------------------*)
 
-Function prioriteAge(jeux:jeu):tabjoueur;
+(*Function prioriteAge(jeux:jeu):tabjoueur;
 Var
     i : integer;
     tabCombi : tabpiocher;
@@ -292,7 +263,7 @@ Var
     premiereCaseTabJoueur:joueur;
 Begin
     setlength(tabCombi,length(jeux.player));
-    setlength(tabOrdreJoueur,length(jeux.player)); 
+    setlength(tabOrdreJoueur,length(jeux.player));
     tabCombi:=CombiJoueur(jeux);                       //tabTrie va prendre les valeurs du maximum de pièces ayant un attribut en commun pour chaque joueur
     mmVal:=deuxMemeValTab(tabCombi);
     for i:=0 to length(jeux.player)-1 do
@@ -311,7 +282,7 @@ Begin
         tabOrdreJoueur[mmVal.indiceJ2]:=premiereCaseTabJoueur
     End;
     prioriteAge:=tabOrdreJoueur;
-end;
+end;*)
 (*
 --------------------------------------------------------
 - Fonction         : prioriteJoueur
@@ -353,134 +324,134 @@ Begin
             tabOrdreJoueur[mmVal.indiceJ2]:=premiereCaseTabJoueur
         End;
     End
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     FONCTION TROP LONGUE, A SEPARER EN DEUX FONCTIONS QUI RENVOIENT UN tabJoueur
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Else                                        // s'il n'y a pas plusieurs mêmes valeurs maximum alors
     begin
         i_maxCombi:=indiceMaxTab(tabCombi);

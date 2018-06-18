@@ -359,6 +359,7 @@ Begin
     jeux := initMain(jeux);
     jeux.player[1].nom := 'Marco';
     jeux.player[0].nom := 'Charlie';
+    affpioche(jeux);            //A ENLEVER APRES LES TESTS
     EmptyHand := False;              //Dis que la main des joueur n'est pas vide
     n := length(jeux.player);           //Prends le nombre de Joueur
     num_tour := 1;                  //Met le Premier tour en place
@@ -402,6 +403,7 @@ Begin
   begin
     writeln ('Erreur, pas assez de pièces pour tout les joueurs');
     writeln ('Veuillez enlever des joueurs ou rajouter des pieces');
+    halt();
   end
   else
   begin
