@@ -289,16 +289,12 @@ Begin
     nb_couleur := jeux.parametre.nbcouleur;
     nb_forme := jeux.parametre.nbforme;
     nb_repet := jeux.parametre.repetition;
-    writeln('Nombre de couleur : ', nb_couleur);
-    writeln('Nombre de Formes : ', nb_forme);
-    writeln('Nombre de repetition : ', nb_repet);
     n :=  nb_forme*nb_couleur * nb_repet;
     setlength(jeux.pioches,n);
     for i:=0 to n-1 do
     Begin
         jeux.pioches[i].couleur:= (valCouleur MOD nb_couleur) +1;
         valCouleur:= valCouleur + 1;
-        writeln('Couleur Piece : ',jeux.pioches[i].couleur);
     End;
     i := 0;
     valeurforme := 1;
@@ -308,7 +304,6 @@ Begin
         For j := 0 to nb_fp-1 do
         Begin
             jeux.pioches[i+j].forme:= valeurforme;
-            writeln('Forme Piece : ',jeux.pioches[i+j].forme);
         End;
         Inc(i,nb_fp);
         Inc(valeurforme,1);
