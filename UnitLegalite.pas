@@ -283,21 +283,34 @@ END;
 - Post conditions  : Renvoie un tableau d'entiers contenant les âges des joueurs avec le premier élément: le maximum du tableau
 --------------------------------------------------------*)
 
-Function prioriteAge(jeux:jeu):tabpiocher;
+Function prioriteAge(jeux:jeu):tabjoueur;
 Var
-    tableauAge:tabpiocher;
-    i,indiceMax,maxTableau:integer;
+    i : integer;
+    tabCombi : tabpiocher;
+    tabOrdreJoueur : tabjoueur;
+    mmVal:maStructure;
+    premiereCaseTabJoueur:joueur;
 Begin
-    setlength(tableauAge,length(jeux.player));           // créer un tableau de la taille du nombre de joueurs
-    for i:=0 to length(tableauAge)-1 do                  // recopier l'âge de chaque joueur dans le tableau 'tableauAge'
+    setlength(tabCombi,length(jeux.player));
+    setlength(tabOrdreJoueur,length(jeux.player)); 
+    tabCombi:=CombiJoueur(jeux);                       //tabTrie va prendre les valeurs du maximum de pièces ayant un attribut en commun pour chaque joueur
+    mmVal:=deuxMemeValTab(tabCombi);
+    for i:=0 to length(jeux.player)-1 do
     Begin
-        tableauAge[i]:=jeux.player[i].age
+        tabOrdreJoueur[i]:=jeux.player[i]         // On ajoute dans le tableau final tous les joueurs qui se sont enregistrés
     End;
-    indiceMax:=indiceMaxTab(tableauAge);                 // on trouve l'indice du maximum
-    maxTableau:=tableauAge[indiceMax];                               // on échange la valeur du maximum avec la valeur du premier élément du tableau
-    tableauAge[indiceMax]:=tableauAge[0];
-    tableauAge[0]:=maxTableau;
-    prioriteAge:=tableauAge;
+    premiereCaseTabJoueur:=tabOrdreJoueur[0];
+    if ((jeux.player[mmVal.indiceJ1].age)>=(jeux.player[mmVal.indiceJ2].age)) then        //">=" pour que si deux joueurs ont le même âge et le plus grand nombre de pièce ayant un attribut commun égal alors le joueur ayant rentrer ses informations en premier au lancement du jeu commence
+    Begin
+        tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ1];
+        tabOrdreJoueur[mmVal.indiceJ1]:=premiereCaseTabJoueur
+    End
+    else
+    Begin
+        tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ2];
+        tabOrdreJoueur[mmVal.indiceJ2]:=premiereCaseTabJoueur
+    End;
+    prioriteAge:=tabOrdreJoueur;
 end;
 (*
 --------------------------------------------------------
@@ -312,6 +325,7 @@ end;
 --------------------------------------------------------*)
 Function prioriteJoueur(jeux:jeu):tabjoueur;
 Var
+    i:integer;
     tabCombi : tabpiocher;
     tabOrdreJoueur : tabjoueur;
     mmVal:maStructure;
