@@ -217,11 +217,11 @@ End;
  ------------------------------------------------------------------------------------
  *)
 
-Function deuxMemeValTab(tab:tabpiocher):resMemeValeurPos;               // resMemeValeurPos = RECORD :
-var                                                                //     memeValeur : integer;
-    mmVal:resMemeValeurPos;                                             //     indiceJ1   : integer;
-    i,j:integer;                                                   //     indiceJ2   : integer;
-Begin                                                              //   end;
+Function deuxMemeValTab(tab:tabpiocher):resMemeValeurPos;               
+var                                                               
+    mmVal:resMemeValeurPos;                                             
+    i,j:integer;                                                  
+Begin                                                              
     mmVal.memeValeur:=0;
     mmVal.indiceJ1:= 0;
     mmVal.indiceJ2:=0;
