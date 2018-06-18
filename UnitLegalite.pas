@@ -284,7 +284,7 @@ END;
 - Post conditions  : Renvoie un tableau contenant les joueurs dans leur ordre de jeu dans le cas où deux joueurs ont le même nombre de pièce ayant un attribut en commun
 --------------------------------------------------------*)
 
-Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmval:resMemeValeurPos):tabjoueur;
+Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
 Var
     i : integer;
     premiereCaseTabJoueur:joueur;
