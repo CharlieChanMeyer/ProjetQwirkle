@@ -55,7 +55,12 @@ TYPE
         jeux : jeu;
         modif : Boolean;
     END;
-
+    
+    resMemeValeurPos = RECORD :
+        memeValeur:integer;
+        indiceJ1:integer;
+        indiceJ2:integer;
+    end;
 
 implementation
 
