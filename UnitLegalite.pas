@@ -17,12 +17,12 @@ interface
 
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
-Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
-Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
-Function CombiJoueur(jeux:jeu):tabpiocher;
-Function indiceMaxTab(tab : tabpiocher): Integer;
-Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmval:resMemeValeurPos):tabjoueur;
-Function prioriteJoueur(jeux:jeu):jeu;
+//Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
+//Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
+//Function CombiJoueur(jeux:jeu):tabpiocher;
+//Function indiceMaxTab(tab : tabpiocher): Integer;
+//Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmval:resMemeValeurPos):tabjoueur;
+//Function prioriteJoueur(jeux:jeu):jeu;
 Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
@@ -51,7 +51,7 @@ implementation
  ------------------------------------------------------------------------------------
  *)
 
-Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
+(*Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
 var
     i, j, cptForme:integer;
     tabForme:tabpiocher;
@@ -73,7 +73,7 @@ Begin
         end;
     end;
     CptFormeCommun:=tabForme;
-End;
+End;*)
 
 (*
  ------------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ End;
  ------------------------------------------------------------------------------------
  *)
 
-Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
+(*Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
 var
     i, j, cptCouleur:integer;
     tabCouleur:tabpiocher;
@@ -110,7 +110,7 @@ Begin
         end;
     end;
     CptCouleurCommun:=tabCouleur;
-End;
+End;*)
 
 
 (*
@@ -126,7 +126,7 @@ End;
  ------------------------------------------------------------------------------------
  *)
 
-Function CombiJoueur(jeux:jeu):tabpiocher;
+(*Function CombiJoueur(jeux:jeu):tabpiocher;
 Var
     maxTabC, maxTabF:integer;
     tabCouleur,tabForme:tabpiocher;
@@ -143,7 +143,7 @@ Begin
         tabCombinaison[i]:=combinaisonMax;         // On remplit le tableau de la taille du nombre de joueurs avec le maximum de pièces ayant un attribut en commun pour chaque joueur
     end;
     CombiJoueur:=tabCombinaison;
-End;
+End;*)
 
 
 
@@ -160,7 +160,7 @@ End;
  ------------------------------------------------------------------------------------
  *)
 
-Function deuxMemeValTab(tab:tabpiocher):resMemeValeurPos;
+(*Function deuxMemeValTab(tab:tabpiocher):resMemeValeurPos;
 var
     mmVal:resMemeValeurPos;
     i,j:integer;
@@ -198,7 +198,7 @@ End;*)
  ------------------------------------------------------------------------------------
  *)
 
-Function indiceMaxTab(tab : tabpiocher): Integer;
+(*Function indiceMaxTab(tab : tabpiocher): Integer;
 VAR
    i,maximum,i_maximum : Integer;
 BEGIN
@@ -212,7 +212,7 @@ BEGIN
       END;
       indiceMaxTab := i_maximum;
    END;
-END;
+END;*)
 
 
 (*
@@ -227,7 +227,7 @@ END;
 - Post conditions  : Renvoie un tableau contenant les joueurs dans leur ordre de jeu dans le cas où deux joueurs ont le même nombre de pièce ayant un attribut en commun
 --------------------------------------------------------*)
 
-Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
+(*Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
 Var
     i : integer;
     premiereCaseTabJoueur:joueur;
@@ -244,7 +244,7 @@ Begin
         tabOrdreJoueur[mmVal.indiceJ2]:=premiereCaseTabJoueur
     End;
     prioriteAge:=tabOrdreJoueur;
-end;
+end;*)
 
 (*
 --------------------------------------------------------
@@ -258,7 +258,7 @@ end;
 - Post conditions  : Renvoie un tableau de joueurs trié dans l'ordre dans lequel ils vont jouer (le joueur 0 va jouer en premier puis le joueur 1, etc ...)
 --------------------------------------------------------*)
 
-Function prioriteJoueur(jeux:jeu):tabjoueur;
+(*Function prioriteJoueur(jeux:jeu):tabjoueur;
 Var
     i, i_maxCombi:integer;
     tabCombi : tabpiocher;
@@ -286,7 +286,7 @@ Begin
         tabOrdreJoueur[i_maxCombi]:=premiereCaseTabJoueur;                             // On échange la première case du tableau avec la case où se situe le joueur ayant le maximum de pièces d'attribut commun pour que ce dernier soit au début du tableau et donc premier à jouer
     End;
     prioriteJoueur:=tabOrdreJoueur;
-End;
+End;*)
 
 (*
 --------------------------------------------------------
@@ -416,22 +416,19 @@ Begin
     memeAttribut :=0;
     for l:=i+nbPiecesSud(jeux,i,j) downto i-nbPiecesNord(jeux,i,j) do             // parcoure la ligne contenant la pièce à la position (i,j) de haut en bas
     Begin
-        //FAUT RECUPERER LA COULEUR ET LA FORME DE LA PIECE JOUER ET NON DE LA GRILLE
-        writeln('Piece en ',l,'|',j,'Forme identique : ',jeux.grille[i,j].forme=jeux.grille[l,j].forme,' | Couleur Identique : ',jeux.grille[i,j].couleur=jeux.grille[l,j].couleur);
-        writeln(forme_p,' | ',jeux.grille[l,j].forme);
-        writeln(couleur_p,' | ',jeux.grille[l,j].couleur);
         if (((forme_p=jeux.grille[l,j].forme) and (couleur_p=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
-        Begin
-            writeln('Piece en ',l,' : OK');
-           memeAttribut := 1
-        End;
+           memeAttribut := 1;
     End;
     for l:=j+nbPiecesEst(jeux,i,j) downto j-nbPiecesOuest(jeux,i,j) do            // parcoure la ligne contenant la pièce à la position (i,j) de gauche à droite
     Begin
         if (((forme_p=jeux.grille[i,l].forme) and (couleur_p=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
-            writeln('Piece en ',l,' : OK');
-            memeAttribut:=1
+            if (memeAttribut = 1) then
+            Begin
+                memeAttribut:=0;
+            End
+            else
+                memeAttribut:=1;
         end;
     end;
     deuxMemesAttributs:=memeAttribut ;
