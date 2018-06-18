@@ -18,13 +18,13 @@ interface
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
 Function Max(x1,x2:integer):integer;
-Function CptFormeCommun(jeux:jeu;num_joueur:integer):main;
-Function CptCouleurCommun(jeux:jeu;num_joueur:integer):main;
-Function CombiJoueur(jeux:jeu):tabpiocher;
-Function indiceMaxTab(tab : tabpiocher): Integer;
+//Function CptFormeCommun(jeux:jeu;num_joueur:integer):main;
+//Function CptCouleurCommun(jeux:jeu;num_joueur:integer):main;
+//Function CombiJoueur(jeux:jeu):tabpiocher;
+//Function indiceMaxTab(tab : tabpiocher): Integer;
 Function prioriteAge(jeux:jeu):tabpiocher;
 //Function prioriteJoueur(jeux:jeu):jeu;
-Function deuxMemesAttributs(jeux:jeu;i,j:integer):integer;
+Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
 Function VerifPieceEst(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
@@ -82,7 +82,7 @@ End;
 Function maxTab(tab : tabpiocher):integer;
 Var
    maximum, i : Integer;
-Begin	     
+Begin
    maximum := tab[0];
    FOR i:=1 to length(tab)-1 do
    BEGIN
@@ -107,8 +107,8 @@ End;
  -- Post conditions   : renvoie un tableau d'entiers de taille 6 qui contient dans chaque case le nombre de pièces ayant la même forme selon le numéro de la pièce ( de la pièce 0 jusqu'à la pièce 5)
  ------------------------------------------------------------------------------------
  *)
- 
-Function CptFormeCommun(jeux:jeu;num_joueur:integer):main;
+
+(*Function CptFormeCommun(jeux:jeu;num_joueur:integer):main;
 var
     i:integer;
     tabForme:tabpiocher;
@@ -116,7 +116,7 @@ Begin
     setlength(tabForme,6);
     for j:=0 to 5 do                    // j correspond au numéro de la pièce
     Begin
-        for i:=0 to 5 do                   
+        for i:=0 to 5 do
         Begin
             cptForme:=0;
             if (j<>i) then
@@ -130,7 +130,7 @@ Begin
         end;
     end;
     CptFormeCommun:=tabForme;
-End;
+End;*)
 (*
  ------------------------------------------------------------------------------------
  -- Fonction          : CptCouleurCommun
@@ -143,8 +143,8 @@ End;
  -- Post conditions   : renvoie un tableau d'entiers de taille 6 qui contient dans chaque case le nombre de pièces ayant la même couleur selon le numéro de la pièce ( de la pièce 0 jusqu'à la pièce 5)
  ------------------------------------------------------------------------------------
  *)
- 
-Function CptCouleurCommun(jeux:jeu;num_joueur:integer):main;
+
+(*Function CptCouleurCommun(jeux:jeu;num_joueur:integer):main;
 var
     i:integer;
     tabCouleur:tabpiocher;
@@ -152,7 +152,7 @@ Begin
     setlength(tabCouleur,6);
     for j:=0 to 5 do                    // j correspond au numéro de la pièce
     Begin
-        for i:=0 to 5 do                   
+        for i:=0 to 5 do
         Begin
             cptCouleur:=0;
             if (j<>i) then
@@ -166,7 +166,7 @@ Begin
         end;
     end;
     CptCouleurCommun:=tabCouleur;
-End;
+End;*)
 
 
 (*
@@ -182,7 +182,7 @@ End;
  ------------------------------------------------------------------------------------
  *)
 
-Function CombiJoueur(jeux:jeu):tabpiocher;
+(*Function CombiJoueur(jeux:jeu):tabpiocher;
 Var
     maxTabC, maxTabF:integer;
     tabCouleur,tabForme:main;
@@ -191,7 +191,7 @@ Begin
     setlength(tabCombinaison,length(jeux.player));        // On initialise le tableau dynamique qui contiendra à chaque case le plus grand nombre de pièces ayant un attribut commun selon chaque joueur
     for i:=0 to length(jeux.player)-1 do
     Begin
-        tabCouleur:=CptCouleurCommun(jeux,i);    
+        tabCouleur:=CptCouleurCommun(jeux,i);
         tabForme:=CptFormeCommun(jeux,i);
         maxTabC:=tabCouleur[indiceMaxTab];               // On stocke le nombre maximum de pièces ayant une couleur en commun
         maxTabF:=tabForme[indiceMaxTab];                 // On stocke le nombre maximum de pièces ayant une forme en commun
@@ -199,7 +199,7 @@ Begin
         tabCombinaison[i]:=combinaisonMax;         // On remplit le tableau de la taille du nombre de joueurs avec le maximum de pièces ayant un attribut en commun pour chaque joueur
     end;
     CombiJoueur:=tabCombinaison;
-End;
+End;*)
 
 
 
@@ -209,14 +209,14 @@ End;
  -- Auteur            : Guillaume Proton
  -- Date de creation  : 06/12/2017
  --
- -- But               : renvoie 
+ -- But               : renvoie
  -- Remarques         : Aucune
  -- Pré conditions    : Aucune
  -- Post conditions   : renvoie
  ------------------------------------------------------------------------------------
  *)
 
-Function deuxMemeValTab(tab:tabpiocher):maStructure;               // maStructure = RECORD :
+(*Function deuxMemeValTab(tab:tabpiocher):maStructure;               // maStructure = RECORD :
 var                                                                //     memeValeur : integer;
     mmVal:maStructure;                                             //     indiceJ1   : integer;
     i,j:integer;                                                   //     indiceJ2   : integer;
@@ -237,7 +237,7 @@ Begin                                                              //   end;
         End;
     end;
     deuxMemeValTab:=mmVal;
-End;
+End;*)
 
 
 
@@ -310,7 +310,7 @@ end;
 - Pré conditions   : Aucune
 - Post conditions  : Renvoie un tableau de joueurs trié dans l'ordre dans lequel ils vont jouer (le joueur 0 va jouer en premier puis le joueur 1, etc ...)
 --------------------------------------------------------*)
-Function prioriteJoueur(jeux:jeu):tabjoueur;
+(*Function prioriteJoueur(jeux:jeu):tabjoueur;
 Var
     tabCombi : tabpiocher;
     tabOrdreJoueur : tabjoueur;
@@ -318,7 +318,7 @@ Var
     premiereCaseTabJoueur:joueur;
 Begin
     setlength(tabCombi,length(jeux.player));
-    setlength(tabOrdreJoueur,length(jeux.player)); 
+    setlength(tabOrdreJoueur,length(jeux.player));
     tabCombi:=CombiJoueur(jeux);                       //tabTrie va prendre les valeurs du maximum de pièces ayant un attribut en commun pour chaque joueur
     mmVal:=deuxMemeValTab(tabCombi);
     for i:=0 to length(jeux.player)-1 do
@@ -346,7 +346,7 @@ Begin
         tabOrdreJoueur[i_maxCombi]:=premiereCaseTabJoueur;                             // On échange la première case du tableau avec la case où se situe le joueur ayant le maximum de pièces d'attribut commun pour que ce dernier soit au début du tableau et donc premier à jouer
     End;
     prioriteJoueur:=tabOrdreJoueur;
-End;
+End;*)
 
 (*
 --------------------------------------------------------
@@ -468,7 +468,7 @@ End;
 - Post conditions  : Renvoie 1 s'il y a deux fois le même attribut sur la même ligne sinon 0
 --------------------------------------------------------*)
 
-Function deuxMemesAttributs(jeux:jeu;i,j : integer):integer;
+Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j : integer):integer;
 Var
     l, memeAttribut:integer;
 
@@ -478,9 +478,9 @@ Begin
     Begin
         //FAUT RECUPERER LA COULEUR ET LA FORME DE LA PIECE JOUER ET NON DE LA GRILLE
         writeln('Piece en ',l,'|',j,'Forme identique : ',jeux.grille[i,j].forme=jeux.grille[l,j].forme,' | Couleur Identique : ',jeux.grille[i,j].couleur=jeux.grille[l,j].couleur);
-        writeln(jeux.grille[i,j].forme,' | ',jeux.grille[l,j].forme);
-        writeln(jeux.grille[i,j].couleur,' | ',jeux.grille[l,j].couleur);
-        if (((jeux.grille[i,j].forme=jeux.grille[l,j].forme) and (jeux.grille[i,j].couleur=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
+        writeln(forme_p,' | ',jeux.grille[l,j].forme);
+        writeln(couleur_p,' | ',jeux.grille[l,j].couleur);
+        if (((forme_p=jeux.grille[l,j].forme) and (couleur_p=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
             writeln('Piece en ',l,' : OK');
            memeAttribut := 1
@@ -488,7 +488,7 @@ Begin
     End;
     for l:=j+nbPiecesEst(jeux,i,j) downto j-nbPiecesOuest(jeux,i,j) do            // parcoure la ligne contenant la pièce à la position (i,j) de gauche à droite
     Begin
-        if (((jeux.grille[i,j].forme=jeux.grille[i,l].forme) and (jeux.grille[i,j].couleur=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
+        if (((forme_p=jeux.grille[i,l].forme) and (couleur_p=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
             writeln('Piece en ',l,' : OK');
             memeAttribut:=1
@@ -560,7 +560,7 @@ Begin
     Begin
         CoupLegal:=0;               // coup impossible car il y a déjà une pièce à cette position
     End;
-    if (deuxMemesAttributs(jeux,i,j)=1) then  // s'il y a deux fois le même attribut sur la même ligne alors le coup n'est pas valide
+    if (deuxMemesAttributs(jeux,couleur_p,forme_p,i,j)=1) then  // s'il y a deux fois le même attribut sur la même ligne alors le coup n'est pas valide
     Begin
         CoupLegal:=0
     end;

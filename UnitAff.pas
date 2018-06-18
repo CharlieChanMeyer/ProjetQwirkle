@@ -560,6 +560,7 @@ Begin
     writeln('--1. Poser UNE pièce                                             --');
     writeln('--2. Poser PLUSIEURS pièces possédant un même attribut           --');
     writeln('--3. Echanger une ou plusieurs pièces                            --');
+    writeln('--0. Passer son tour                                             --');
     writeln('-------------------------------------------------------------------');
 End;
 
@@ -582,6 +583,7 @@ Begin
     writeln('--                                                               --');
     writeln('--1. Poser UNE pièce                                             --');
     writeln('--2. Poser PLUSIEURS pièces possédant un même attribut           --');
+    writeln('--0. Passer son tour                                             --');
     writeln('-------------------------------------------------------------------');
 End;
 

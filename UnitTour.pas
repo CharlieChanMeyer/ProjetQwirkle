@@ -293,16 +293,17 @@ Var
     i : Integer;
 Begin
     MenuAction();           //Lance l'affichage du menu des actions
-    i :=0;
-    while (i=0) do //Tant que i = 0
+    i :=-1;
+    while (i=-1) do //Tant que i = -1
     begin
         writeln('Merci de rentrer le numéro de l action souhaitée'); //Donne un instruction au Joueur
         readln(i);              //Lis l'information donnée par le Joueur
         case i of
+            0: exit(jeux);
             1: jeux:=poser1p(jeux,num_player);          //Si le joueur demande l'action 1, lance la fonction poser1p
             //2: poserpp;
             3: jeux:=echangePioche(jeux,num_player);        //Si le joueur demande l'action 3, lance l'action echangePioche
-            else i:=0;              //Sinon remet i=0
+            else i:=-1;              //Sinon remet i=0
         end;
     end;
     JeuDejoueur := jeux         //Retourne le Jeux
