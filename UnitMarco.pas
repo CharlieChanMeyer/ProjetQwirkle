@@ -12,7 +12,7 @@
 ------------------------------------------------------------------------------------
 *)
 Unit UnitMarco;
-
+{$mode objfpc}
 interface
 uses SysUtils,UnitType,UnitParam,UnitAff,Crt;
 (*--------------------------------------------------------
@@ -42,10 +42,24 @@ Begin
     nbJoueur := length(jeux.player);
     For i := 0 to nbJoueur-1 do
     Begin
-        writeln('Entrez le nom du joueur ',i);
-        readln(jeux.player[i].nom);
-        writeln('Entrez l''age du joueur ',i);
-        readln(jeux.player[i].age);
+        writeln('Humain : ', jeux.player[i].humain);
+        if (jeux.player[i].humain) THEN
+        BEGIN
+            writeln('Entrez le nom du joueur ',i+1);
+            readln(jeux.player[i].nom);
+            writeln('Entrez l''age du joueur ',i+1);
+            Try
+                readln(jeux.player[i].age);
+            except
+                on e: Exception do error(1);
+            end;
+
+        End
+        else
+        begin
+            jeux.player[i].nom := 'Ordinateur';
+            jeux.player[i].age := 0;
+        end;
     End;
     initJoueur := jeux;
 End;

@@ -50,6 +50,7 @@ Procedure MenuAction();
 Procedure MenuActionssp();
 Procedure Ecrirenb(nb : integer);
 Procedure affpioche(jeux : jeu);
+Procedure error(i:Integer);
 
 implementation
 
@@ -612,6 +613,27 @@ Begin
         write(' | ');
     End;
     writeln();
+End;
+
+(*
+--------------------------------------------------------
+- Procedure : error
+- Auteur : Charlie Meyer
+- Date de creation : Mardi 19 Juin 11h53
+-
+- But : Afficher un message d'Erreur
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Afficher un message d'Erreur
+--------------------------------------------------------*)
+
+Procedure error(i : Integer);
+Begin
+    case i of
+        1 : writeln('Ceci n''est pas un age valide !');
+        2 : writeln('Erreur, pas assez de pièces pour tout les joueurs. Veuillez enlever des joueurs ou rajouter des pieces.');
+    end;
+    halt();
 End;
 
 End.
