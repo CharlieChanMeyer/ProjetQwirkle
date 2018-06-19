@@ -19,6 +19,7 @@ USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
 Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
 Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
+FUNCTION MaxTab(tab : tabpiocher):integer;
 Function CombiJoueur(jeux:jeu):tabpiocher;
 Function deuxMemeValTab(tab:tabpiocher):resMemeValeurPos;
 Function indiceMaxTab(tab : tabpiocher): Integer;
@@ -116,6 +117,34 @@ End;
 
 (*
  ------------------------------------------------------------------------------------
+ -- Fonction          : MaxTab
+ -- Auteur            : Guillaume Proton
+ -- Date de creation  : 01/12/2017
+ --
+ -- But               : Retourne le maximum d'un tableau d'entiers
+ -- Remarques         : Aucune
+ -- Pré conditions    : Aucune
+ -- Post conditions   : Retourne le maximum d'un tableau d'entiers
+ ------------------------------------------------------------------------------------
+ *)
+
+FUNCTION MaxTab(tab : tabpiocher):integer;
+VAR
+    maximum, i : Integer;
+BEGIN	     
+    maximum := tab[0];
+    FOR i:=0 to length(tab)-1 do
+    BEGIN
+        if ((tab[i])>maximum)then
+        BEGIN
+	        maximum := tab[i]
+        END;
+    end;
+   MaxTab := maximum;
+END;
+
+(*
+ ------------------------------------------------------------------------------------
  -- Fonction          : CombiJoueur
  -- Auteur            : Guillaume Proton
  -- Date de creation  : 16 Juin 2018
@@ -138,8 +167,8 @@ Begin
     Begin
         tabCouleur:=CptCouleurCommun(jeux,i);
         tabForme:=CptFormeCommun(jeux,i);
-        maxTabC:=tabCouleur[indiceMaxTab(tabCouleur)];               // On stocke le nombre maximum de pièces ayant une couleur en commun
-        maxTabF:=tabForme[indiceMaxTab];                 // On stocke le nombre maximum de pièces ayant une forme en commun
+        maxTabC:=MaxTab(tabCouleur);               // On stocke le nombre maximum de pièces ayant une couleur en commun
+        maxTabF:=MaxTab(tabForme);                 // On stocke le nombre maximum de pièces ayant une forme en commun
         combinaisonMax:=Max(maxTabC,maxTabF);      // On prend le maximum entre ces deux nombres afin d'avoir le plus grand nombre de pièces ayant un attribut en commun pour le joueur 0
         tabCombinaison[i]:=combinaisonMax;         // On remplit le tableau de la taille du nombre de joueurs avec le maximum de pièces ayant un attribut en commun pour chaque joueur
     end;
