@@ -33,23 +33,22 @@ Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
 
 implementation
 
-Function initJoueur(nbJoueur : integer; jeux : jeu): jeu;
+Function initJoueur(jeux : jeu): jeu;
 
 var
    i: integer;
-
-  Begin
-   For i := 0 to nbJoueur-1 do
-   Begin
-    writeln('Entrez le nom du joueur ',i);
-     readln(jeux.player[i].nom);
-    writeln('Entrez l''age du joueur ',i);
-     readln(jeux.player[i].age);
-   End;
-
-   initJoueur := jeux;
-
-  End;
+   nbJoueur : integer;
+Begin
+    nbJoueur := length(jeux.player)
+    For i := 0 to nbJoueur-1 do
+    Begin
+        writeln('Entrez le nom du joueur ',i);
+        readln(jeux.player[i].nom);
+        writeln('Entrez l''age du joueur ',i);
+        readln(jeux.player[i].age);
+    End;
+    initJoueur := jeux;
+End;
 
 (*--------------------------------------------------------
 - Fonction : verifTaille
