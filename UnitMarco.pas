@@ -39,7 +39,7 @@ var
    i: integer;
    nbJoueur : integer;
 Begin
-    nbJoueur := length(jeux.player)
+    nbJoueur := length(jeux.player);
     For i := 0 to nbJoueur-1 do
     Begin
         writeln('Entrez le nom du joueur ',i);
