@@ -344,10 +344,6 @@ Var
     num_player,num_tour,n: Integer;
     EmptyHand : Boolean;
 Begin
-    jeux := CountParam();
-    jeux := initMain(jeux);
-    jeux.player[1].nom := 'Marco';
-    jeux.player[0].nom := 'Charlie';
     affpioche(jeux);            //A ENLEVER APRES LES TESTS
     EmptyHand := False;              //Dis que la main des joueur n'est pas vide
     n := length(jeux.player);           //Prends le nombre de Joueur
@@ -389,9 +385,7 @@ i,n: integer;
 Begin
   if ((length(jeux.player)*6) > (length(jeux.pioches))) then //condition d'arret
   begin
-    writeln ('Erreur, pas assez de pièces pour tout les joueurs');
-    writeln ('Veuillez enlever des joueurs ou rajouter des pieces');
-    halt();
+    error(2);
   end
   else
   begin
