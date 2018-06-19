@@ -25,7 +25,7 @@ uses SysUtils,UnitType,UnitParam,UnitAff,Crt;
 - Pré conditions : avoir mis un nombre de joueurs en argument
 - Post conditions : renvoi l'etat du jeux avec les joueurs initialisés
 --------------------------------------------------------*)
-Function initJoueur(nbJoueur : integer; jeux : jeu): jeu;
+Function initJoueur(jeux : jeu): jeu;
 Function verifTaille(jeux : jeu): jeu;
 (*Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean; obsolete*)
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
