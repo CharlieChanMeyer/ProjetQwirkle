@@ -292,7 +292,7 @@ Begin
             1: jeux:=poser1p(jeux,num_player);          //Si le joueur demande l'action 1, lance la fonction poser1p
             //2: poserpp;
             3: jeux:=echangePioche(jeux,num_player);        //Si le joueur demande l'action 3, lance l'action echangePioche
-            else i:=-1;              //Sinon remet i=0
+            else i:=-1;              //Sinon remet i=-1
         end;
     end;
     JeuDejoueur := jeux         //Retourne le Jeux
@@ -344,10 +344,6 @@ Var
     num_player,num_tour,n: Integer;
     EmptyHand : Boolean;
 Begin
-    jeux := CountParam();
-    jeux := initMain(jeux);
-    jeux.player[1].nom := 'Marco';
-    jeux.player[0].nom := 'Charlie';
     affpioche(jeux);            //A ENLEVER APRES LES TESTS
     EmptyHand := False;              //Dis que la main des joueur n'est pas vide
     n := length(jeux.player);           //Prends le nombre de Joueur
@@ -389,9 +385,7 @@ i,n: integer;
 Begin
   if ((length(jeux.player)*6) > (length(jeux.pioches))) then //condition d'arret
   begin
-    writeln ('Erreur, pas assez de pièces pour tout les joueurs');
-    writeln ('Veuillez enlever des joueurs ou rajouter des pieces');
-    halt();
+    error(2);
   end
   else
   begin
@@ -408,5 +402,101 @@ Begin
   end;
   initMain := jeux; //renvoi le jeux avec les donnes de chaque joueurs
 End;
+
+
+(*--------------------------------------------------------
+- Fonction         : scoreNordSud
+- Auteur           : Guillaume PROTON
+- Date de creation : 19/06/2018
+-
+- But              : renvoie un entier qui représente le score marqué par un joueur en fonction des pièces situées au nord et au sud de la pièce à la position (i,j)
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : renvoie un entier qui représente le score marqué par un joueur en fonction des pièces situées au nord et au sud de la pièce à la position (i,j)
+--------------------------------------------------------*)
+
+Function scoreNordSud(jeux:jeu;i,j:integer):integer;
+Var
+    score:integer;
+begin
+    score:=0;                                                                     
+    if ((jeux.grille[i,j].forme=jeux.grille[i+1,j].forme) or (jeux.grille[i,j].forme=jeux.grille[i-1,j].forme)) then   // Si les formes sont égales alors c'est une ligne de couleur
+    Begin
+        if (nbPiecesSud(jeux,i,j)+nbPiecesNord(jeux,i,j)+1=jeux.parametre.nbcouleur) then                     // Si la ligne de couleur est complète alors
+        Begin
+            score:=score+jeux.parametre.nbcouleur
+        End;
+    end
+    else           // Si ce n'est pas une ligne de couleur alors c'est une ligne de forme
+    Begin
+        if (nbPiecesSud(jeux,i,j)+nbPiecesNord(jeux,i,j)+1=jeux.parametre.nbforme) then      // Si la ligne de forme est complète
+        Begin
+            score:=score+jeux.parametre.nbforme
+        end;
+    end;
+    scoreNordSud:=score;
+end;
+
+(*--------------------------------------------------------
+- Fonction         : scoreEstOuest
+- Auteur           : Guillaume PROTON
+- Date de creation : 19/06/2018
+-
+- But              : renvoie un entier qui représente le score marqué par un joueur en fonction des pièces situées à l'est et à l'ouest de la pièce à la position (i,j)
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : renvoie un entier qui représente le score marqué par un joueur en fonction des pièces situées à l'est et à l'ouest de la pièce à la position (i,j)
+--------------------------------------------------------*)
+
+Function scoreEstOuest(jeux:jeu;i,j:integer):integer;
+Var
+    score:integer;
+begin
+    score:=0;                                                                     
+    if ((jeux.grille[i,j].forme=jeux.grille[i,j+1].forme) or (jeux.grille[i,j].forme=jeux.grille[i,j-1].forme)) then   // Si les formes sont égales alors c'est une ligne de couleur
+    Begin
+        if (nbPiecesOuest(jeux,i,j)+nbPiecesEst(jeux,i,j)+1=jeux.parametre.nbcouleur) then                     // Si la ligne de couleur est complète alors
+        Begin
+            score:=score+jeux.parametre.nbcouleur
+        End;
+    end
+    else           // Si ce n'est pas une ligne de couleur alors c'est une ligne de forme
+    Begin
+        if (nbPiecesEst(jeux,i,j)+nbPiecesOuest(jeux,i,j)+1=jeux.parametre.nbforme) then      // Si la ligne de forme est complète
+        Begin
+            score:=score+jeux.parametre.nbforme
+        end;
+    end;
+    scoreEstOuest:=score;
+end;
+
+
+(*--------------------------------------------------------
+- Fonction         : comptePoint
+- Auteur           : Guillaume PROTON
+- Date de creation : 19/06/2018
+-
+- But              : renvoie un entier qui représente le score marqué par un joueur à la fin de son tour
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : renvoie un entier qui représente le score marqué par un joueur à la fin de son tour
+--------------------------------------------------------*)
+
+Function comptePoint(jeux:jeu;i,j:integer):integer;
+Var
+    score, l:integer;
+Begin
+    score:=scoreNordSud(jeux,i,j)+scoreEstOuest(jeux,i,j);
+    for l:=i+nbPiecesSud(jeux,i,j) downto i-nbPiecesNord(jeux,i,j) do 
+    begin
+       Inc(score)
+    end;
+    for l:=i+nbPiecesEst(jeux,i,j) downto i-nbPiecesOuest(jeux,i,j) do
+    begin
+        Inc(score)
+    end;
+    comptePoint:=score;
+End;
+
 
 End.
