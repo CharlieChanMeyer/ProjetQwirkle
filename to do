@@ -1,7 +1,18 @@
 jcj
 
-- compter les points (en pause)
-- priorité joueurs (selon les pièces et selon l'age) (en cours par guigui)
-- peaufiner les actions du tour (1,2 et 3) ( en cours par charlie)
-- initialiser main (deja fait)
-- pose plusiseurs pieces quand grille vide (en cours par marco)
+- compter les points (en cours par guillaume)
+- priorité joueurs (selon les pièces et selon l'age) : OK MON CAP'TAIN
+- peaufiner les actions du tour (1,2 et 3) (MANQUE TON ACTION MARCO)
+- initialiser main : OK CAP'TAIN
+- pose plusiseurs pieces quand grille vide (en cours par marco) MARCO COMMIT TA FONCTION
+
+A Faire :
+- IA Basique (Charlie)
+    Unit IA
+        -Si grille vide alors pose milieu
+        -sinon Pour chaque piece dans sa main, test les cases une par une jusqu'à pouvoir poser une piece.
+- RAPPORT MON CAP'TAIN. EN LaTeX MON CAP'TAIN !!!!!!!
+
+Bug Repport :
+- Même Attribut ?
+- Priorité Joueur ?
