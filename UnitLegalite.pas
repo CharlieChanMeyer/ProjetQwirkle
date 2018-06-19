@@ -24,7 +24,7 @@ Function CombiJoueur(jeux:jeu):tabpiocher;
 Function deuxMemeValTab(tab:tabpiocher):resMemeValeurPos;
 Function indiceMaxTab(tab : tabpiocher): Integer;
 Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
-Function prioriteJoueur(jeux:jeu):jeu;
+Function prioriteJoueur(jeux:jeu):tabjoueur;
 Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
@@ -131,7 +131,7 @@ End;
 FUNCTION MaxTab(tab : tabpiocher):integer;
 VAR
     maximum, i : Integer;
-BEGIN	     
+BEGIN
     maximum := tab[0];
     FOR i:=0 to length(tab)-1 do
     BEGIN
@@ -259,7 +259,6 @@ END;
 
 Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
 Var
-    i : integer;
     premiereCaseTabJoueur:joueur;
 Begin
     premiereCaseTabJoueur:=tabOrdreJoueur[0];
