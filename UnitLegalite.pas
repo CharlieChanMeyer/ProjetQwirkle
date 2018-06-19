@@ -17,12 +17,13 @@ interface
 
 USES SysUtils,UnitType,UnitParam,UnitAff,Crt;
 
-//Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
-//Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
-//Function CombiJoueur(jeux:jeu):tabpiocher;
-//Function indiceMaxTab(tab : tabpiocher): Integer;
-//Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
-//Function prioriteJoueur(jeux:jeu):jeu;
+Function CptFormeCommun(jeux:jeu;num_joueur:integer):tabpiocher;
+Function CptCouleurCommun(jeux:jeu;num_joueur:integer):tabpiocher;
+Function CombiJoueur(jeux:jeu):tabpiocher;
+Function deuxMemeValTab(tab:tabpiocher):resMemeValeurPos;
+Function indiceMaxTab(tab : tabpiocher): Integer;
+Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
+Function prioriteJoueur(jeux:jeu):jeu;
 Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
 Function LegaliteCoup(jeux:jeu; couleur_p,forme_p,i,j :integer):integer;
@@ -56,7 +57,7 @@ var
     i, j, cptForme:integer;
     tabForme:tabpiocher;
 Begin
-    setlength(tabForme,6);
+    setlength(tabForme,6);        // taille 6 car 6 pièces dans une main
     for j:=0 to 5 do                    // j correspond au numéro de la pièce
     Begin
         for i:=0 to 5 do
@@ -93,7 +94,7 @@ var
     i, j, cptCouleur:integer;
     tabCouleur:tabpiocher;
 Begin
-    setlength(tabCouleur,6);
+    setlength(tabCouleur,6);              // taille 6 car 6 pièces dans une main
     for j:=0 to 5 do                    // j correspond au numéro de la pièce
     Begin
         for i:=0 to 5 do
