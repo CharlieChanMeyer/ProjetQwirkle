@@ -12,6 +12,7 @@ A Faire :
         -Si grille vide alors pose milieu
         -sinon Pour chaque piece dans sa main, test les cases une par une jusqu'à pouvoir poser une piece.
 - RAPPORT MON CAP'TAIN. EN LaTeX MON CAP'TAIN !!!!!!!
+- pose plusiseurs pieces quand grille pas vide (NOUS FAUT TA FONCTION MARCO)
 
 Bug Repport :
 - Même Attribut ?
