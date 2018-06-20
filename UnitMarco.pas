@@ -29,7 +29,7 @@ Function initJoueur(jeux : jeu): jeu;
 Function verifTaille(jeux : jeu): jeu;
 (*Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean; obsolete*)
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
-//Procedure initPosePieces(jeux : jeu; numJoueur : integer);
+Procedure initPosePieces(jeux : jeu; numJoueur : integer);
 Function verifPose(piecePosee : pioche): Boolean;
 Function formeOuCouleur(piecePosee : pioche; verif : Boolean): Boolean;
 
