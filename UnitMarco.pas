@@ -12,7 +12,7 @@
 ------------------------------------------------------------------------------------
 *)
 Unit UnitMarco;
-
+{$mode objfpc}
 interface
 uses SysUtils,UnitType,UnitParam,UnitAff,Crt;
 (*--------------------------------------------------------
@@ -25,7 +25,7 @@ uses SysUtils,UnitType,UnitParam,UnitAff,Crt;
 - Pré conditions : avoir mis un nombre de joueurs en argument
 - Post conditions : renvoi l'etat du jeux avec les joueurs initialisés
 --------------------------------------------------------*)
-Function initJoueur(nbJoueur : integer; jeux : jeu): jeu;
+Function initJoueur(jeux : jeu): jeu;
 Function verifTaille(jeux : jeu): jeu;
 (*Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean; obsolete*)
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
@@ -36,24 +36,36 @@ Function formeOuCouleur(piecePosee : pioche; verif : Boolean): Boolean;
 
 implementation
 
-Function initJoueur(nbJoueur : integer; jeux : jeu): jeu;
+Function initJoueur(jeux : jeu): jeu;
 
 var
    i: integer;
+   nbJoueur : integer;
+Begin
+    nbJoueur := length(jeux.player);
+    For i := 0 to nbJoueur-1 do
+    Begin
+        writeln('Humain : ', jeux.player[i].humain);
+        if (jeux.player[i].humain) THEN
+        BEGIN
+            writeln('Entrez le nom du joueur ',i+1);
+            readln(jeux.player[i].nom);
+            writeln('Entrez l''age du joueur ',i+1);
+            Try
+                readln(jeux.player[i].age);
+            except
+                on e: Exception do error(1);
+            end;
 
-  Begin
-   setlength(jeux.player,nbJoueur);
-   For i := 0 to nbJoueur-1 do
-   Begin
-    writeln('Entrez le nom du joueur ',i);
-     readln(jeux.player[i].nom);
-    writeln('Entrez l''age du joueur ',i);
-     readln(jeux.player[i].age);
-   End;
-
-   initJoueur := jeux;
-
-  End;
+        End
+        else
+        begin
+            jeux.player[i].nom := 'Ordinateur';
+            jeux.player[i].age := 0;
+        end;
+    End;
+    initJoueur := jeux;
+End;
 
 (*--------------------------------------------------------
 - Fonction : verifTaille

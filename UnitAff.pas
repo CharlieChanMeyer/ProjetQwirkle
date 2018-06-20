@@ -49,6 +49,8 @@ Procedure Affichagec10(p : piece);
 Procedure MenuAction();
 Procedure MenuActionssp();
 Procedure Ecrirenb(nb : integer);
+Procedure affpioche(jeux : jeu);
+Procedure error(i:Integer);
 
 implementation
 
@@ -560,6 +562,7 @@ Begin
     writeln('--1. Poser UNE pièce                                             --');
     writeln('--2. Poser PLUSIEURS pièces possédant un même attribut           --');
     writeln('--3. Echanger une ou plusieurs pièces                            --');
+    writeln('--0. Passer son tour                                             --');
     writeln('-------------------------------------------------------------------');
 End;
 
@@ -582,7 +585,55 @@ Begin
     writeln('--                                                               --');
     writeln('--1. Poser UNE pièce                                             --');
     writeln('--2. Poser PLUSIEURS pièces possédant un même attribut           --');
+    writeln('--0. Passer son tour                                             --');
     writeln('-------------------------------------------------------------------');
+End;
+
+(*
+--------------------------------------------------------
+- Procedure : affpioche
+- Auteur : Charlie Meyer
+- Date de creation : 18/06/18 14:30
+-
+- But : Afficher la piocher
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Afficher la piocher
+--------------------------------------------------------*)
+
+Procedure affpioche(jeux : jeu);
+VAR
+    i,n : Integer;
+Begin
+    Writeln();
+    n := length(jeux.pioches);
+    For i := 0 to n-1 do
+    Begin
+        AffichagePiece(jeux.pioches[i]);
+        write(' | ');
+    End;
+    writeln();
+End;
+
+(*
+--------------------------------------------------------
+- Procedure : error
+- Auteur : Charlie Meyer
+- Date de creation : Mardi 19 Juin 11h53
+-
+- But : Afficher un message d'Erreur
+- Remarques : Remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Afficher un message d'Erreur
+--------------------------------------------------------*)
+
+Procedure error(i : Integer);
+Begin
+    case i of
+        1 : writeln('Ceci n''est pas un age valide !');
+        2 : writeln('Erreur, pas assez de pièces pour tout les joueurs. Veuillez enlever des joueurs ou rajouter des pieces.');
+    end;
+    halt();
 End;
 
 End.

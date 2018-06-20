@@ -116,7 +116,6 @@ Begin
         jeux.player[num_player].main[tbp[i]] := p_tmp;      //donne la piece pioché au joueur (à l'emplacement de la pièce jouée)
         jeux.pioches[place_pp] := jeux.pioches[n1-1];       //Prends la dernière pièce de la pioche et la met à la place de la pièce piochée
         setlength(jeux.pioches,n1-1);                   //Enlève 1 à la taille de la pioche
-
     End;
     piocher := jeux;                //Retourne le jeux
 End;
@@ -147,7 +146,6 @@ Begin
         begin
             If (jeux.grille[i,j].couleur <> 0) then     //Si la couleur de la pièce sur la case [i,j] n'existe pas (0), alors ...
             Begin
-                Writeln(i,',',j);       //A ENLEVER PLUS TARD
                 Mvide := False;                     //Dit que la grille n'est pas vide.
             End;
             Inc(j,1);                           //Augmente le nombre de colonne de 1
@@ -156,7 +154,6 @@ Begin
     end;
     If Mvide then
     Begin
-        writeln('La grille est vide')       //A ENLEVER PLUS TARD
     End;
     VerifMvide := Mvide; //Retourne le fait que la grille soit vide ou non
 End;
@@ -194,7 +191,7 @@ Begin
         End
         else
         begin
-            writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.')     //Sinon, dit que l'action n'est pas valide et boucle 
+            writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.')     //Sinon, dit que l'action n'est pas valide et boucle
         end;
     End;
     poser1pchoix := Jeux;           //Retourne le plateau
@@ -285,16 +282,17 @@ Var
     i : Integer;
 Begin
     MenuAction();           //Lance l'affichage du menu des actions
-    i :=0;
-    while (i=0) do //Tant que i = 0
+    i :=-1;
+    while (i=-1) do //Tant que i = -1
     begin
         writeln('Merci de rentrer le numéro de l action souhaitée'); //Donne un instruction au Joueur
         readln(i);              //Lis l'information donnée par le Joueur
         case i of
+            0: exit(jeux);
             1: jeux:=poser1p(jeux,num_player);          //Si le joueur demande l'action 1, lance la fonction poser1p
             //2: poserpp;
             3: jeux:=echangePioche(jeux,num_player);        //Si le joueur demande l'action 3, lance l'action echangePioche
-            else i:=0;              //Sinon remet i=0
+            else i:=-1;              //Sinon remet i=-1
         end;
     end;
     JeuDejoueur := jeux         //Retourne le Jeux
@@ -346,10 +344,7 @@ Var
     num_player,num_tour,n: Integer;
     EmptyHand : Boolean;
 Begin
-    jeux := CountParam();
-    jeux := initMain(jeux);
-    jeux.player[1].nom := 'Marco';
-    jeux.player[0].nom := 'Charlie';
+    affpioche(jeux);            //A ENLEVER APRES LES TESTS
     EmptyHand := False;              //Dis que la main des joueur n'est pas vide
     n := length(jeux.player);           //Prends le nombre de Joueur
     num_tour := 1;                  //Met le Premier tour en place
@@ -385,13 +380,12 @@ End;
 Function initMain(jeux : jeu): jeu;
 var
 tbp : tabpiocher;
-i: integer;
+i,n: integer;
 
 Begin
   if ((length(jeux.player)*6) > (length(jeux.pioches))) then //condition d'arret
   begin
-    writeln ('Erreur, pas assez de pièces pour tout les joueurs');
-    writeln ('Veuillez enlever des joueurs ou rajouter des pieces');
+    error(2);
   end
   else
   begin
@@ -400,12 +394,109 @@ Begin
     Begin
         tbp[i]:=i;
     End;
-    For i := 0 to (length(jeux.player)-1) do //parcour le tableau joueur et les fait piocher 1 par 1
+    n := length(jeux.player)-1;
+    For i := 0 to n do //parcour le tableau joueur et les fait piocher 1 par 1
     Begin
      jeux := VerifPioche(jeux,6,i,tbp);
     End;
   end;
   initMain := jeux; //renvoi le jeux avec les donnes de chaque joueurs
 End;
+
+
+(*--------------------------------------------------------
+- Fonction         : scoreNordSud
+- Auteur           : Guillaume PROTON
+- Date de creation : 19/06/2018
+-
+- But              : renvoie un entier qui représente le score marqué par un joueur en fonction des pièces situées au nord et au sud de la pièce à la position (i,j)
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : renvoie un entier qui représente le score marqué par un joueur en fonction des pièces situées au nord et au sud de la pièce à la position (i,j)
+--------------------------------------------------------*)
+
+Function scoreNordSud(jeux:jeu;i,j:integer):integer;
+Var
+    score:integer;
+begin
+    score:=0;                                                                     
+    if ((jeux.grille[i,j].forme=jeux.grille[i+1,j].forme) or (jeux.grille[i,j].forme=jeux.grille[i-1,j].forme)) then   // Si les formes sont égales alors c'est une ligne de couleur
+    Begin
+        if (nbPiecesSud(jeux,i,j)+nbPiecesNord(jeux,i,j)+1=jeux.parametre.nbcouleur) then                     // Si la ligne de couleur est complète alors
+        Begin
+            score:=score+jeux.parametre.nbcouleur
+        End;
+    end
+    else           // Si ce n'est pas une ligne de couleur alors c'est une ligne de forme
+    Begin
+        if (nbPiecesSud(jeux,i,j)+nbPiecesNord(jeux,i,j)+1=jeux.parametre.nbforme) then      // Si la ligne de forme est complète
+        Begin
+            score:=score+jeux.parametre.nbforme
+        end;
+    end;
+    scoreNordSud:=score;
+end;
+
+(*--------------------------------------------------------
+- Fonction         : scoreEstOuest
+- Auteur           : Guillaume PROTON
+- Date de creation : 19/06/2018
+-
+- But              : renvoie un entier qui représente le score marqué par un joueur en fonction des pièces situées à l'est et à l'ouest de la pièce à la position (i,j)
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : renvoie un entier qui représente le score marqué par un joueur en fonction des pièces situées à l'est et à l'ouest de la pièce à la position (i,j)
+--------------------------------------------------------*)
+
+Function scoreEstOuest(jeux:jeu;i,j:integer):integer;
+Var
+    score:integer;
+begin
+    score:=0;                                                                     
+    if ((jeux.grille[i,j].forme=jeux.grille[i,j+1].forme) or (jeux.grille[i,j].forme=jeux.grille[i,j-1].forme)) then   // Si les formes sont égales alors c'est une ligne de couleur
+    Begin
+        if (nbPiecesOuest(jeux,i,j)+nbPiecesEst(jeux,i,j)+1=jeux.parametre.nbcouleur) then                     // Si la ligne de couleur est complète alors
+        Begin
+            score:=score+jeux.parametre.nbcouleur
+        End;
+    end
+    else           // Si ce n'est pas une ligne de couleur alors c'est une ligne de forme
+    Begin
+        if (nbPiecesEst(jeux,i,j)+nbPiecesOuest(jeux,i,j)+1=jeux.parametre.nbforme) then      // Si la ligne de forme est complète
+        Begin
+            score:=score+jeux.parametre.nbforme
+        end;
+    end;
+    scoreEstOuest:=score;
+end;
+
+
+(*--------------------------------------------------------
+- Fonction         : comptePoint
+- Auteur           : Guillaume PROTON
+- Date de creation : 19/06/2018
+-
+- But              : renvoie un entier qui représente le score marqué par un joueur à la fin de son tour
+- Remarques        : Aucune
+- Pré conditions   : Aucune
+- Post conditions  : renvoie un entier qui représente le score marqué par un joueur à la fin de son tour
+--------------------------------------------------------*)
+
+Function comptePoint(jeux:jeu;i,j:integer):integer;
+Var
+    score, l:integer;
+Begin
+    score:=scoreNordSud(jeux,i,j)+scoreEstOuest(jeux,i,j);
+    for l:=i+nbPiecesSud(jeux,i,j) downto i-nbPiecesNord(jeux,i,j) do 
+    begin
+       Inc(score)
+    end;
+    for l:=i+nbPiecesEst(jeux,i,j) downto i-nbPiecesOuest(jeux,i,j) do
+    begin
+        Inc(score)
+    end;
+    comptePoint:=score;
+End;
+
 
 End.
