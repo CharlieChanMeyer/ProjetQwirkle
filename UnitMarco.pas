@@ -29,9 +29,11 @@ Function initJoueur(jeux : jeu): jeu;
 Function verifTaille(jeux : jeu): jeu;
 (*Function verif(dejaPioche : pioche; jeux : jeu; i : integer): Boolean; obsolete*)
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
-//Procedure initPosePieces(jeux : jeu; numJoueur : integer);
+Procedure initPosePieces(jeux : jeu; numJoueur : integer);
 Function verifPose(piecePosee : pioche): Boolean;
 Function formeOuCouleur(piecePosee : pioche; verif : Boolean): Boolean;
+Function posePieces(jeux : jeu ; numJoueur : integer ; piecePosee : pioche): jeu;
+
 
 
 implementation
@@ -162,7 +164,7 @@ End;
 --------------------------------------------------------*)
 Procedure initPosePieces(jeux : jeu; numJoueur : integer);
 var
-  n,nbPieceJoue,milieu,pieceMain : integer;
+  i,nbPieceJoue,pieceMain : integer;
   piecePosee : pioche;
 Begin
   Repeat
@@ -189,6 +191,46 @@ Begin
   begin
     jeux := posePieces(jeux,numJoueur,piecePosee);
   end;
+End;
+
+(*--------------------------------------------------------
+- Fonction : posePieces
+- Auteur : Marco Espiot
+- Date de creation : 20/06/2018
+-
+- But : But
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : But
+--------------------------------------------------------*)
+Function posePieces(jeux : jeu ; numJoueur : integer ; piecePosee : pioche): jeu;
+Var
+i, choix : Integer;
+Begin
+  i := 0;
+Repeat
+  writeln('Souhaitez vous posez une ligne ou une colonne');
+  writeln('1 - En Ligne');
+  writeln('2 - En colonne');
+  read(choix);
+until ((choix = 1) or (choix = 2));
+
+ if (choix = 1) then
+ begin
+   Repeat
+     jeux.grille[12+i,12].forme := piecePosee[i].forme;
+     jeux.grille[12+i,12].couleur := piecePosee[i].couleur;
+     Inc(i);
+   until (i = length(piecePosee)-1);
+ end
+ else
+ begin
+   Repeat
+     jeux.grille[12,12+i].forme := piecePosee[i].forme;
+     jeux.grille[12,12+i].couleur := piecePosee[i].couleur;
+     Inc(i);
+   until (i = length(piecePosee)-1);
+ end;
 End;
 
 (*--------------------------------------------------------
