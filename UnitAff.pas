@@ -51,6 +51,8 @@ Procedure MenuActionssp();
 Procedure Ecrirenb(nb : integer);
 Procedure affpioche(jeux : jeu);
 Procedure error(i:Integer);
+Procedure grillefinale(jeux : jeu);
+Procedure AffichageIA(jeux : jeu ; i : Integer);
 
 implementation
 
@@ -634,6 +636,48 @@ Begin
         2 : writeln('Erreur, pas assez de pièces pour tout les joueurs. Veuillez enlever des joueurs ou rajouter des pieces.');
     end;
     halt();
+End;
+
+(*--------------------------------------------------------
+- Procedure : AffichageIA
+- Auteur : Charlie Meyer
+- Date de creation : 21/06/18 13:00
+-
+- But : Affiche la partie d'un IA
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Affiche la partie d'un IA
+--------------------------------------------------------*)
+Procedure AffichageIA(jeux : jeu ; i : Integer);
+Begin
+    TextColor(Green);                       //Reset la couleur générale
+    writeln('---------',jeux.player[i].nom,'---------');
+    writeln('-------------------------------------');
+    AffichageGrille(jeux.grille);           //Affiche la grille de jeu
+    TextColor(Green);                       //Reset la couleur générale
+    writeln('-------------------------------------');
+    delay(1200);
+End;
+
+(*--------------------------------------------------------
+- Procedure : grillefinale
+- Auteur : Charlie Meyer
+- Date de creation : 21/06/18 13:05
+-
+- But : Affiche la grille finale
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Affiche la grille finale
+--------------------------------------------------------*)
+Procedure grillefinale(jeux : jeu);
+Begin
+    ClrScr;         //Reset l'affichage du terminal
+    TextColor(Green);                       //Reset la couleur générale
+    writeln('------------Grille Finale------------');
+    writeln('-------------------------------------');
+    AffichageGrille(jeux.grille);           //Affiche la grille de jeu
+    TextColor(Green);                       //Reset la couleur générale
+    writeln('-------------------------------------');
 End;
 
 End.

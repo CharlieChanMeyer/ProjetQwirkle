@@ -62,6 +62,12 @@ TYPE
         indiceJ2:integer;
     end;
 
+    ia_jeu = RECORD
+        jeux : jeu;
+        pieces : integer;
+        action : Boolean;
+    end;
+
 implementation
 
 End.

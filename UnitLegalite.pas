@@ -36,6 +36,7 @@ Function nbPiecesNord(jeux:jeu;i,j:integer):integer;
 Function nbPiecesSud(jeux:jeu;i,j:integer):integer;
 Function nbPiecesOuest(jeux:jeu;i,j:integer):integer;
 Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
+Function VerifMvide(jeux : jeu):Boolean;
 
 implementation
 
@@ -274,6 +275,44 @@ Begin
     End;
     prioriteAge:=tabOrdreJoueur;
 end;
+
+(*--------------------------------------------------------
+- Fonction : VerifMvide
+- Auteur : Charlie Meyer
+- Date de creation : date
+-
+- But : Vérifie si la grille est vide
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Vérifie si la grille est vide
+--------------------------------------------------------*)
+Function VerifMvide(jeux : jeu): Boolean;
+Var
+    Mvide : Boolean;
+    n,i,j : Integer;
+Begin
+    Mvide := True;                      //Dis que la grille est vide
+    i:=0;                               //Compteur de ligne à 0
+
+    n := length(jeux.grille);           //n prend la taille de la grille
+    while ((i<n) and (Mvide)) do        // Tant que le nombre de ligne parcouru < au nombre de ligne et que la grille est vide, fait ...
+    begin
+        j := 0;                     //Compteur de colonne à 0
+        while ((j<n) and (Mvide)) do         // Tant que le nombre de colonne parcouru < au nombre de colonne et que la grille est vide, fait ...
+        begin
+            If (jeux.grille[i,j].couleur <> 0) then     //Si la couleur de la pièce sur la case [i,j] n'existe pas (0), alors ...
+            Begin
+                Mvide := False;                     //Dit que la grille n'est pas vide.
+            End;
+            Inc(j,1);                           //Augmente le nombre de colonne de 1
+        end;
+        Inc(i,1);                           //Augmente le nombre de ligne de 1
+    end;
+    If Mvide then
+    Begin
+    End;
+    VerifMvide := Mvide; //Retourne le fait que la grille soit vide ou non
+End;
 
 (*
 --------------------------------------------------------
@@ -530,6 +569,7 @@ Begin
     Begin
         CoupLegal:=0
     end;
+    writeln('CoupLegal');
     LegaliteCoup:=CoupLegal;
 End;
 
@@ -551,8 +591,6 @@ Function VerifPieceEst(jeux:jeu ; couleur_p,forme_p,i,j : integer):integer;
 Var
     memeParam : integer;
 Begin
-    writeln (couleur_p);
-    writeln(jeux.grille[i,j+1].couleur);
     if ((couleur_p = jeux.grille[i,j+1].couleur) xor (forme_p = jeux.grille[i,j+1].forme)) then    // "xor" car on ne peut pas jouer une pièce de la même forme et de la même couleur côte à côte
     Begin
         memeParam:=1

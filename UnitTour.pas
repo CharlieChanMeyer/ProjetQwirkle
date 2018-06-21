@@ -15,13 +15,12 @@ Unit UnitTour;
 
 interface
 
-uses SysUtils,UnitType,UnitParam,UnitAff,UnitMarco,UnitLegalite,Crt;
+uses SysUtils,UnitType,UnitParam,UnitAff,UnitMarco,UnitLegalite,UnitIA,Crt;
 
 Procedure Tourdejeu(jeux : jeu);
 Function Tourdejoueur(jeux : jeu; num_player,num_tour : Integer):jeu;
 Function JeuDejoueur(jeux : jeu; num_player : Integer):jeu;
 Function poser1p(jeux : jeu; num_player : Integer):jeu;
-Function VerifMvide(jeux : jeu):Boolean;
 Function piocher(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 Function VerifPioche(jeux : jeu;nb_pp,num_player : Integer; tbp : tabpiocher):jeu;
 Function VerifMainVide(jeux : jeu; num_player : Integer):Boolean;
@@ -118,44 +117,6 @@ Begin
         setlength(jeux.pioches,n1-1);                   //Enlève 1 à la taille de la pioche
     End;
     piocher := jeux;                //Retourne le jeux
-End;
-
-(*--------------------------------------------------------
-- Fonction : VerifMvide
-- Auteur : Charlie Meyer
-- Date de creation : date
--
-- But : Vérifie si la grille est vide
-- Remarques : remarques éventuelles
-- Pré conditions : Préconditions
-- Post conditions : Vérifie si la grille est vide
---------------------------------------------------------*)
-Function VerifMvide(jeux : jeu): Boolean;
-Var
-    Mvide : Boolean;
-    n,i,j : Integer;
-Begin
-    Mvide := True;                      //Dis que la grille est vide
-    i:=0;                               //Compteur de ligne à 0
-
-    n := length(jeux.grille);           //n prend la taille de la grille
-    while ((i<n) and (Mvide)) do        // Tant que le nombre de ligne parcouru < au nombre de ligne et que la grille est vide, fait ...
-    begin
-        j := 0;                     //Compteur de colonne à 0
-        while ((j<n) and (Mvide)) do         // Tant que le nombre de colonne parcouru < au nombre de colonne et que la grille est vide, fait ...
-        begin
-            If (jeux.grille[i,j].couleur <> 0) then     //Si la couleur de la pièce sur la case [i,j] n'existe pas (0), alors ...
-            Begin
-                Mvide := False;                     //Dit que la grille n'est pas vide.
-            End;
-            Inc(j,1);                           //Augmente le nombre de colonne de 1
-        end;
-        Inc(i,1);                           //Augmente le nombre de ligne de 1
-    end;
-    If Mvide then
-    Begin
-    End;
-    VerifMvide := Mvide; //Retourne le fait que la grille soit vide ou non
 End;
 
 (*--------------------------------------------------------
@@ -353,18 +314,22 @@ Begin
         num_player:= 0;                 //Met le joueur initial du tour sur 0
         while ((num_player<=n-1) and (not EmptyHand)) do        //Pour chaque joueur, fait ...
         Begin
-            jeux := Tourdejoueur(jeux,num_player,num_tour);         //Lance le tour de jeux du joueur
+            if (jeux.player[num_player].humain) then
+            BEGIN
+                jeux := Tourdejoueur(jeux,num_player,num_tour);         //Lance le tour de jeux du joueur
+            End
+            else
+                jeux := ia_base(jeux,num_player,num_tour);         //Lance le tour de jeux de l'ia
             if (VerifMainVide(jeux,num_player)) then       //Si la main du joueur est vide alors
             begin
                 EmptyHand := True;                          //Dit que la main d'un joueur est vide et sort des boucles
             end
             else
-            begin
-                Inc(num_player,1)                   //sinon, fait passer le tour au joueur suivant
-            end;
+                Inc(num_player,1);                   //sinon, fait passer le tour au joueur suivant
         End;
         Inc(num_tour,1)         //Augmente le nombre de tour de 1
     end;
+    grillefinale(jeux);
 End;
 
 (*--------------------------------------------------------
@@ -419,7 +384,7 @@ Function scoreNordSud(jeux:jeu;i,j:integer):integer;
 Var
     score:integer;
 begin
-    score:=0;                                                                     
+    score:=0;
     if ((jeux.grille[i,j].forme=jeux.grille[i+1,j].forme) or (jeux.grille[i,j].forme=jeux.grille[i-1,j].forme)) then   // Si les formes sont égales alors c'est une ligne de couleur
     Begin
         if (nbPiecesSud(jeux,i,j)+nbPiecesNord(jeux,i,j)+1=jeux.parametre.nbcouleur) then                     // Si la ligne de couleur est complète alors
@@ -452,7 +417,7 @@ Function scoreEstOuest(jeux:jeu;i,j:integer):integer;
 Var
     score:integer;
 begin
-    score:=0;                                                                     
+    score:=0;
     if ((jeux.grille[i,j].forme=jeux.grille[i,j+1].forme) or (jeux.grille[i,j].forme=jeux.grille[i,j-1].forme)) then   // Si les formes sont égales alors c'est une ligne de couleur
     Begin
         if (nbPiecesOuest(jeux,i,j)+nbPiecesEst(jeux,i,j)+1=jeux.parametre.nbcouleur) then                     // Si la ligne de couleur est complète alors
@@ -487,7 +452,7 @@ Var
     score, l:integer;
 Begin
     score:=scoreNordSud(jeux,i,j)+scoreEstOuest(jeux,i,j);
-    for l:=i+nbPiecesSud(jeux,i,j) downto i-nbPiecesNord(jeux,i,j) do 
+    for l:=i+nbPiecesSud(jeux,i,j) downto i-nbPiecesNord(jeux,i,j) do
     begin
        Inc(score)
     end;
