@@ -205,8 +205,8 @@ Begin
             if ((i<>j) and (tab[i]=tab[j])) then
             Begin
                 mmVal.memeValeur:=1;
-                mmVal.indiceJ1:=i;
-                mmVal.indiceJ2:=j
+                mmVal.indiceJ1:=j;
+                mmVal.indiceJ2:=i
             end;
         End;
     end;
