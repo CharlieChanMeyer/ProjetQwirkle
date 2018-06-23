@@ -74,29 +74,29 @@ VAR
     param_joueur : string;
     j,n : Integer;
 Begin
-    param_joueur := Paramstr(i+1);
-    n := length(param_joueur);
-    setlength(jeux.player,n);
-    For j:= 1 to n do
+    param_joueur := Paramstr(i+1);          //Prend les paramètres rentrés en paramètres joueur
+    n := length(param_joueur);      //Prend la taille des paramètres rentrés
+    setlength(jeux.player,n);           //Définis le nombre de joueur
+    For j:= 1 to n do                   //Pour chaque caractère rentrer en paramètre
     Begin
-        If (param_joueur[j] = 'h') THEN
+        If (param_joueur[j] = 'h') THEN             //Si le caractère est un h, alors
         Begin
-            jeux.player[j-1].humain := TRUE;
+            jeux.player[j-1].humain := TRUE;        //dis que le joueur est un humain
         End
-        else
+        else                                            //Sinon
         begin
-            if (param_joueur[j] = 'o') then
+            if (param_joueur[j] = 'o') then                 //Si le caractère est un o
             begin
-                jeux.player[j-1].humain := FALSE;
+                jeux.player[j-1].humain := FALSE;           //Dis que c'est une IA
             end
-            else
+            else                                                    //Sinon
             begin
-                writeln('Le paramètre joueur ',param_joueur[j],' n existe pas. Merci de rentrer des paramètres valides !');
+                writeln('Le paramètre joueur ',param_joueur[j],' n existe pas. Merci de rentrer des paramètres valides !'); //Dis que le caractère rentré n'est pas valide et stop le programme
                 Halt();
             end;
         end;
     End;
-    Modif_Pj := jeux;
+    Modif_Pj := jeux;               //Retourne le jeux
 End;
 
 (*--------------------------------------------------------
@@ -113,12 +113,17 @@ Function Modif_Pt(jeux : jeu; i : Integer; pt : string): jeu;
 Var
     nbp_t : Integer;
 Begin
-    nbp_t := StrToInt(Paramstr(i+1));
-    If ((nbp_t>0) and (nbp_t<11)) THEN
+    nbp_t := StrToInt(Paramstr(i+1));        //Prend les paramètres rentrés en paramètres répétition
+    If ((nbp_t>0) and (nbp_t<11)) THEN      //Si le nombre est compris entre ]0;11[ alors
     Begin
-        jeux.parametre.repetition:= nbp_t;
-    End;
-    Modif_Pt := jeux
+        jeux.parametre.repetition:= nbp_t;      //Définis le nombre de répétition
+    End
+    else
+    begin
+        writeln('Vous avez demandé un trop grand nombre de répétition. Le nombre de répétition maximal est de 10.');
+        Halt();             //Dis que le nombre de répétition est trop grand et stop le programme
+    end;
+    Modif_Pt := jeux            //Retourne le Jeux
 End;
 
 (*--------------------------------------------------------
@@ -135,12 +140,17 @@ Function Modif_Pf(jeux : jeu; i : Integer; pf : string): jeu;
 Var
     nbp_f : Integer;
 Begin
-    nbp_f := StrToInt(Paramstr(i+1));
-    If ((nbp_f>0) and (nbp_f<11)) THEN
+    nbp_f := StrToInt(Paramstr(i+1));           //Prend les paramètres rentrés en paramètres formes
+    If ((nbp_f>0) and (nbp_f<11)) THEN      //Si le paramètre est compris entre 0 et 11 exclus, alors
     Begin
-        jeux.parametre.nbforme:= nbp_f;
-    End;
-    Modif_Pf := jeux
+        jeux.parametre.nbforme:= nbp_f;         // Définis le nombre de formes
+    End
+    else            //Sinon
+    begin
+        writeln('Vous avez demandé un trop grand nombre de formes. Le nombre de forme maximal est de 10.');
+        Halt();     //Dis que le nombre de forme demandé est trop grand et quitte le programme
+    end;
+    Modif_Pf := jeux        //Retourne le jeux
 End;
 
 (*--------------------------------------------------------
@@ -157,12 +167,17 @@ Function Modif_Pc(jeux : jeu; i : Integer; pc : string): jeu;
 Var
     nbp_c : Integer;
 Begin
-    nbp_c := StrToInt(Paramstr(i+1));
-    If ((nbp_c>0) and (nbp_c<11)) THEN
+    nbp_c := StrToInt(Paramstr(i+1));       //Prend les paramètres rentrés en paramètre couleur
+    If ((nbp_c>0) and (nbp_c<11)) THEN          //Si la couleur est comprise entre 0 et 11 exclus, alors
     Begin
-        jeux.parametre.nbcouleur:= nbp_c;
-    End;
-    Modif_Pc := jeux
+        jeux.parametre.nbcouleur:= nbp_c;           //Définis le nombre de couleurs
+    End
+    else            //sinon
+    begin
+        writeln('Vous avez demandé un trop grand nombre de couleurs. Le nombre de couleurs maximal est de 10.');
+        Halt();         //Dis que le nombre de couleur demandé est trop grand et quitte le programme
+    end;
+    Modif_Pc := jeux        //Retourne le jeux
 End;
 
 (*--------------------------------------------------------
@@ -176,29 +191,26 @@ End;
 - Post conditions : Vérifier le reste des paramètres rentrés
 --------------------------------------------------------*)
 Function verify2(jeux_param : modifparam; nb_param,i : Integer; pc,pf,pt,pj : string): modifparam;
-VAR
-    modification : Boolean;
 Begin
-    if (Paramstr(i) = pt) then
+    if (Paramstr(i) = pt) then              //Si le paramètre i est l'appel paramètre répétition alors
     begin
-        jeux_param.jeux := Modif_Pt(jeux_param.jeux,i,pt);
-        jeux_param.modif := True;
+        jeux_param.jeux := Modif_Pt(jeux_param.jeux,i,pt);      //lance la fonction de modification de ce paramètres
+        jeux_param.modif := True;                   //Dis qu'il y a bien eu une modification des paramètres
     end
     else
     begin
-        if (Paramstr(i) = pj) then
+        if (Paramstr(i) = pj) then              //Si le paramètre i est l'appel paramètre joueur alors
         begin
-            jeux_param.jeux := Modif_Pj(jeux_param.jeux,i,pj);
-            jeux_param.modif := True;
+            jeux_param.jeux := Modif_Pj(jeux_param.jeux,i,pj);      //lance la fonction de modification de ce paramètres
+            jeux_param.modif := True;                               //Dis qu'il y a bien eu une modification des paramètres
         end;
     end;
-    modification := jeux_param.modif;
-    If ((i = nb_param) and (not modification))THEN
+    If ((i = nb_param) and (not jeux_param.modif))THEN          //Si tous les paramètres entrés ont été parcourues et que le jeux n'a pas été modifié
     Begin
         writeln('Les paramètres entrés ne sont pas valides. Merci de rentrer des paramètres valides !');
-        Halt();
+        Halt();     //Dis que les paramètres ne sont pas valides et stop le programme
     End;
-    verify2 := jeux_param;
+    verify2 := jeux_param;      //Retourne le jeux
 End;
 
 (*--------------------------------------------------------
@@ -216,30 +228,30 @@ Var
     i : Integer;
     jeux_param : modifparam;
 Begin
-    jeux_param.jeux := jeux;
-    jeux_param.modif := False;
-    For i := 1 to nb_param do
+    jeux_param.jeux := jeux;            //Prend le jeux
+    jeux_param.modif := False;          //Dis que le jeux n'a pas subit de modification
+    For i := 1 to nb_param do           //Pour chaque paramètre rentré
     Begin
-        If (Paramstr(i) = pc) THEN
+        If (Paramstr(i) = pc) THEN          //Si le paramètre i est l'appel paramètre couleur, alors
         Begin
-            jeux_param.jeux := Modif_Pc(jeux_param.jeux,i,pc);
-            jeux_param.modif := True;
+            jeux_param.jeux := Modif_Pc(jeux_param.jeux,i,pc);          //Lance la fonction de modification de ce paramètre
+            jeux_param.modif := True;                                  //Dis qu'il y a bien eu une modification des paramètres
         End
-        else
+        else                    //Sinon
         begin
-            if (Paramstr(i) = pf) then
+            if (Paramstr(i) = pf) then                      //Si le paramètre i est l'appel paramètre forme
             begin
-                jeux_param.jeux := Modif_Pf(jeux_param.jeux,i,pf);
-                jeux_param.modif := True;
+                jeux_param.jeux := Modif_Pf(jeux_param.jeux,i,pf);          //Lance la fonction de modification de ce paramètre
+                jeux_param.modif := True;                       //Dis qu'il y a bien eu une modification des paramètres.
             end
-            else
+            else            //Sinon
             begin
-                jeux_param := verify2(jeux_param,nb_param,i,pc,pf,pt,pj)
+                jeux_param := verify2(jeux_param,nb_param,i,pc,pf,pt,pj) //Lance la deuxième partie de la vérification des paramètres
             end;
         end;
     End;
-    Jeux := jeux_param.jeux;
-    verify := Jeux;
+    Jeux := jeux_param.jeux; //Prend le Jeux
+    verify := Jeux;         //Retourne le Jeux
 End;
 
 (*--------------------------------------------------------
@@ -256,20 +268,20 @@ Function piochedefault(jeux : jeu): jeu;
 Var
     i, valCouleur: integer;
 Begin
-    valCouleur:=0;
-    setlength(jeux.pioches,18);
-    for i:=0 to 17 do
+    valCouleur:=0;          //Prend 0 Pour valeur couleur temporaire
+    setlength(jeux.pioches,18);             //Définis la taille de la pioche à 18
+    for i:=0 to 17 do               //Pour chaque case de la pioche
     Begin
-        jeux.pioches[i].couleur:= (valCouleur MOD 3) +1;
-        valCouleur:= valCouleur + 1;
+        jeux.pioches[i].couleur:= (valCouleur MOD 3) +1;       //Définis la couleur
+        valCouleur:= valCouleur + 1;                            //Rajoute 1 à la couleur temporaire
     End;
-   for i:=0 to 5 do
+   for i:=0 to 5 do                     //Pour chaque groupe de 6 pièce
    Begin
-      jeux.pioches[i].forme:=1;
-      jeux.pioches[i+6].forme:=2;
-      jeux.pioches[i+12].forme:=3
+      jeux.pioches[i].forme:=1;         //Donne la forme 1 aux 6 premières pièces
+      jeux.pioches[i+6].forme:=2;         //Donne la forme 1 aux 6 pièces suivantes
+      jeux.pioches[i+12].forme:=3         //Donne la forme 1 aux 6 dernières pièces
    End;
-    piochedefault:=jeux;
+    piochedefault:=jeux;        //Retourne le jeux avec la pioche définie
 End;
 
 (*--------------------------------------------------------
@@ -286,36 +298,36 @@ Function param_pioche(jeux : jeu): jeu;
 Var
     i,j,n,valCouleur,nb_couleur,nb_forme,nb_repet,valeurforme,nb_fp: integer;
 Begin
-    valCouleur:=0;
-    nb_couleur := jeux.parametre.nbcouleur;
-    nb_forme := jeux.parametre.nbforme;
-    nb_repet := jeux.parametre.repetition;
-    n :=  nb_forme*nb_couleur * nb_repet;
-    setlength(jeux.pioches,n);
-    for i:=0 to n-1 do
+    valCouleur:=0;              //Dis que la couleur temporaire est à 0
+    nb_couleur := jeux.parametre.nbcouleur;         //Prend le nombre de couleur
+    nb_forme := jeux.parametre.nbforme;             //Prend le nombre de forme
+    nb_repet := jeux.parametre.repetition;          //Prend le nombre de répétition
+    n :=  nb_forme*nb_couleur * nb_repet;           //Calcul le nombre de pièces de la pioche
+    setlength(jeux.pioches,n);                  //Donne sa taille à la pioche
+    for i:=0 to n-1 do                      //Pour chaque case de la pioche
     Begin
-        jeux.pioches[i].couleur:= (valCouleur MOD nb_couleur) +1;
-        valCouleur:= valCouleur + 1;
+        jeux.pioches[i].couleur:= (valCouleur MOD nb_couleur) +1;       //Définis la couleur
+        valCouleur:= valCouleur + 1;                        //Incrémente la couleur temporaire de 1
     End;
-    i := 0;
-    valeurforme := 1;
-    nb_fp := nb_couleur*nb_repet;
-    while (i<n) do
+    i := 0;             //Replace i à 0
+    valeurforme := 1;           //Donne la valeur 1 à la forme temporaire
+    nb_fp := nb_couleur*nb_repet;       //Calcul le nombre de pièce ayant la même forme
+    while (i<n) do          //Tant que i ne sort pas de la pioche
     begin
-        For j := 0 to nb_fp-1 do
+        For j := 0 to nb_fp-1 do            //Pour chaque gorupe de pièce
         Begin
-            jeux.pioches[i+j].forme:= valeurforme;
+            jeux.pioches[i+j].forme:= valeurforme;      //donne la forme temporaire
         End;
-        Inc(i,nb_fp);
-        Inc(valeurforme,1);
+        Inc(i,nb_fp);   //Incrémente i du nombre de pièce d'un groupe de pièces
+        Inc(valeurforme,1);     //Incrémente la forme temporaire de 1
     End;
-    param_pioche:=jeux;
+    param_pioche:=jeux;     //Retourne le jeux avec la pioche initialisé
 End;
 
 (*--------------------------------------------------------
 - Fonction : paramdefault
 - Auteur : Charlie Meyer
-- Date de creation : date
+- Date de creation : 28 Mai 2018
 -
 - But : Paramètre le jeu avec les paramètres par défault
 - Remarques : remarques éventuelles
@@ -326,30 +338,30 @@ Function paramdefault(jeux : jeu): jeu;
 Var
     i,j : Integer;
 Begin
-    jeux.parametre.nbforme := 3;
-    jeux.parametre.nbcouleur := 3;
-    jeux.parametre.repetition := 2;
-    setlength(jeux.player,2);
-    jeux.player[0].humain := True;
+    jeux.parametre.nbforme := 3;        //Définis le nombre de forme par défault sur 3
+    jeux.parametre.nbcouleur := 3;      //Définis le nombre de couleur par défault sur 3
+    jeux.parametre.repetition := 2;     //Définis le nombre de répétition par défault sur 2
+    setlength(jeux.player,2);           //Définis le nombre de joueur sur 2
+    jeux.player[0].humain := True;      //Dis que les deux joueurs sont humains
     jeux.player[1].humain := True;
-    setlength(jeux.grille,25,25);
+    setlength(jeux.grille,25,25);       //Définis la grille par défault
     For i:=0 to 24 do
-    Begin
+    Begin                               //Pour chaque case de la grille, place une pièce vide
         For j:=0 to 24 do
         Begin
             jeux.grille[i,j].forme := 0;
             jeux.grille[i,j].couleur := 0;
         End;
     End;
-    jeux:=piochedefault(jeux);
-    paramdefault := jeux;
+    jeux:=piochedefault(jeux);          //Initialise la pioche par défault
+    paramdefault := jeux;       //Retourne le jeux initialisé
 End;
 
 (*
 --------------------------------------------------------
 - Procedure : CountParam
 - Auteur : Charlie Meyer
-- Date de creation : Date
+- Date de creation : 28 Mai 2018
 -
 - But : Compte le nombre de paramètre et lance la fonction adéquate
 - Remarques : Remarques éventuelles
@@ -363,21 +375,21 @@ Var
     pc,pf,pt,pj : string;
     nb_param : Integer;
 Begin
-    pc := '-c';
-    pf := '-f';
-    pt := '-t';
-    pj := '-j';
-    nb_param := ParamCount();
-    jeux := paramdefault(jeux);
-    IF (nb_param > 1) THEN
+    pc := '-c';     //Définis l'appel de paramètre couleur sur -c
+    pf := '-f';     //Définis l'appel de paramètre forme sur -f
+    pt := '-t';     //Définis l'appel de paramètre répétition sur -t
+    pj := '-j';     //Définis l'appel de paramètre joueur sur -j
+    nb_param := ParamCount();       //Compte le nombre de paramètre entré
+    jeux := paramdefault(jeux);     //Définis le jeux par défault
+    IF (nb_param > 1) THEN          //Si le nombre de paramètre est supérieur à 1 (1 étant seulement un appel sans valeur rentrée)
     BEGIN
-       jeux := verify(jeux,nb_param,pc,pf,pt,pj);
-       if ((jeux.parametre.nbforme <>3) or (jeux.parametre.nbcouleur <> 3) or (jeux.parametre.repetition <> 2)) then
+       jeux := verify(jeux,nb_param,pc,pf,pt,pj);               //Lance la vérification des paramètres entrés
+       if ((jeux.parametre.nbforme <>3) or (jeux.parametre.nbcouleur <> 3) or (jeux.parametre.repetition <> 2)) then //Si un paramètre autre que celui des joueur est modifié
        begin
-           jeux := param_pioche(jeux);
+           jeux := param_pioche(jeux); //Ré-initialise la pioche
        end;
     END;
-    CountParam := jeux;
+    CountParam := jeux; //Retourne le jeux initialisé
 End;
 
 (*--------------------------------------------------------
@@ -394,9 +406,9 @@ Function verifTaille(jeux : jeu):jeu ;
 var
   n: Integer;
 Begin
- n :=length(jeux.grille);
+ n :=length(jeux.grille);       //Prend la taille de la grille
  setlength(jeux.grille,n+6,n+6); //ajoute 6 cases sur les 2 dimensions du tableau
- verifTaille := jeux
+ verifTaille := jeux        //Retourne le jeux
 End;
 
 End.
