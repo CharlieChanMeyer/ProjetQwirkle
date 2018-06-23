@@ -32,6 +32,9 @@ Function JeuDejoueurssp(jeux : jeu; num_player : integer): jeu;
 Function initMain(jeux : jeu): jeu;
 Function poser1pchoix(jeux : jeu; num_player,p_choisi : Integer): jeu;
 Function initJoueur(jeux : jeu): jeu;
+Function comptePoint(jeux:jeu;i,j:integer):integer;
+Function scoreEstOuest(jeux:jeu;i,j:integer):integer;
+Function scoreNordSud(jeux:jeu;i,j:integer):integer;
 
 implementation
 
