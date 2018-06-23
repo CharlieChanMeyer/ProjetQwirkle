@@ -492,12 +492,12 @@ Var
 
 Begin
     memeAttribut :=0;
-    for l:=i+nbPiecesSud(jeux,i,j) downto i-nbPiecesNord(jeux,i,j) do             // parcoure la ligne contenant la pièce à la position (i,j) de haut en bas
+    for l:=i+nbPiecesSud(jeux,i,j)+1 downto i-nbPiecesNord(jeux,i,j) do             // parcoure la ligne contenant la pièce à la position (i,j) de haut en bas
     Begin
         if (((forme_p=jeux.grille[l,j].forme) and (couleur_p=jeux.grille[l,j].couleur)) and (l<>i)) then  // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
            memeAttribut := 1;
     End;
-    for l:=j+nbPiecesEst(jeux,i,j) downto j-nbPiecesOuest(jeux,i,j) do            // parcoure la ligne contenant la pièce à la position (i,j) de gauche à droite
+    for l:=j+nbPiecesEst(jeux,i,j) downto j-nbPiecesOuest(jeux,i,j)-1 do            // parcoure la ligne contenant la pièce à la position (i,j) de gauche à droite
     Begin
         if (((forme_p=jeux.grille[i,l].forme) and (couleur_p=jeux.grille[i,l].couleur)) and (l<>j)) then // s'il y a une pièce ayant le même attribut sur cette ligne autre que la pièce de la position (i,j)
         Begin
