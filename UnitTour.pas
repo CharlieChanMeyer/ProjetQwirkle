@@ -18,7 +18,7 @@ interface
 uses SysUtils,UnitType,UnitParam,UnitAff,UnitLegalite,UnitIA,Crt;
 
 Function posePiecesGV(jeux : jeu ; numJoueur : integer ; piecePosee : pioche): jeu;
-Function poseAction2(jeux : jeu ; num_player : integer; piecePose : pioche): jeu;
+Function poseAction2(jeux : jeu ; num_player : integer; piecePose : pioche; tbp : tabpiocher): jeu;
 Function initPosePieces(jeux : jeu; numJoueur : integer):jeu;
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
 Procedure Tourdejeu(jeux : jeu);
@@ -126,7 +126,7 @@ End;
 - Pré conditions : Préconditions
 - Post conditions : Poser les pièces de l'action 2
 --------------------------------------------------------*)
-Function poseAction2(jeux : jeu ; num_player : integer; piecePose : pioche): jeu;
+Function poseAction2(jeux : jeu ; num_player : integer; piecePose : pioche; tbp : tabpiocher): jeu;
 Var
     i,j,ligne,colonne : Integer;
     actionfinie : Boolean;
@@ -135,6 +135,7 @@ Begin
     if (VerifMvide(jeux)) then                //Si la grille est vide
     begin
         jeux := posePiecesGV(jeux,num_player,piecePose);      //Lance l'action posePiecesGV
+        jeux := VerifPioche(jeux,length(tbp),num_player,tbp);              //Verifie si la pioche est vide et fait piocher le joueur
     end
     else                                //Sinon
     begin
@@ -149,13 +150,13 @@ Begin
             If (LegaliteCoup(jeux,piecePose[0].couleur,piecePose[0].forme,ligne,colonne)=1) THEN              //Vérifie si le coup demandé est valide
             Begin
                 jeux := posePieces(jeux,num_player,ligne,colonne,piecePose);      //Lance l'action posePieces
-                actionfinie := True                                                         //et dit que l'action est finie
+                actionfinie := True;                                                         //et dit que l'action est finie
+                jeux := VerifPioche(jeux,length(tbp),num_player,tbp);              //Verifie si la pioche est vide et fait piocher le joueur
             End
             else
-            begin
-                writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.')     //Sinon, dit que l'action n'est pas valide et boucle
-            end;
+                writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.');     //Sinon, dit que l'action n'est pas valide et boucle
         End;
+    End;
     poseAction2 := jeux;
 End;
 
@@ -171,14 +172,16 @@ End;
 --------------------------------------------------------*)
 Function initPosePieces(jeux : jeu; numJoueur : integer):jeu;
 var
-  i,nbPieceJoue,pieceMain : integer;
-  piecePosee : pioche;
+    i,nbPieceJoue,pieceMain : integer;
+    piecePosee : pioche;
+    tbp : tabpiocher;
 Begin
     Repeat
         writeln ('Entrez le nombre de pièces à jouer');
         readln (nbPieceJoue);
     until ((nbPieceJoue > 0) and (nbPieceJoue < 7) ); //sors de la boucle une fois que le nombre de pièce est entre 1 et 6
     setlength(piecePosee,nbPieceJoue); // le nombre de cases dans piecePosee est le nombre de pieces que le joueur veut poser
+    setlength(tbp,nbPieceJoue);
     For i := 0 to (nbPieceJoue-1) do //repete la boucle autant de fois qu'il y a de pièces a poser
     Begin
         Repeat
@@ -187,6 +190,7 @@ Begin
         until ((pieceMain < 7) and (pieceMain > 0)); //vérifie que le numéro de la piece dans la main est valide (donc entre 1 et 6)
         writeln('Piece enregistrée');
         piecePosee[i] := jeux.player[numJoueur].main[pieceMain-1]; //la piéce que le joueur veut poser est stocké dans un tableau afin de verifier la légalité de la combinaison en suivant
+        tbp[i] := pieceMain-1;
     End;
     if not VerifPose(piecePosee) then
     begin
@@ -194,7 +198,7 @@ Begin
         jeux := initPosePieces(jeux,numJoueur);
     end
     else
-        jeux := poseAction2(jeux,numJoueur,piecePosee);
+        jeux := poseAction2(jeux,numJoueur,piecePosee,tbp);
     initPosePieces := jeux;
 End;
 
@@ -427,7 +431,7 @@ Begin
         readln(i);              //Lis l'information donnée par le Joueur
         case i of
             1: jeux:=poser1p(jeux,num_player);          //Si le joueur demande l'action 1, lance la fonction poser1p
-            //2: poserpp;
+            2: jeux := initPosePieces(jeux,num_player); //Si le joueur demande l'action 2, lance la fonction initPosePieces
             else i:=0;              //Sinon remet i=0
         end;
     end;
@@ -519,6 +523,7 @@ Begin
         num_player:= 0;                 //Met le joueur initial du tour sur 0
         while ((num_player<=n-1) and (not EmptyHand)) do        //Pour chaque joueur, fait ...
         Begin
+            affpioche(jeux);
             if (jeux.player[num_player].humain) then
             BEGIN
                 jeux := Tourdejoueur(jeux,num_player,num_tour);         //Lance le tour de jeux du joueur
