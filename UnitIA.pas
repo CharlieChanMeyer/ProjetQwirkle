@@ -77,33 +77,31 @@ Function ia_grille(ia_jeux : ia_jeu; num_player : Integer): ia_jeu;
 Var
     ligne,colonne,n,pieces,p_couleur,p_forme : integer;
 Begin
-    n := length(ia_jeux.jeux.grille);
-    pieces := 0;
-    ia_jeux.action := FALSE;
-    while (not ia_jeux.action) do
+    n := length(ia_jeux.jeux.grille);                   //Prend la taille de la grille
+    pieces := 0;                                        //Prend la position de la première piece
+    ia_jeux.action := FALSE;                            //Dis que l'ia n'a pas encore jouer
+    while (not ia_jeux.action) do                       //Tant que l'ia n'a pas jouée
     Begin
-        p_couleur := ia_jeux.jeux.player[num_player].main[pieces].couleur;
-        p_forme := ia_jeux.jeux.player[num_player].main[pieces].forme;
-        ligne := 3;
-        while ((ligne<n) and (not ia_jeux.action)) do
+        p_couleur := ia_jeux.jeux.player[num_player].main[pieces].couleur;          //Prend la couleur de la pièce
+        p_forme := ia_jeux.jeux.player[num_player].main[pieces].forme;              //Prend la forme de la pièce
+        ligne := 3;                                                                //Prend la ligne 3
+        while ((ligne<n) and (not ia_jeux.action)) do                               //Tant que le numéro de ligne ne dépasse pas la taille de la grille ou que l'ia n'a pas jouée
         Begin
-            colonne := 3;
-            while ((colonne<n) and (not ia_jeux.action)) do
+            colonne := 3;                                                            //Prend la colonne 3
+            while ((colonne<n) and (not ia_jeux.action)) do                          //Tant que le numéro de colonne ne dépasse pas la taille de la grille ou que l'ia n'a pas jouée
             begin
-                writeln('JE SUIS PASSER PAR DERRIERE MON CAP''TAIN');
                 If (LegaliteCoup(ia_jeux.jeux,p_couleur,p_forme,ligne,colonne)=1) THEN              //Vérifie si le coup demandé est valide
                 Begin
-                    writeln('POSER OK');
                     ia_jeux.jeux.grille[ligne,colonne] := ia_jeux.jeux.player[num_player].main[pieces];       //Si valide, alors place la pièce
                     ia_jeux.pieces := pieces;                                                   //Stocke la place de la pièce jouée dans la main de l'ia
                     ia_jeux.action := True;                                                    //et dit que l'action est finie
                 End;
-                Inc(colonne,1);
+                Inc(colonne,1);                                     //Incrémente le numéro de la colonne de 1
             end;
-            Inc(ligne,1);
+            Inc(ligne,1);                           //Incrémente le numéro de la ligne de 1
         End;
     End;
-    ia_grille := ia_jeux;
+    ia_grille := ia_jeux;                               //Retourne l'ia_jeux
 End;
 
 (*--------------------------------------------------------
