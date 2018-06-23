@@ -166,20 +166,20 @@ Var
     i : Integer;
     EmptyHand : Boolean;
 Begin
-    EmptyHand := True;
-    i := 0;
-    while ((i<6) and EmptyHand) do
+    EmptyHand := True;          //Dis que la main est vide
+    i := 0;                     //Place l'itérateur à 0
+    while ((i<6) and EmptyHand) do              //Tant que l'itérateur est inférieur à 6 et que la main est vide
     begin
-        if ((jeux.player[num_player].main[i].couleur <> 0) and (jeux.player[num_player].main[i].forme <> 0)) then
+        if ((jeux.player[num_player].main[i].couleur <> 0) and (jeux.player[num_player].main[i].forme <> 0)) then       //Si la pièce à l'emplacement i n'est pas une pièce 'vide'
         begin
-            EmptyHand := False
+            EmptyHand := False                              //Dis que la main n'est pas vide
         end
         else
         begin
-            Inc(i,1)
+            Inc(i,1)                                //Sinon, incrémente l'itérateur
         end;
     end;
-    VerifMainVide := EmptyHand;
+    VerifMainVide := EmptyHand;             //Retourne si la main du joueur est vide ou non
 End;
 
 (*--------------------------------------------------------
@@ -323,7 +323,7 @@ End;
 (*--------------------------------------------------------
 - Fonction : JeuDejoueurssp
 - Auteur : Charlie Meyer
-- Date de creation : date
+- Date de creation : 31 Mai 2018
 -
 - But : Permet au joueur num_player de jouer son Tour
 - Remarques : remarques éventuelles
@@ -352,7 +352,7 @@ End;
 (*--------------------------------------------------------
 - Fonction : JeuDejoueur
 - Auteur : Charlie Meyer
-- Date de creation : date
+- Date de creation : 31 Mai 2018
 -
 - But : Permet au joueur num_player de jouer son Tour
 - Remarques : remarques éventuelles
@@ -455,7 +455,7 @@ End;
 (*--------------------------------------------------------
 - Fonction : initMain
 - Auteur : ESPIOT Marco
-- Date de creation : date
+- Date de creation : 6 Juin 2018
 -
 - But : faire en sorte que le joueur pioche 6 pions
 - Remarques : remarques éventuelles
@@ -468,24 +468,24 @@ tbp : tabpiocher;
 i,n: integer;
 
 Begin
-  if ((length(jeux.player)*6) > (length(jeux.pioches))) then //condition d'arret
-  begin
-    error(2);
-  end
-  else
-  begin
-    setlength (tbp,6);
-    For i := 0 to 5 do
-    Begin
-        tbp[i]:=i;
-    End;
-    n := length(jeux.player)-1;
-    For i := 0 to n do //parcour le tableau joueur et les fait piocher 1 par 1
-    Begin
-     jeux := VerifPioche(jeux,6,i,tbp);
-    End;
-  end;
-  initMain := jeux; //renvoi le jeux avec les donnes de chaque joueurs
+    if ((length(jeux.player)*6) > (length(jeux.pioches))) then //Si la pioche ne contient pas assez de pièce pour tous les joueurs
+    begin
+        error(2);                   //Lance l'erreur 2
+    end
+    else
+    begin
+        setlength (tbp,6);
+        For i := 0 to 5 do
+        Begin
+            tbp[i]:=i;
+        End;
+        n := length(jeux.player)-1;
+        For i := 0 to n do //parcour le tableau joueur et les fait piocher 1 par 1
+        Begin
+            jeux := VerifPioche(jeux,6,i,tbp);
+        End;
+    end;
+    initMain := jeux; //renvoi le jeux avec les mains de chaque joueurs
 End;
 
 
@@ -599,28 +599,27 @@ var
    i: integer;
    nbJoueur : integer;
 Begin
-    nbJoueur := length(jeux.player);
-    For i := 0 to nbJoueur-1 do
+    nbJoueur := length(jeux.player);            //Prend le nombre de joueur
+    For i := 0 to nbJoueur-1 do                 //Pour chaque joueur...
     Begin
-        if (jeux.player[i].humain) THEN
+        if (jeux.player[i].humain) THEN         //Si le joueur est humain
         BEGIN
-            writeln('Entrez le nom du joueur ',i+1);
+            writeln('Entrez le nom du joueur ',i+1);            //Demande son nom
             readln(jeux.player[i].nom);
-            writeln('Entrez l''age du joueur ',i+1);
+            writeln('Entrez l''age du joueur ',i+1);            //Demande son age
             try
                 readln(jeux.player[i].age);
-            except
+            except                                              //Si l'age n'est pas valide, lance l'erreur 1
                 on e: Exception do error(1);
             end;
-
         End
         else
-        begin
+        begin                                                   //Sinon, Dis que le joueur est une Ordinateur
             jeux.player[i].nom := 'Ordinateur';
             jeux.player[i].age := 0;
         end;
     End;
-    initJoueur := jeux;
+    initJoueur := jeux;                                 //Retourne le jeux
 End;
 
 
