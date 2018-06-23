@@ -17,7 +17,8 @@ interface
  {$mode objfpc}
 uses SysUtils,UnitType,UnitParam,UnitAff,UnitLegalite,UnitIA,Crt;
 
-Function posePieces(jeux : jeu ; numJoueur : integer ; piecePosee : pioche): jeu;
+Function posePiecesGV(jeux : jeu ; numJoueur : integer ; piecePosee : pioche): jeu;
+Function poseAction2(jeux : jeu ; num_player : integer; piecePose : pioche): jeu;
 Function initPosePieces(jeux : jeu; numJoueur : integer):jeu;
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
 Procedure Tourdejeu(jeux : jeu);
@@ -36,15 +37,15 @@ implementation
 
 (*--------------------------------------------------------
 - Fonction : posePieces
-- Auteur : Marco Espiot
-- Date de creation : 20/06/2018
+- Auteur : Charlie MEYER
+- Date de creation : 23/06/2018
 -
-- But : But
+- But : Poser les pièces jouées
 - Remarques : remarques éventuelles
 - Pré conditions : Préconditions
-- Post conditions : But
+- Post conditions : Poser les pièces jouées
 --------------------------------------------------------*)
-Function posePieces(jeux : jeu ; numJoueur : integer ; piecePosee : pioche): jeu;
+Function posePieces(jeux : jeu ; numJoueur,ligne,colonne : integer ; piecePosee : pioche): jeu;
 Var
 i, choix : Integer;
 Begin
@@ -58,10 +59,51 @@ Begin
     if (choix = 1) then
     begin
         Repeat
+            jeux.grille[ligne,colonne+i].forme := piecePosee[i].forme;
+            jeux.grille[ligne,colonne+i].couleur := piecePosee[i].couleur;
+            Inc(i,1);
+        until (i = length(piecePosee));
+    end
+    else
+    begin
+        Repeat
+            jeux.grille[ligne+i,colonne].forme := piecePosee[i].forme;
+            jeux.grille[ligne+i,colonne].couleur := piecePosee[i].couleur;
+            Inc(i,1);
+        until (i = length(piecePosee));
+    end;
+    posePieces := jeux;
+End;
+
+(*--------------------------------------------------------
+- Fonction : posePiecesGV
+- Auteur : Marco Espiot
+- Date de creation : 20/06/2018
+-
+- But : But
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : But
+--------------------------------------------------------*)
+Function posePiecesGV(jeux : jeu ; numJoueur : integer ; piecePosee : pioche): jeu;
+Var
+i,n, choix : Integer;
+Begin
+    i := 0;
+    n := length(piecePosee);
+    Repeat
+        writeln('Souhaitez vous posez une ligne ou une colonne');
+        writeln('1 - En Ligne');
+        writeln('2 - En colonne');
+        read(choix);
+    until ((choix = 1) or (choix = 2));
+    if (choix = 1) then
+    begin
+        Repeat
             jeux.grille[12,12+i].forme := piecePosee[i].forme;
             jeux.grille[12,12+i].couleur := piecePosee[i].couleur;
             Inc(i,1);
-        until (i = length(piecePosee));
+        until (i=n);
     end
     else
     begin
@@ -69,9 +111,52 @@ Begin
             jeux.grille[12+i,12].forme := piecePosee[i].forme;
             jeux.grille[12+i,12].couleur := piecePosee[i].couleur;
             Inc(i,1);
-        until (i = length(piecePosee));
+        until (i=n);
     end;
-    posePieces := jeux;
+    posePiecesGV := jeux;
+End;
+
+(*--------------------------------------------------------
+- Fonction : poseAction2
+- Auteur : Charlie Meyer
+- Date de creation : 23/06/18
+-
+- But : Poser les pièces de l'action 2
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : Poser les pièces de l'action 2
+--------------------------------------------------------*)
+Function poseAction2(jeux : jeu ; num_player : integer; piecePose : pioche): jeu;
+Var
+    i,j,ligne,colonne : Integer;
+    actionfinie : Boolean;
+Begin
+    actionfinie := False;               //dit que l'action n'est pas finie
+    if (VerifMvide(jeux)) then                //Si la grille est vide
+    begin
+        jeux := posePiecesGV(jeux,num_player,piecePose);      //Lance l'action posePiecesGV
+    end
+    else                                //Sinon
+    begin
+        While not actionfinie do                    //Tant que l'action n'est pas finie
+        Begin
+            writeln('Merci de rentrer le numéro de la ligne sur laquelle vous souhaitez poser votre piece');        //Demande au joueur le numéro de la ligne sur laquelle il veut jouer la pièce
+            readln(ligne);
+            writeln('Merci de rentrer le numéro de la colonne sur laquelle vous souhaitez poser votre piece');      //Demande au joueur le numéro de la colonne sur laquelle il veut jouer la pièce
+            readln(colonne);
+            Inc(ligne,-1);      //Met la valeur ligne sur celle ordinateur
+            Inc(colonne,-1);        //Met la valeur colonne sur celle ordinateur
+            If (LegaliteCoup(jeux,piecePose[0].couleur,piecePose[0].forme,ligne,colonne)=1) THEN              //Vérifie si le coup demandé est valide
+            Begin
+                jeux := posePieces(jeux,num_player,ligne,colonne,piecePose);      //Lance l'action posePieces
+                actionfinie := True                                                         //et dit que l'action est finie
+            End
+            else
+            begin
+                writeln('Votre action n est pas valide. Merci de renseigner de nouvelles coordonnées.')     //Sinon, dit que l'action n'est pas valide et boucle
+            end;
+        End;
+    poseAction2 := jeux;
 End;
 
 (*--------------------------------------------------------
@@ -109,7 +194,7 @@ Begin
         jeux := initPosePieces(jeux,numJoueur);
     end
     else
-        jeux := posePieces(jeux,numJoueur,piecePosee);
+        jeux := poseAction2(jeux,numJoueur,piecePosee);
     initPosePieces := jeux;
 End;
 
