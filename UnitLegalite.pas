@@ -23,7 +23,7 @@ FUNCTION MaxTab(tab : tabpiocher):integer;
 Function CombiJoueur(jeux:jeu):tabpiocher;
 Function deuxMemeValTab(tab:tabpiocher):resMemeValeurPos;
 Function indiceMaxTab(tab : tabpiocher): Integer;
-Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
+Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;mmVal:resMemeValeurPos):tabjoueur;
 Function prioriteJoueur(jeux:jeu):tabjoueur;
 Function deuxMemesAttributs(jeux:jeu;couleur_p,forme_p,i,j:integer):integer;
 Function CaseVide(jeux:jeu ; i,j:integer):integer;
@@ -263,6 +263,8 @@ END;
 Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;mmVal:resMemeValeurPos):tabjoueur;
 Var
     premiereCaseTabJoueur:joueur;
+    tabOrdreJoueur : tabjoueur;
+    i : integer;
 Begin
     setlength(tabOrdreJoueur,length(jeux.player));
     for i:=0 to length(jeux.player)-1 do
@@ -270,16 +272,16 @@ Begin
         tabOrdreJoueur[i]:=jeux.player[i]         // On ajoute dans le tableau final tous les joueurs qui se sont enregistrés au début de la partie
     End;
     premiereCaseTabJoueur:=tabOrdreJoueur[0];
-    
-    if ((jeux.player[mmVal.indiceJ1].age)>=(jeux.player[mmVal.indiceJ2].age)) then        //">=" pour que si deux joueurs ont le même âge et le plus grand nombre de pièce ayant un attribut commun égal alors le joueur ayant rentrer ses informations en premier au lancement du jeu commence
+
+    if ((jeux.player[mmVal.indiceJ1-1].age)>=(jeux.player[mmVal.indiceJ2-1].age)) then        //">=" pour que si deux joueurs ont le même âge et le plus grand nombre de pièce ayant un attribut commun égal alors le joueur ayant rentrer ses informations en premier au lancement du jeu commence
     Begin
-        tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ1];                               // On échange la position du joueur le plus âgé avec la position du premier joueur dans le tableau poue que le plus âgé commence en premier
-        tabOrdreJoueur[mmVal.indiceJ1]:=premiereCaseTabJoueur
+        tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ1-1];                               // On échange la position du joueur le plus âgé avec la position du premier joueur dans le tableau poue que le plus âgé commence en premier
+        tabOrdreJoueur[mmVal.indiceJ1-1]:=premiereCaseTabJoueur
     End
     else
     Begin
-        tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ2];
-        tabOrdreJoueur[mmVal.indiceJ2]:=premiereCaseTabJoueur
+        tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ2-1];
+        tabOrdreJoueur[mmVal.indiceJ2-1]:=premiereCaseTabJoueur
     End;
     prioriteAge:=tabOrdreJoueur;
 end;
