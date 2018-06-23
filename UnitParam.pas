@@ -82,12 +82,14 @@ Begin
         If (param_joueur[j] = 'h') THEN             //Si le caractère est un h, alors
         Begin
             jeux.player[j-1].humain := TRUE;        //dis que le joueur est un humain
+            jeux.player[j-1].points := 0;           //dis que les points du joueur sont à 0
         End
         else                                            //Sinon
         begin
             if (param_joueur[j] = 'o') then                 //Si le caractère est un o
             begin
                 jeux.player[j-1].humain := FALSE;           //Dis que c'est une IA
+                jeux.player[j-1].points := 0;               //dis que les points du joueur sont à 0
             end
             else                                                    //Sinon
             begin
@@ -344,6 +346,8 @@ Begin
     setlength(jeux.player,2);           //Définis le nombre de joueur sur 2
     jeux.player[0].humain := True;      //Dis que les deux joueurs sont humains
     jeux.player[1].humain := True;
+    jeux.player[0].points := 0;         //dis que les points des joueur sont à 0
+    jeux.player[1].points := 0;
     setlength(jeux.grille,25,25);       //Définis la grille par défault
     For i:=0 to 24 do
     Begin                               //Pour chaque case de la grille, place une pièce vide
