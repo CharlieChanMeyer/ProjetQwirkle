@@ -85,10 +85,10 @@ Begin
         p_couleur := ia_jeux.jeux.player[num_player].main[pieces].couleur;
         p_forme := ia_jeux.jeux.player[num_player].main[pieces].forme;
         ligne := 3;
-        while (ligne<n) do
+        while ((ligne<n) and (not ia_jeux.action)) do
         Begin
             colonne := 3;
-            while (colonne<n) do
+            while ((colonne<n) and (not ia_jeux.action)) do
             begin
                 writeln('JE SUIS PASSER PAR DERRIERE MON CAP''TAIN');
                 If (LegaliteCoup(ia_jeux.jeux,p_couleur,p_forme,ligne,colonne)=1) THEN              //Vérifie si le coup demandé est valide

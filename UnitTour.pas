@@ -15,7 +15,7 @@ Unit UnitTour;
 
 interface
  {$mode objfpc}
-uses SysUtils,UnitType,UnitParam,UnitAff,UnitLegalite(*,UnitIA*),Crt;
+uses SysUtils,UnitType,UnitParam,UnitAff,UnitLegalite,UnitIA,Crt;
 
 Function posePieces(jeux : jeu ; numJoueur : integer ; piecePosee : pioche): jeu;
 Function initPosePieces(jeux : jeu; numJoueur : integer):jeu;
@@ -437,9 +437,9 @@ Begin
             if (jeux.player[num_player].humain) then
             BEGIN
                 jeux := Tourdejoueur(jeux,num_player,num_tour);         //Lance le tour de jeux du joueur
-            End;
-            //else
-            //    jeux := ia_base(jeux,num_player,num_tour);         //Lance le tour de jeux de l'ia
+            End
+            else
+                jeux := ia_base(jeux,num_player,num_tour);         //Lance le tour de jeux de l'ia
             if (VerifMainVide(jeux,num_player)) then       //Si la main du joueur est vide alors
             begin
                 EmptyHand := True;                          //Dit que la main d'un joueur est vide et sort des boucles
