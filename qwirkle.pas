@@ -19,8 +19,16 @@ Var
 Begin
     Randomize();
     jeux := CountParam();
-    jeux := initMain(jeux);
+    writeln('Couleur : ',jeux.parametre.nbcouleur,'Forme : ',jeux.parametre.nbforme,'Tuile : ',jeux.parametre.repetition);
+    affpioche(jeux);
     jeux := initJoueur(jeux);
+    jeux := initMain(jeux);
+    affpioche(jeux);
+    AffichageMain(jeux,0);
+    AffichageMain(jeux,1);
     jeux.player:= prioriteJoueur(jeux);
+    AffichageMain(jeux,0);
+    AffichageMain(jeux,1);
+    AffichageMain(jeux,2);
     Tourdejeu(jeux)
 End.

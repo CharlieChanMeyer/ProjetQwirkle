@@ -14,10 +14,9 @@
 Unit UnitParam;
 
 interface
- {$mode objfpc}
+
 uses SysUtils, UnitType;
 
-Function initJoueur(jeux : jeu): jeu;
 Function Max(x1,x2:integer):integer;
 Function piochedefault(jeux : jeu):jeu;
 Function paramdefault(jeux : jeu):jeu;
@@ -32,46 +31,6 @@ Function param_pioche(jeux : jeu): jeu;
 Function verifTaille(jeux : jeu): jeu;
 
 implementation
-
-(*--------------------------------------------------------
-- Fonction : initJoueur
-- Auteur : ESPIOT Marco
-- Date de creation : 22/05/2018
--
-- But : Initialisé l'age et le nom du joueur
-- Remarques : remarques éventuelles
-- Pré conditions : le nombre de joueur doit être initialisé et s'ils sont humain ou non.
-- Post conditions : Initialisé l'age et le nom du joueur
---------------------------------------------------------*)
-Function initJoueur(jeux : jeu): jeu;
-
-var
-   i: integer;
-   nbJoueur : integer;
-Begin
-    nbJoueur := length(jeux.player);
-    For i := 0 to nbJoueur-1 do
-    Begin
-        if (jeux.player[i].humain) THEN
-        BEGIN
-            writeln('Entrez le nom du joueur ',i+1);
-            readln(jeux.player[i].nom);
-            writeln('Entrez l''age du joueur ',i+1);
-            Try
-                readln(jeux.player[i].age);
-            except
-                on e: Exception do error(1);
-            end;
-
-        End
-        else
-        begin
-            jeux.player[i].nom := 'Ordinateur';
-            jeux.player[i].age := 0;
-        end;
-    End;
-    initJoueur := jeux;
-End;
 
 (*
 --------------------------------------------------------
@@ -410,7 +369,7 @@ Begin
     pj := '-j';
     nb_param := ParamCount();
     jeux := paramdefault(jeux);
-    IF (nb_param <> 0) THEN
+    IF (nb_param > 1) THEN
     BEGIN
        jeux := verify(jeux,nb_param,pc,pf,pt,pj);
        if ((jeux.parametre.nbforme <>3) or (jeux.parametre.nbcouleur <> 3) or (jeux.parametre.repetition <> 2)) then

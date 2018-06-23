@@ -14,11 +14,11 @@
 Unit UnitTour;
 
 interface
-
-uses SysUtils,UnitType,UnitParam,UnitAff,UnitLegalite,UnitIA,Crt;
+ {$mode objfpc}
+uses SysUtils,UnitType,UnitParam,UnitAff,UnitLegalite(*,UnitIA*),Crt;
 
 Function posePieces(jeux : jeu ; numJoueur : integer ; piecePosee : pioche): jeu;
-Procedure initPosePieces(jeux : jeu; numJoueur : integer);
+Function initPosePieces(jeux : jeu; numJoueur : integer):jeu;
 Function echangePioche(jeux : jeu; numJoueur : integer): jeu;
 Procedure Tourdejeu(jeux : jeu);
 Function Tourdejoueur(jeux : jeu; num_player,num_tour : Integer):jeu;
@@ -30,6 +30,7 @@ Function VerifMainVide(jeux : jeu; num_player : Integer):Boolean;
 Function JeuDejoueurssp(jeux : jeu; num_player : integer): jeu;
 Function initMain(jeux : jeu): jeu;
 Function poser1pchoix(jeux : jeu; num_player,p_choisi : Integer): jeu;
+Function initJoueur(jeux : jeu): jeu;
 
 implementation
 
@@ -57,24 +58,24 @@ Begin
     if (choix = 1) then
     begin
         Repeat
-            jeux.grille[12+i,12].forme := piecePosee[i].forme;
-            jeux.grille[12+i,12].couleur := piecePosee[i].couleur;
+            jeux.grille[12,12+i].forme := piecePosee[i].forme;
+            jeux.grille[12,12+i].couleur := piecePosee[i].couleur;
             Inc(i,1);
-        until (i = length(piecePosee)-1);
+        until (i = length(piecePosee));
     end
     else
     begin
         Repeat
-            jeux.grille[12,12+i].forme := piecePosee[i].forme;
-            jeux.grille[12,12+i].couleur := piecePosee[i].couleur;
+            jeux.grille[12+i,12].forme := piecePosee[i].forme;
+            jeux.grille[12+i,12].couleur := piecePosee[i].couleur;
             Inc(i,1);
-        until (i = length(piecePosee)-1);
+        until (i = length(piecePosee));
     end;
     posePieces := jeux;
 End;
 
 (*--------------------------------------------------------
-- Procedure : initPosePieces
+- Function : initPosePieces
 - Auteur : ESPIOT Marco
 - Date de creation : 12/06/2018
 -
@@ -83,35 +84,33 @@ End;
 - Pré conditions : Préconditions
 - Post conditions : But
 --------------------------------------------------------*)
-Procedure initPosePieces(jeux : jeu; numJoueur : integer);
+Function initPosePieces(jeux : jeu; numJoueur : integer):jeu;
 var
   i,nbPieceJoue,pieceMain : integer;
   piecePosee : pioche;
 Begin
-  Repeat
-    writeln ('Entrez le nombre de pièces à jouer');
-    readln (nbPieceJoue);
-  until ((nbPieceJoue > 0) and (nbPieceJoue < 7) ); //sors de la boucle une fois que le nombre de pièce est entre 1 et 6
-  setlength(piecePosee,nbPieceJoue); // le nombre de cases dans piecePosee est le nombre de pieces que le joueur veut poser
-  For i := 0 to (nbPieceJoue-1) do //repete la boucle autant de fois qu'il y a de pièces a poser
-  Begin
     Repeat
-      writeln('Veuillez sélectionner une pièce a jouer');
-      readln(pieceMain);
-    until ((pieceMain < 7) and (pieceMain > 0)); //vérifie que le numéro de la piece dans la main est valide (donc entre 1 et 6)
-      writeln('Piece enregistrée');
-    piecePosee[i] := jeux.player[numJoueur].main[pieceMain-1]; //la piéce que le joueur veut poser est stocké dans un tableau
-                                                              //afin de verifier la légalité de la combinaison en suivant
-  End;
-  if not VerifPose(piecePosee) then
-  begin
-   writeln('les pièces ne sont pas compatibles entre elles, veuillez recommencer');
-   initPosePieces(jeux,numJoueur);
-  end
-  else
-  begin
-    jeux := posePieces(jeux,numJoueur,piecePosee);
-  end;
+        writeln ('Entrez le nombre de pièces à jouer');
+        readln (nbPieceJoue);
+    until ((nbPieceJoue > 0) and (nbPieceJoue < 7) ); //sors de la boucle une fois que le nombre de pièce est entre 1 et 6
+    setlength(piecePosee,nbPieceJoue); // le nombre de cases dans piecePosee est le nombre de pieces que le joueur veut poser
+    For i := 0 to (nbPieceJoue-1) do //repete la boucle autant de fois qu'il y a de pièces a poser
+    Begin
+        Repeat
+            writeln('Veuillez sélectionner une pièce a jouer');
+            readln(pieceMain);
+        until ((pieceMain < 7) and (pieceMain > 0)); //vérifie que le numéro de la piece dans la main est valide (donc entre 1 et 6)
+        writeln('Piece enregistrée');
+        piecePosee[i] := jeux.player[numJoueur].main[pieceMain-1]; //la piéce que le joueur veut poser est stocké dans un tableau afin de verifier la légalité de la combinaison en suivant
+    End;
+    if not VerifPose(piecePosee) then
+    begin
+        writeln('les pièces ne sont pas compatibles entre elles, veuillez recommencer');
+        jeux := initPosePieces(jeux,numJoueur);
+    end
+    else
+        jeux := posePieces(jeux,numJoueur,piecePosee);
+    initPosePieces := jeux;
 End;
 
 
@@ -373,7 +372,7 @@ Begin
         case i of
             0: exit(jeux);
             1: jeux:=poser1p(jeux,num_player);          //Si le joueur demande l'action 1, lance la fonction poser1p
-            //2: poserpp;
+            2: jeux := initPosePieces(jeux,num_player); //Si le joueur demande l'action 2, lance la fonction initPosePieces
             3: jeux:=echangePioche(jeux,num_player);        //Si le joueur demande l'action 3, lance l'action echangePioche
             else i:=-1;              //Sinon remet i=-1
         end;
@@ -427,7 +426,6 @@ Var
     num_player,num_tour,n: Integer;
     EmptyHand : Boolean;
 Begin
-    affpioche(jeux);            //A ENLEVER APRES LES TESTS
     EmptyHand := False;              //Dis que la main des joueur n'est pas vide
     n := length(jeux.player);           //Prends le nombre de Joueur
     num_tour := 1;                  //Met le Premier tour en place
@@ -439,9 +437,9 @@ Begin
             if (jeux.player[num_player].humain) then
             BEGIN
                 jeux := Tourdejoueur(jeux,num_player,num_tour);         //Lance le tour de jeux du joueur
-            End
-            else
-                jeux := ia_base(jeux,num_player,num_tour);         //Lance le tour de jeux de l'ia
+            End;
+            //else
+            //    jeux := ia_base(jeux,num_player,num_tour);         //Lance le tour de jeux de l'ia
             if (VerifMainVide(jeux,num_player)) then       //Si la main du joueur est vide alors
             begin
                 EmptyHand := True;                          //Dit que la main d'un joueur est vide et sort des boucles
@@ -583,6 +581,46 @@ Begin
         Inc(score)
     end;
     comptePoint:=score;
+End;
+
+(*--------------------------------------------------------
+- Fonction : initJoueur
+- Auteur : ESPIOT Marco
+- Date de creation : 22/05/2018
+-
+- But : Initialisé l'age et le nom du joueur
+- Remarques : remarques éventuelles
+- Pré conditions : le nombre de joueur doit être initialisé et s'ils sont humain ou non.
+- Post conditions : Initialisé l'age et le nom du joueur
+--------------------------------------------------------*)
+Function initJoueur(jeux : jeu): jeu;
+
+var
+   i: integer;
+   nbJoueur : integer;
+Begin
+    nbJoueur := length(jeux.player);
+    For i := 0 to nbJoueur-1 do
+    Begin
+        if (jeux.player[i].humain) THEN
+        BEGIN
+            writeln('Entrez le nom du joueur ',i+1);
+            readln(jeux.player[i].nom);
+            writeln('Entrez l''age du joueur ',i+1);
+            try
+                readln(jeux.player[i].age);
+            except
+                on e: Exception do error(1);
+            end;
+
+        End
+        else
+        begin
+            jeux.player[i].nom := 'Ordinateur';
+            jeux.player[i].age := 0;
+        end;
+    End;
+    initJoueur := jeux;
 End;
 
 

@@ -347,7 +347,8 @@ Begin
     premiereCaseTabJoueur:=tabOrdreJoueur[0];
     if (mmVal.memeValeur=1) then                      // si deux joueurs ont le même nombre de pièces ayant un attribut en commun alors le plus âgé commence donc on le place au début du tableau
     Begin
-        tabOrdreJoueur:=prioriteAge(jeux,tabCombi,tabOrdreJoueur,mmVal);
+        writeln('JE SUIS DANS TON CUL');
+        //tabOrdreJoueur:=prioriteAge(jeux,tabCombi,tabOrdreJoueur,mmVal);
     End
     Else                                        // s'il n'y a pas plusieurs mêmes valeurs maximum alors
     begin
@@ -708,11 +709,11 @@ Begin
   verif := true;
   verif := formeOuCouleur(piecePosee, verif);
 
-  For i := 1 to (length(piecePosee)-1) do //boucle parcourant le tableau contenant les pieces à poser
+  For i := 0 to (length(piecePosee)-1) do //boucle parcourant le tableau contenant les pieces à poser
   Begin
     for j := i to (length(piecePosee)-1) do //boucle qui part de la piece en cours de verification et qui la compare a toute celles d'après
       Begin
-       if ((piecePosee[i].forme = piecePosee[j].forme) and (piecePosee[i].couleur = piecePosee[j].couleur)) then //vérifie que les pièces ne soient pas identiques
+       if ((piecePosee[i].forme = piecePosee[j].forme) xor (piecePosee[i].couleur = piecePosee[j].couleur)) then //vérifie que les pièces ne soient pas identiques
        verif := false;
       End;
   End;
