@@ -260,11 +260,17 @@ END;
 - Post conditions  : Renvoie un tableau contenant les joueurs dans leur ordre de jeu dans le cas où deux joueurs ont le même nombre de pièce ayant un attribut en commun
 --------------------------------------------------------*)
 
-Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;tabOrdreJoueur:tabjoueur;mmVal:resMemeValeurPos):tabjoueur;
+Function prioriteAge(jeux:jeu;tabCombi:tabpiocher;mmVal:resMemeValeurPos):tabjoueur;
 Var
     premiereCaseTabJoueur:joueur;
 Begin
+    setlength(tabOrdreJoueur,length(jeux.player));
+    for i:=0 to length(jeux.player)-1 do
+    Begin
+        tabOrdreJoueur[i]:=jeux.player[i]         // On ajoute dans le tableau final tous les joueurs qui se sont enregistrés au début de la partie
+    End;
     premiereCaseTabJoueur:=tabOrdreJoueur[0];
+    
     if ((jeux.player[mmVal.indiceJ1].age)>=(jeux.player[mmVal.indiceJ2].age)) then        //">=" pour que si deux joueurs ont le même âge et le plus grand nombre de pièce ayant un attribut commun égal alors le joueur ayant rentrer ses informations en premier au lancement du jeu commence
     Begin
         tabOrdreJoueur[0]:= jeux.player[mmVal.indiceJ1];                               // On échange la position du joueur le plus âgé avec la position du premier joueur dans le tableau poue que le plus âgé commence en premier
@@ -347,7 +353,7 @@ Begin
     premiereCaseTabJoueur:=tabOrdreJoueur[0];
     if (mmVal.memeValeur=1) then                      // si deux joueurs ont le même nombre de pièces ayant un attribut en commun alors le plus âgé commence donc on le place au début du tableau
     Begin
-        tabOrdreJoueur:=prioriteAge(jeux,tabCombi,tabOrdreJoueur,mmVal);
+        tabOrdreJoueur:=prioriteAge(jeux,tabCombi,mmVal);
     End
     Else                                        // s'il n'y a pas plusieurs mêmes valeurs maximum alors
     begin
