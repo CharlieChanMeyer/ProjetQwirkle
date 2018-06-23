@@ -14,7 +14,7 @@
 Unit UnitParam;
 
 interface
-
+ {$mode objfpc}
 uses SysUtils, UnitType;
 
 Function initJoueur(jeux : jeu): jeu;
