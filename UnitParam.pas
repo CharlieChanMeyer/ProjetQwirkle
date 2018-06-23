@@ -17,6 +17,7 @@ interface
 
 uses SysUtils, UnitType;
 
+Function initJoueur(jeux : jeu): jeu;
 Function Max(x1,x2:integer):integer;
 Function piochedefault(jeux : jeu):jeu;
 Function paramdefault(jeux : jeu):jeu;
@@ -28,8 +29,49 @@ Function Modif_Pf(jeux : jeu; i : Integer; pf : string):jeu;
 Function Modif_Pt(jeux : jeu; i : Integer; pt : string):jeu;
 Function Modif_Pj(jeux : jeu; i : Integer; pj : string):jeu;
 Function param_pioche(jeux : jeu): jeu;
+Function verifTaille(jeux : jeu): jeu;
 
 implementation
+
+(*--------------------------------------------------------
+- Fonction : initJoueur
+- Auteur : ESPIOT Marco
+- Date de creation : 22/05/2018
+-
+- But : Initialisé l'age et le nom du joueur
+- Remarques : remarques éventuelles
+- Pré conditions : le nombre de joueur doit être initialisé et s'ils sont humain ou non.
+- Post conditions : Initialisé l'age et le nom du joueur
+--------------------------------------------------------*)
+Function initJoueur(jeux : jeu): jeu;
+
+var
+   i: integer;
+   nbJoueur : integer;
+Begin
+    nbJoueur := length(jeux.player);
+    For i := 0 to nbJoueur-1 do
+    Begin
+        if (jeux.player[i].humain) THEN
+        BEGIN
+            writeln('Entrez le nom du joueur ',i+1);
+            readln(jeux.player[i].nom);
+            writeln('Entrez l''age du joueur ',i+1);
+            Try
+                readln(jeux.player[i].age);
+            except
+                on e: Exception do error(1);
+            end;
+
+        End
+        else
+        begin
+            jeux.player[i].nom := 'Ordinateur';
+            jeux.player[i].age := 0;
+        end;
+    End;
+    initJoueur := jeux;
+End;
 
 (*
 --------------------------------------------------------
@@ -377,6 +419,25 @@ Begin
        end;
     END;
     CountParam := jeux;
+End;
+
+(*--------------------------------------------------------
+- Fonction : verifTaille
+- Auteur : ESPIOT Marco
+- Date de creation : 22/05/2018
+-
+- But : Augmente la taille de la grille jouable si un joueur arrive au bout de la grille
+- Remarques : remarques éventuelles
+- Pré conditions : Une tuile est posé sur une des extrémités du tableau
+- Post conditions : renvoi l'etat du jeux avec la grille agrandit
+--------------------------------------------------------*)
+Function verifTaille(jeux : jeu):jeu ;
+var
+  n: Integer;
+Begin
+ n :=length(jeux.grille);
+ setlength(jeux.grille,n+6,n+6); //ajoute 6 cases sur les 2 dimensions du tableau
+ verifTaille := jeux
 End;
 
 End.

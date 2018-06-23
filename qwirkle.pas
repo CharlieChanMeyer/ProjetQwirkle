@@ -13,7 +13,7 @@
 *)
 
 PROGRAM qwirkle;
-uses SysUtils,UnitType,UnitParam,UnitAff,UnitTour,UnitMarco,UnitLegalite,Crt;
+uses SysUtils,UnitType,UnitParam,UnitAff,UnitTour,UnitLegalite,Crt;
 Var
     jeux : jeu;
 Begin

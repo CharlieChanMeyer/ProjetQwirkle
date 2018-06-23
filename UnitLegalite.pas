@@ -37,6 +37,8 @@ Function nbPiecesSud(jeux:jeu;i,j:integer):integer;
 Function nbPiecesOuest(jeux:jeu;i,j:integer):integer;
 Function nbPiecesEst(jeux:jeu;i,j:integer):integer;
 Function VerifMvide(jeux : jeu):Boolean;
+Function verifPose(piecePosee : pioche): Boolean;
+Function formeOuCouleur(piecePosee : pioche; verif : Boolean): Boolean;
 
 implementation
 
@@ -686,6 +688,72 @@ Begin
         memeParam:=0;
     end;
     VerifPieceSud:=memeParam;
+End;
+
+(*--------------------------------------------------------
+- Fonction : verifPose
+- Auteur : ESPIOT Marco
+- Date de creation : 12/06/2018
+-
+- But : vérifier que les pieces choisie peuvent etre posées ensembles
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : renvoi vrai si les pieces peuvent etre combinées et faux sinon
+--------------------------------------------------------*)
+Function verifPose(piecePosee : pioche): Boolean;
+Var
+  verif : Boolean;
+  i,j : integer;
+Begin
+  verif := true;
+  verif := formeOuCouleur(piecePosee, verif);
+
+  For i := 1 to (length(piecePosee)-1) do //boucle parcourant le tableau contenant les pieces à poser
+  Begin
+    for j := i to (length(piecePosee)-1) do //boucle qui part de la piece en cours de verification et qui la compare a toute celles d'après
+      Begin
+       if ((piecePosee[i].forme = piecePosee[j].forme) and (piecePosee[i].couleur = piecePosee[j].couleur)) then //vérifie que les pièces ne soient pas identiques
+       verif := false;
+      End;
+  End;
+  verifPose := verif;
+End;
+
+(*--------------------------------------------------------
+- Fonction : formeOuCouleur
+- Auteur : ESPIOT Marco
+- Date de creation : 16/06/2018
+-
+- But : verifier que l'on a ques des pieces de meme couleur ou de meme forme
+- Remarques : remarques éventuelles
+- Pré conditions : Préconditions
+- Post conditions : renvoi true si le but est vérifié, false sinon
+--------------------------------------------------------*)
+Function formeOuCouleur(piecePosee : pioche; verif : Boolean): Boolean;
+Var
+  i : Integer;
+Begin
+  if (piecePosee[0].forme) <> (piecePosee[1].forme) then //si les 2 premieres pieces ont une forme différente alors
+  begin
+    For i := 0 to (length(piecePosee)-1) do
+    Begin
+      if (piecePosee[0].couleur) <> (piecePosee[i].couleur) then //on vérifie que toutes les pièces soit de la meme couleur
+      begin
+        verif := false; //verif est false si ce n'est pas le cas
+      end;
+    End;
+  end
+  else if (piecePosee[0].couleur) <> (piecePosee[1].couleur) then //si les 2 premieres pieces ont une couleur différente alors
+  begin
+    For i := 0 to (length(piecePosee)-1) do
+    Begin
+      if (piecePosee[0].forme) <> (piecePosee[i].forme) then //on vérifie que toutes les pièces aient la meme forme
+      begin
+        verif := false; //verif est false si ce n'est pas le cas
+      end;
+    End;
+  end;
+  formeOuCouleur := verif;
 End;
 
 END.

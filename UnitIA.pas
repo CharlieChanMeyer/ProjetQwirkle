@@ -15,7 +15,7 @@ Unit UnitIA;
 
 interface
 
-uses SysUtils,UnitType,UnitParam,UnitAff,UnitMarco,UnitLegalite,Crt;
+uses SysUtils,UnitType,UnitParam,UnitAff,UnitLegalite,Crt;
 
 Function ia_base(jeux : jeu ; num_player,num_tour : integer): jeu;
 Function ia_grille(ia_jeux : ia_jeu; num_player : integer):ia_jeu;
