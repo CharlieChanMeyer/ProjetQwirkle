@@ -32,6 +32,9 @@ Function JeuDejoueurssp(jeux : jeu; num_player : integer): jeu;
 Function initMain(jeux : jeu): jeu;
 Function poser1pchoix(jeux : jeu; num_player,p_choisi : Integer): jeu;
 Function initJoueur(jeux : jeu): jeu;
+Function comptePoint(jeux:jeu;i,j:integer):integer;
+Function scoreEstOuest(jeux:jeu;i,j:integer):integer;
+Function scoreNordSud(jeux:jeu;i,j:integer):integer;
 
 implementation
 
@@ -358,6 +361,7 @@ Begin
         If (LegaliteCoup(jeux,p_couleur,p_forme,ligne,colonne)=1) THEN              //Vérifie si le coup demandé est valide
         Begin
             jeux.grille[ligne,colonne] := jeux.player[num_player].main[p_choisi];       //Si valide, alors place la pièce choisie
+            jeux.player[num_player].points:=ComptePoint(jeux,ligne,colonne);
             actionfinie := True                                                         //et dit que l'action est finie
         End
         else
