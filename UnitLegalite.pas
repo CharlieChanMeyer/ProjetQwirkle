@@ -347,8 +347,7 @@ Begin
     premiereCaseTabJoueur:=tabOrdreJoueur[0];
     if (mmVal.memeValeur=1) then                      // si deux joueurs ont le même nombre de pièces ayant un attribut en commun alors le plus âgé commence donc on le place au début du tableau
     Begin
-        writeln('JE SUIS DANS TON CUL');
-        //tabOrdreJoueur:=prioriteAge(jeux,tabCombi,tabOrdreJoueur,mmVal);
+        tabOrdreJoueur:=prioriteAge(jeux,tabCombi,tabOrdreJoueur,mmVal);
     End
     Else                                        // s'il n'y a pas plusieurs mêmes valeurs maximum alors
     begin
