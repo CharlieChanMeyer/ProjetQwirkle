@@ -569,7 +569,6 @@ Begin
     Begin
         CoupLegal:=0
     end;
-    writeln('CoupLegal');
     LegaliteCoup:=CoupLegal;
 End;
 
