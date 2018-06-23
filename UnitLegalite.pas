@@ -720,7 +720,7 @@ Begin
   Begin
     for j := i to (length(piecePosee)-1) do //boucle qui part de la piece en cours de verification et qui la compare a toute celles d'après
       Begin
-       if (((piecePosee[i].forme = piecePosee[j].forme) xor (piecePosee[i].couleur = piecePosee[j].couleur)) and (i<>j)) then //vérifie que les pièces ne soient pas identiques
+       if ((piecePosee[i].forme = piecePosee[j].forme) and (piecePosee[i].couleur = piecePosee[j].couleur) and (i<>j)) then //vérifie que les pièces ne soient pas identiques
        verif := false;
       End;
   End;
